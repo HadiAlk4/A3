@@ -1,161 +1,179 @@
-# 3004ENG Assessment 3: Visual Asset & Chart Pipeline Specification
+# 3004ENG Assessment 3: Figure pipeline
 
 **Project:** Eris TestFlight2 Launch Site Operations Campaign  
-**Output Directory:** `figures/` (Vector PDF format)  
-**Tooling Engine:** Python (Matplotlib, NetworkX, NumPy)  
-**Primary Mandate:** All visual assets must strictly reflect the figures and dates defined in `requirements.md`. Every chart must be saved as a vector PDF for inclusion in LaTeX via `\includegraphics`.
+**Data:** `data/pep_baseline.yaml` (identical to the locked tables in `requirements.md`)  
+**Outputs:** `figures/*.pdf` (vector)  
+**Rule:** Scripts and TikZ must **load YAML**. If a number is not in the YAML, it does not belong on a figure.
 
 ---
 
-## 1. Global Visual & Technical Standards
+## 1. Tool split
 
-1. **Vector Format:** All scripts must save figures directly to PDF using `bbox_inches='tight'`.
-2. **Color Palette Consistency:** Maintain a coherent aerospace palette across all generated plots:
-   * Primary Dark / Neutral: Deep Navy `#0B2545` (Base lines, scheduled tasks, normal boundaries)
-   * Critical / Highlight: Crimson `#C0392B` (Critical path, over-allocations, Red EVM breaches)
-   * Success / Performance: Muted Teal `#2A9D8F` (Earned value, compliant states, float available)
-   * Warning / Advisory: Amber `#E76F51` (Amber thresholds, compressed tasks, medium risk)
-   * Background / Grid: Light Grey `#E0E0E0` or `#F4F4F4` (Clean, unobtrusive layout)
-3. **Typography & Layout:** Let the plotting script generate clean, well-proportioned visual layouts. Keep legends clear, ensure axis labels carry units (e.g., AUD ($), Days, Date), and avoid visual clutter or overlapping text.
+| Tool | Use for | Do not use for |
+| :--- | :--- | :--- |
+| **LaTeX / TikZ** | WBS tree, PERT node network, governance org chart, all numbered tables | S-curves, histograms, heatmaps, Gantt |
+| **Python (Matplotlib + NumPy)** | Gantt, compression comparison, cash-flow S-curve, resource histogram, 5×5 risk matrix, EVM worked-example panel | PERT boxes (NetworkX node graphs look like software diagrams, not a board PEP) |
+| **LaTeX `tabular`** | Tables 3.1, 3.2, 4.1, 4.2, 4.3, 5.1, 6.1 | Recreating those tables as images |
 
----
+Palette (all Matplotlib figures):
 
-## 2. Figure Register & Generation Specifications
+| Role | Hex | Use |
+| :--- | :--- | :--- |
+| Navy | `#0B2545` | Non-critical bars, PV, base lines |
+| Crimson | `#C0392B` | Launch-critical path, Red band, over-allocation |
+| Teal | `#2A9D8F` | EV, mitigated demand, residual-safe zone |
+| Amber | `#E76F51` | Amber band, Option C, medium risk |
+| Grey | `#E0E0E0` | Grid |
 
-### Figure 1: Master Campaign Gantt Chart
-* **File:** `figures/gantt_chart.pdf`
-* **Target Section:** Section 3.2 (Schedule Baseline)
-* **Objective:** Display the full campaign schedule from August 10 to December 1, 2026, highlighting the derived critical path and key project milestones.
-* **Data Inputs:**
-  * WBS activities from Table 3.1:
-    * A-101: Site Mobilization & Cleanroom Setup (Aug 10 – Aug 24) [Critical]
-    * A-102: GSE Civil & Anchor Checkouts (Aug 24 – Sep 14) [TF = 4]
-    * A-103: Stage Receiving & Pad Stacking (Sep 14 – Oct 15) [Critical | M-4 Finish]
-    * A-104: Cryo GSE Piping Checkouts (Oct 01 – Oct 18) [TF = 5]
-    * A-105: WDR & 5-Second Static Fire (Oct 16 – Oct 30) [Critical | M-5 Finish]
-    * A-106: Post-Fire Telemetry Sweep (Oct 31 – Nov 08) [TF = 2]
-    * A-107: Range Clearance & LRR Gate (Nov 01 – Nov 10) [Critical | M-6 Finish]
-    * A-108: Launch Countdown & Flight Execution (Nov 11 – Nov 15) [Critical | M-7 Finish]
-    * A-109: Telemetry Decryption & Handover (Nov 16 – Nov 20) [Critical | M-8 Finish]
-    * A-110: Pad Decommissioning & Audit (Nov 21 – Dec 01) [Critical | M-9 Finish]
-* **Visual Elements:**
-  * Horizontal bar chart plotted against a daily/weekly timeline.
-  * Critical path activities colored in Crimson; non-critical activities colored in Navy.
-  * Vertical dashed marker lines indicating key milestones: M-4 (Oct 15), M-5 (Oct 30), M-6 (Nov 10), and M-7 (Nov 15).
-
----
-
-### Figure 2: Activity Precedence Network Logic Diagram
-* **File:** `figures/network_logic.pdf`
-* **Target Section:** Section 3.1 (Network Logic & Float Analysis)
-* **Objective:** Illustrate dependencies, node anatomy, and the mathematical forward/backward pass path for key campaign activities.
-* **Data Inputs:**
-  * Nodes: A-101 through A-110 with calculated $ES, EF, LS, LF, TF$.
-  * Precedence links:
-    * A-101 $\rightarrow$ A-102 & A-103
-    * A-102 $\rightarrow$ A-104
-    * A-103 $\rightarrow$ A-105
-    * A-104 $\rightarrow$ A-105
-    * A-105 $\rightarrow$ A-106 & A-107
-    * A-106 $\rightarrow$ A-108
-    * A-107 $\rightarrow$ A-108
-    * A-108 $\rightarrow$ A-109 $\rightarrow$ A-110
-* **Visual Elements:**
-  * Directed acyclic graph layout (left to right).
-  * Node boxes formatted with standard scheduling node anatomy (Task ID, Duration, ES, EF, LS, LF, Total Float).
-  * Critical path connecting arrows highlighted in bold Crimson; non-critical connecting lines in subtle Slate Grey.
-
----
-
-### Figure 3: Schedule Compression Trade-Off Curve
-* **File:** `figures/compression_curve.pdf`
-* **Target Section:** Section 3.3 (Schedule Compression Scenario)
-* **Objective:** Compare the three evaluated schedule acceleration scenarios (Pure Fast-Tracking, Pure Crashing, Hybrid Optimization) plotting added cost against days saved.
-* **Data Inputs:**
-  * Baseline: 0 days saved, $0 added cost.
-  * Option A (Pure Fast-Tracking): 5 days saved, $0 direct cost, but carries extreme safety/rework risk.
-  * Option B (Pure Crashing): 5 days saved, $40,000 added cost (Cost slope = $8,000/day).
-  * Option C (Hybrid Optimization - Chosen): 5 days saved, $21,000 added cost (Cost slope = $4,200/day).
-* **Visual Elements:**
-  * Scatter plot with discrete trend lines comparing Cost Slope ($\Delta C / \Delta T$).
-  * Annotation callouts on each point stating the operational consequence and decision verdict (Rejected vs. Approved).
-
----
-
-### Figure 4: Cumulative Cash Flow S-Curve
-* **File:** `figures/cash_flow_scurve.pdf`
-* **Target Section:** Section 4.3 (Time-Phased Budget & Cash Flow)
-* **Objective:** Illustrate time-phased planned expenditure ($PV$) across the 5-month project lifecycle, highlighting the peak capital burn period.
-* **Data Inputs:**
-  * Monthly planned spend:
-    * Month 1 (August 2026): $180,000 AUD (Cumulative: $180,000)
-    * Month 2 (September 2026): $260,000 AUD (Cumulative: $440,000)
-    * Month 3 (October 2026): $640,000 AUD (Cumulative: $1,080,000) — *Peak Burn: Crane leases, bulk propellant, static fire operations*
-    * Month 4 (November 2026): $480,000 AUD (Cumulative: $1,560,000) — *Launch operations, marine tracking fleet*
-    * Month 5 (December 2026): $165,000 AUD (Cumulative: $1,725,000) — *Decommissioning, final audit*
-* **Visual Elements:**
-  * Primary axis: Smooth cumulative S-curve line terminating at exactly $1,725,000 AUD ($BAC$).
-  * Secondary axis (or overlay bars): Monthly expenditure columns showing period spend.
-  * Shaded highlight over Month 3/Month 4 denoting the peak capital expenditure window.
-
----
-
-### Figure 5: Resource Demand vs. Capacity Histogram
-* **File:** `figures/resource_histogram.pdf`
-* **Target Section:** Section 5.2 (Capacity Planning & Over-Allocation)
-* **Objective:** Demonstrate technician demand over time, identifying the peak deficit during pad testing and proving the effectiveness of the leveling/smoothing strategy.
-* **Data Inputs:**
-  * Timeline: Weeks 1 to 16.
-  * Baseline Site Technician Capacity: Fixed horizontal limit of **8 certified personnel**.
-  * Unmitigated Peak Demand: Weeks 10–12 (Mid-to-Late October) spikes to **14 personnel** (Deficit of 6 technicians).
-  * Mitigated Demand: Non-critical RF calibration task smoothed using float; 4 specialist contractors hired, bringing effective capacity to 12 and capping scheduled demand at 12.
-* **Visual Elements:**
-  * Stacked or grouped bar chart showing technician hours/headcount per week.
-  * Bold horizontal red threshold line indicating the hard 8-person on-site accommodation/safety limit.
-  * Visual annotation indicating where smoothing and contract hiring resolved the over-allocation.
-
----
-
-### Figure 6: $5 \times 5$ Risk Matrix Heatmap & Migration Plot
-* **File:** `figures/risk_matrix.pdf`
-* **Target Section:** Section 6.2 (Risk Analysis & Residual Migration)
-* **Objective:** Plot all 18 campaign risks on a standard $5 \times 5$ probability-impact grid, displaying arrows showing pre-treatment to post-treatment residual risk migration.
-* **Data Inputs:**
-  * 18 project risks mapped from Table 6.1 (e.g., R-01 from (3,5) to (1,3); R-04 from (4,3) to (2,2); R-09 from (2,5) to (1,4)).
-* **Visual Elements:**
-  * $5 \times 5$ heatmap grid with standard risk severity shading (Green for Low, Yellow for Moderate, Amber for High, Red for Critical).
-  * Labeled scatter points representing Risk IDs (e.g., *R-01*, *R-04*).
-  * Directional arrows connecting initial risk positions to residual positions, demonstrating how engineering mitigations reduce risk exposure below the proactive response threshold.
-
----
-
-### Figure 7: Earned Value Management (EVM) Variance Dashboard
-* **File:** `figures/evm_dashboard.pdf`
-* **Target Section:** Section 7.5 (EVM Framework & Performance Thresholds)
-* **Objective:** Display simulated performance tracking curves ($PV, EV, AC$) and index trajectories ($SPI, CPI$) relative to Green, Amber, and Red control boundaries.
-* **Data Inputs:**
-  * Timeline: Reporting Weeks 1 to 14.
-  * Tracking curves: Planned Value ($PV$), Earned Value ($EV$), and Actual Cost ($AC$) tracking closely with minor realistic variance.
-  * Index tracking: $SPI$ and $CPI$ plotted between $0.85$ and $1.10$.
-  * Fixed threshold zones:
-    * Green Tier: $0.95 \le \text{Index} \le 1.05$ (Nominal)
-    * Amber Tier: $0.90 \le \text{Index} < 0.95$ (Warning / Recovery Plan required)
-    * Red Tier: $\text{Index} < 0.90$ (Critical Breach / Stop Work)
-* **Visual Elements:**
-  * Dual-panel layout:
-    * Upper panel: Currency tracking ($PV$ vs. $EV$ vs. $AC$ in AUD) over project weeks.
-    * Lower panel: Performance Indices ($CPI$ and $SPI$) over time with background shaded horizontal bands for Green, Amber, and Red control tiers.
-
----
-
-## 3. LaTeX Inclusion Checklist
-
-When compiling sections, ensure every figure matches this standard LaTeX embedding pattern:
+Save with `bbox_inches='tight'` to `figures/`. Captions must state what the figure **proves**, then the body cites `\ref{...}` **before** the float.
 
 ```latex
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\linewidth]{figures/[filename].pdf}
-    \caption{[Comprehensive caption explaining what the figure proves]}
-    \label{fig:[section]_[name]}
+  \centering
+  \includegraphics[width=0.95\textwidth]{figures/filename.pdf}
+  \caption{...}
+  \label{fig:sec_name}
 \end{figure}
+```
+
+TikZ figures live in `figures/tikz/` (or inline in `A3.tex`) and must read the same IDs, dates, and $TF$ values as Table 3.1.
+
+---
+
+## 2. Figure register
+
+### Figure 2.1 — WBS tree (TikZ)
+
+* **File:** `figures/wbs_tree.pdf` (or TikZ inline)
+* **Section:** 2
+* **Proves:** 100% rule; every Level-3 code in Table 4.1 exists here and nowhere else.
+* **Content:** Root `1.0` → `1.1` … `1.4` → all 17 Level-3 packages named exactly as in `requirements.md`. A-100 is **not** a WBS box (annotate off to the side: “external $0 receipt window”).
+* **Do not:** Invent 1.2.5 or collapse 1.4.4/1.4.5.
+
+---
+
+### Figure 3.1 — Activity precedence network (TikZ)
+
+* **File:** `figures/network_logic.pdf`
+* **Section:** 3.1
+* **Proves:** Dual $TF=0$ merge at A-133 (vehicle path and permit path) and LRR **after** diagnostics.
+* **Nodes:** Every row in Table 3.1. Standard seven-field box:
+
+  ```
+  ES | ID | EF
+  LS | D  | LF
+         TF
+  ```
+
+* **Layout (left → right swimlanes, not a force-directed tangle):**
+  1. Permitting / heritage: A-113, A-114, A-111, A-112
+  2. Vehicle / stack: A-100, A-121, A-122, A-123
+  3. GSE / RF / avionics: A-124, A-125, A-131
+  4. Test / launch / close: A-132 … A-145
+* **Arrows:** FS links from YAML `predecessors`. Crimson + 1.4 pt for $TF=0$ launch-critical links. Navy 0.6 pt otherwise. A-111 outline navy with an M-2 diamond (constrained, not launch-critical).
+* **Must show:** `A-134 → A-141` (LRR does not start from A-133). `A-113 → A-133` and `A-123 → A-132 → A-133`.
+* **Do not:** Use NetworkX spring_layout. Do not drop A-113. Do not colour A-125 or A-124 crimson.
+
+---
+
+### Figure 3.2 — Master Gantt (Matplotlib)
+
+* **File:** `figures/gantt_chart.pdf`
+* **Section:** 3.2
+* **Proves:** The same $ES/EF$ as Table 3.1, with launch-critical bars distinct from float bars.
+* **Bars:** One row per activity, YAML `es`–`ef`. Crimson if `critical: true`. Navy otherwise. Optional thin teal float whisker from $EF$ to $LF$ on non-critical rows (makes float visible).
+* **Markers (vertical dashed):** M-4 15 Oct, M-5 30 Oct, M-6 10 Nov, M-7 15 Nov, M-8 20 Nov, M-9 1 Dec. M-2 2 Oct as a smaller navy marker on A-111.
+* **Axis:** 10 Aug 2026 → 1 Dec 2026. Week ticks. Do not start the axis in September (that hides A-100/A-113).
+* **Do not:** Hardcode A-101…A-110. Those IDs are retired. Do not mark A-111 as launch-critical. Do not draw Option C on this baseline Gantt (that is Figure 3.3).
+
+---
+
+### Figure 3.3 — Compression comparison (Matplotlib)
+
+* **File:** `figures/compression_tradeoff.pdf`
+* **Section:** 3.3
+* **Proves:** Only Option C is an acceptable 5-day pull-in, and it costs $4,200/day rather than $8,000/day.
+* **Why not a “curve” of three points at x = 5:** that is a vertical line, not a trade-off. Use a **grouped bar** (or two panels):
+  * Panel A: added cost ($) for A, B, C.
+  * Panel B: qualitative residual-risk rank (High / High / Medium) or a 1–5 risk score from YAML.
+  * Annotate each: days saved = 5; verdict Rejected / Rejected / Contingent.
+* **Optional overlay:** a small Gantt snippet of the **post-A-133 tail** under Option C (A-134 31 Oct–2 Nov, A-141 3–5 Nov, A-142 6–9 Nov, A-143 **10 Nov**) as a dashed amber bar against the navy baseline tail ending 15 Nov.
+* **Do not:** Plot Fast-track of A-123/A-124. Do not claim crashing A-121 or A-125 saves $T$-0. Do not move the baseline M-7 diamond.
+
+---
+
+### Figure 4.1 — Cumulative PV S-curve (Matplotlib)
+
+* **File:** `figures/cash_flow_scurve.pdf`
+* **Section:** 4.3
+* **Proves:** Peak burn is October; distributed PV ends at **$1,500,000**, not $1,725,000.
+* **Data:** Table 4.3 monthly period and cumulative. Secondary bars = period PV; primary line = cumulative PV.
+* **Reference lines:** horizontal navy at $1,500,000$ (work PMB); horizontal crimson at $1,725,000$ ($BAC$ / authorisation). Shade August–September vs October peak.
+* **Callout:** “Contingency $225,000 is undistributed — not December cash.”
+* **Do not:** Force the S-curve to $1,725,000$. Do not include the $21,000$ Option C cost in PV.
+
+---
+
+### Figure 5.1 — Resource demand vs capacity (Matplotlib)
+
+* **File:** `figures/resource_histogram.pdf`
+* **Section:** 5.2
+* **Proves:** Unmitigated demand breaks the pad cap; smoothing A-125 plus four surge hires holds the peak at 12.
+* **X-axis:** Weeks 1–16 starting 10 Aug 2026 (YAML `resource_weeks`).
+* **Series:**
+  * Unmitigated demand (crimson hollow or hashed bars) — peaks at **14** in weeks 10–12.
+  * Mitigated demand (navy/teal bars) — YAML `demand_mitigated`, peak **12**.
+  * Horizontal navy line at **8** labelled “organic crew”.
+  * Horizontal crimson line at **12** labelled “HSE pad cap”.
+* **Annotation:** “A-125 RF moved to weeks 3–6 using 39 d TF; +4 surge techs in 1.3.3 ($22,400 in base).”
+* **Do not:** Draw a “hard limit of 8” and then plot 12 people. 8 is organic headcount, 12 is the occupancy cap.
+
+---
+
+### Figure 6.1 — 5×5 risk matrix with residual arrows (Matplotlib)
+
+* **File:** `figures/risk_matrix.pdf`
+* **Section:** 6.2
+* **Proves:** All 18 risks exist, and treatment moves the severe set down-left; none are generic “weather / budget overrun” blobs.
+* **Grid:** P 1–5 on Y, I 1–5 on X (or standard P vertical / I horizontal — pick one and label). Shade Low / Moderate / High / Extreme.
+* **Points:** YAML `p_inherent`,`i_inherent` labelled `R-01` … `R-18`. Arrows to `p_residual`,`i_residual`. If inherent == residual (R-12 cost accepted), a dot without a fake arrow.
+* **Do not:** Plot only three example risks. Do not invent coordinates. Crowding: jitter 0.08 and/or a callout list for the (2,5) pair R-02 and R-09.
+
+---
+
+### Figure 7.1 — Governance structure (TikZ)
+
+* **File:** `figures/governance_org.pdf`
+* **Section:** 7.1
+* **Proves:** Named roles, decision rights, reporting cadence — not a textbook org chart.
+* **Boxes:** Executive Board → Campaign PM (Abdul) with DoA “≤ $20k and ≤ 48 h, cannot move M-5/M-7” → Hadi (Planner), Ziyad (Risk/Quality), Ilsa (Cost/Resource) → field row: Launch Director, RSO, GSE Lead, Avionics, Juru Cultural Officer, D&C package manager.
+* **Side annotation:** Daily standup / weekly EVM / fortnightly sponsor.
+
+---
+
+### Figure 7.2 — EVM control bands + M-4 worked example (Matplotlib)
+
+* **File:** `figures/evm_example.pdf`
+* **Section:** 7.5
+* **Proves:** How CPI/SPI **will** be read at the first physical gate; this is a framework, not a progress report.
+* **Layout (two panels):**
+  * **Upper:** Three dots or a tiny grouped bar at the single date **15 Oct 2026 (M-4)** for PV $825,000, EV $810,000, AC $840,000 (on-plan illustration). Optional second group “late stack” EV $760,000 / AC $830,000. X-axis is **status date**, not 14 fake weeks.
+  * **Lower:** Horizontal Green / Amber / Red bands at 1.05–0.95 / 0.95–0.90 / <0.90. Mark CPI 0.96 and SPI 0.98 (green) and the amber pair 0.92 / 0.92.
+* **Caption must include the words “illustrative status at M-4; campaign not yet executed.”**
+* **Do not:** Draw smooth PV/EV/AC curves from week 1 to 14. That implies the work already happened.
+
+---
+
+## 3. Retired IDs (do not revive)
+
+A-101, A-102, A-103, A-104, A-105, A-106, A-107, A-108, A-109, A-110 from the previous draft are **void**. They mixed RF with cryo GSE, marked site-setup as launch-critical across a 21-day hole, and crashed non-critical work.
+
+---
+
+## 4. Generation order
+
+1. Freeze `data/pep_baseline.yaml` (already matches `requirements.md`).
+2. Build LaTeX tables from YAML (or a small `python scripts/export_tables.py`).
+3. TikZ: WBS, network, org.
+4. Matplotlib: Gantt, compression, S-curve, histogram, risk matrix, EVM example.
+5. `pdflatex` — if a figure and a table disagree, the YAML is right and the figure is wrong.

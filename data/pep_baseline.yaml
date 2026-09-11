@@ -1,0 +1,127 @@
+# Canonical PEP numbers. requirements.md and all figures must match this file.
+# Calendar: inclusive dates, 7-day site calendar, FS+0 => successor ES = predecessor EF + 1 day.
+project:
+  name: Eris TestFlight2 Launch Site Operations Campaign
+  currency: AUD
+  start: 2026-08-10
+  finish: 2026-12-01
+  base_estimate: 1500000
+  emv_sum: 175500
+  res_allowance: 49500
+  contingency: 225000
+  bac: 1725000
+  organic_crew: 8
+  hse_pad_cap: 12
+  unmitigated_peak: 14
+  mitigated_peak: 12
+  surge_hire_cost: 22400
+  option_c_cost: 21000
+  pv_at_m4: 825000
+
+milestones:
+  M2: {date: 2026-10-02, name: PEP Gate 1 lock}
+  M4: {date: 2026-10-15, name: Pad stacking complete}
+  M5: {date: 2026-10-30, name: WDR and 5-second static fire}
+  M6: {date: 2026-11-10, name: Launch Readiness Review}
+  M7: {date: 2026-11-15, name: Launch window opening T-0}
+  M8: {date: 2026-11-20, name: Telemetry handover}
+  M9: {date: 2026-12-01, name: Closeout}
+
+# critical: true means launch/closeout TF = 0 (crimson).
+# A-111 is gate_constrained, not launch-critical.
+activities:
+  - {id: A-100, wbs: EXT, name: Vehicle receipt window (external, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-111, wbs: 1.1.1, name: PEP and integration baseline, d: 54, predecessors: [], es: 2026-08-10, ef: 2026-10-02, ls: 2026-08-10, lf: 2026-10-02, tf: 0, critical: false, gate_constrained: true}
+  - {id: A-112, wbs: 1.1.2, name: EVM and control-system stand-up, d: 7, predecessors: [A-111], es: 2026-10-03, ef: 2026-10-09, ls: 2026-11-25, lf: 2026-12-01, tf: 53, critical: false, gate_constrained: false}
+  - {id: A-113, wbs: 1.1.3, name: CASA / GBRMPA / airspace permits, d: 76, predecessors: [], es: 2026-08-10, ef: 2026-10-24, ls: 2026-08-10, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-114, wbs: 1.1.4, name: Juru monitor mobilisation, d: 62, predecessors: [], es: 2026-08-10, ef: 2026-10-10, ls: 2026-08-15, lf: 2026-10-15, tf: 5, critical: false, gate_constrained: false}
+  - {id: A-121, wbs: 1.2.1a, name: Site mobilisation and cleanroom, d: 19, predecessors: [], es: 2026-08-10, ef: 2026-08-28, ls: 2026-08-13, lf: 2026-08-31, tf: 3, critical: false, gate_constrained: false}
+  - {id: A-122, wbs: 1.2.1b, name: Receiving inspection and unpacking, d: 8, predecessors: [A-100, A-121], es: 2026-09-14, ef: 2026-09-21, ls: 2026-09-14, lf: 2026-09-21, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-123, wbs: 1.2.2, name: Crane mobilisation and vertical stacking, d: 24, predecessors: [A-122], es: 2026-09-22, ef: 2026-10-15, ls: 2026-09-22, lf: 2026-10-15, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-124, wbs: 1.2.3, name: Cryo GSE piping and checkouts, d: 45, predecessors: [A-121], es: 2026-08-29, ef: 2026-10-12, ls: 2026-09-01, lf: 2026-10-15, tf: 3, critical: false, gate_constrained: false}
+  - {id: A-125, wbs: 1.2.4, name: RF telemetry array calibration, d: 18, predecessors: [A-121], es: 2026-08-29, ef: 2026-09-15, ls: 2026-10-07, lf: 2026-10-24, tf: 39, critical: false, gate_constrained: false}
+  - {id: A-131, wbs: 1.3.1, name: Avionics power-on sweeps, d: 23, predecessors: [A-122], es: 2026-09-22, ef: 2026-10-14, ls: 2026-09-23, lf: 2026-10-15, tf: 1, critical: false, gate_constrained: false}
+  - {id: A-132, wbs: 1.3.2, name: Wet Dress Rehearsal (cold), d: 9, predecessors: [A-114, A-123, A-124, A-131], es: 2026-10-16, ef: 2026-10-24, ls: 2026-10-16, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-133, wbs: 1.3.3, name: 5-second static fire, d: 6, predecessors: [A-132, A-113], es: 2026-10-25, ef: 2026-10-30, ls: 2026-10-25, lf: 2026-10-30, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-134, wbs: 1.3.4, name: Post-fire diagnostics and LRU, d: 6, predecessors: [A-133], es: 2026-10-31, ef: 2026-11-05, ls: 2026-10-31, lf: 2026-11-05, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-141, wbs: 1.4.1, name: LRR and RSO clearance, d: 5, predecessors: [A-134], es: 2026-11-06, ef: 2026-11-10, ls: 2026-11-06, lf: 2026-11-10, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-142, wbs: 1.4.2, name: Range exclusion and countdown, d: 4, predecessors: [A-141], es: 2026-11-11, ef: 2026-11-14, ls: 2026-11-11, lf: 2026-11-14, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-143, wbs: 1.4.3, name: Launch execution (T-0), d: 1, predecessors: [A-142], es: 2026-11-15, ef: 2026-11-15, ls: 2026-11-15, lf: 2026-11-15, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-144, wbs: 1.4.4, name: Telemetry decrypt and handover, d: 5, predecessors: [A-143], es: 2026-11-16, ef: 2026-11-20, ls: 2026-11-16, lf: 2026-11-20, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-145, wbs: 1.4.5, name: Demobilisation and closeout audit, d: 11, predecessors: [A-144], es: 2026-11-21, ef: 2026-12-01, ls: 2026-11-21, lf: 2026-12-01, tf: 0, critical: true, gate_constrained: false}
+
+wbs_cost:
+  - {wbs: 1.1.1, amount: 72000}
+  - {wbs: 1.1.2, amount: 48000}
+  - {wbs: 1.1.3, amount: 88000}
+  - {wbs: 1.1.4, amount: 92000}
+  - {wbs: 1.2.1, amount: 68000}
+  - {wbs: 1.2.2, amount: 218000}
+  - {wbs: 1.2.3, amount: 180000}
+  - {wbs: 1.2.4, amount: 52000}
+  - {wbs: 1.3.1, amount: 58000}
+  - {wbs: 1.3.2, amount: 160000}
+  - {wbs: 1.3.3, amount: 148000}
+  - {wbs: 1.3.4, amount: 48000}
+  - {wbs: 1.4.1, amount: 38000}
+  - {wbs: 1.4.2, amount: 58000}
+  - {wbs: 1.4.3, amount: 82000}
+  - {wbs: 1.4.4, amount: 24000}
+  - {wbs: 1.4.5, amount: 66000}
+
+monthly_pv:
+  - {month: 2026-08, period: 218000, cumulative: 218000}
+  - {month: 2026-09, period: 284000, cumulative: 502000}
+  - {month: 2026-10, period: 657000, cumulative: 1159000}
+  - {month: 2026-11, period: 315000, cumulative: 1474000}
+  - {month: 2026-12, period: 26000, cumulative: 1500000}
+
+compression:
+  days_saved: 5
+  baseline_t0: 2026-11-15
+  option_c_t0: 2026-11-10
+  options:
+    - {id: A, name: Pure fast-track, cost: 0, slope_per_day: 0, verdict: Rejected, risk: High}
+    - {id: B, name: Pure crash, cost: 40000, slope_per_day: 8000, verdict: Rejected, risk: High}
+    - {id: C, name: Hybrid (contingent), cost: 21000, slope_per_day: 4200, verdict: Contingent, risk: Medium}
+  option_c_tail:
+    - {id: A-134, es: 2026-10-31, ef: 2026-11-02}
+    - {id: A-141, es: 2026-11-03, ef: 2026-11-05}
+    - {id: A-142, es: 2026-11-06, ef: 2026-11-09}
+    - {id: A-143, es: 2026-11-10, ef: 2026-11-10}
+
+resource_weeks:
+  # week 1 starts 2026-08-10
+  demand_mitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 11, 12, 12, 8, 10, 5, 4]
+  demand_unmitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 14, 14, 14, 8, 10, 5, 4]
+
+evm_m4:
+  pv: 825000
+  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green}
+  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber}
+
+risks:
+  - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 3, emv: 27000, i_dollar: 90000, p_pct: 0.30}
+  - {id: R-02, p: 2, i: 5, p_res: 1, i_res: 4, emv: 21600, i_dollar: 180000, p_pct: 0.12}
+  - {id: R-03, p: 3, i: 3, p_res: 1, i_res: 2, emv: 15000, i_dollar: 50000, p_pct: 0.30}
+  - {id: R-04, p: 3, i: 4, p_res: 1, i_res: 2, emv: 12000, i_dollar: 40000, p_pct: 0.30}
+  - {id: R-05, p: 3, i: 3, p_res: 2, i_res: 2, emv: 16500, i_dollar: 55000, p_pct: 0.30}
+  - {id: R-06, p: 4, i: 2, p_res: 2, i_res: 2, emv: 9000, i_dollar: 18000, p_pct: 0.50}
+  - {id: R-07, p: 3, i: 3, p_res: 1, i_res: 2, emv: 21000, i_dollar: 70000, p_pct: 0.30}
+  - {id: R-08, p: 2, i: 4, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
+  - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 18000, i_dollar: 150000, p_pct: 0.12}
+  - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 6900, i_dollar: 23000, p_pct: 0.30}
+  - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
+  - {id: R-12, p: 2, i: 2, p_res: 2, i_res: 1, emv: 0, i_dollar: 21000, p_pct: 0.12}
+  - {id: R-13, p: 4, i: 3, p_res: 2, i_res: 2, emv: 15000, i_dollar: 30000, p_pct: 0.50}
+  - {id: R-14, p: 3, i: 4, p_res: 2, i_res: 2, emv: 13500, i_dollar: 45000, p_pct: 0.30}
+  - {id: R-15, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
+  - {id: R-16, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
+  - {id: R-17, p: 3, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
+  - {id: R-18, p: 2, i: 4, p_res: 1, i_res: 3, emv: 0, i_dollar: 0, p_pct: 0.12}
+
+contribution:
+  - {name: Abdul Wahab Obeid, id: s5303839, pct: 25.0}
+  - {name: Hadi Alkhub, id: s5331680, pct: 25.0}
+  - {name: Ziyad Alahmari, id: s5375826, pct: 25.0}
+  - {name: Ilsa Hashmi, id: s5310047, pct: 25.0}

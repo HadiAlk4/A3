@@ -97,8 +97,9 @@ resource_weeks:
 
 evm_m4:
   pv: 825000
-  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green, eac_work: 1558750, ieac_bac: 1796875}
-  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1634348, ieac_bac: 1875000}
+  planned_label: "Planned (stacking 0/100 complete, GSE HP-2 complete)"
+  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green, eac_work: 1558750, ieac_bac: 1796875, action: "Green --- weekly dashboard"}
+  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1634348, ieac_bac: 1875000, action: "Amber --- 48~h exception report"}
 
 # In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
 evm:
@@ -133,10 +134,10 @@ governance:
     - D&C package manager
 
 hold_points:
-  - {id: HP-1, name: Pad tie-down weld NDT, activity: A-123, risk: R-08}
-  - {id: HP-2, name: GSE helium leak test, activity: A-124, risk: R-05}
-  - {id: HP-3, name: Pre-static-fire ignition interlock, activity: A-133, risk: R-01}
-  - {id: HP-4, name: LRR sign-off, activity: A-141, risk: R-16}
+  - {id: HP-1, name: Pad tie-down weld NDT, activity: A-123, risk: R-08, release: "D&C mgr / Ziyad"}
+  - {id: HP-2, name: GSE helium leak test, activity: A-124, risk: R-05, release: "GSE Lead / Ziyad"}
+  - {id: HP-3, name: Pre-static-fire ignition interlock, activity: A-133, risk: R-01, release: "GSE Lead / Launch Director / Ziyad"}
+  - {id: HP-4, name: LRR sign-off, activity: A-141, risk: R-16, release: "Launch Director / Abdul / Ziyad"}
 
 hse:
   blast_zone_km: 1.5

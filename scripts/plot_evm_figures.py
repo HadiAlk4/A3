@@ -9,6 +9,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 
+from datetime import date, datetime
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -46,6 +47,14 @@ plt.rcParams.update(
 def load():
     with YAML_PATH.open() as f:
         return yaml.safe_load(f)
+
+
+def D(s) -> date:
+    if isinstance(s, datetime):
+        return s.date()
+    if isinstance(s, date):
+        return s
+    return date.fromisoformat(str(s))
 
 
 def save(fig, name: str) -> None:
@@ -122,8 +131,8 @@ def plot_evm(data) -> None:
     ax_bar.set_xticks(x)
     ax_bar.set_xticklabels(
         [
-            "On-plan illustration\nCPI 0.96  SPI 0.98  Green",
-            "Late stack illustration\nCPI 0.92  SPI 0.92  Amber",
+            f"On-plan illustration\nCPI {onp['cpi']:.2f}  SPI {onp['spi']:.2f}  {onp['band']}",
+            f"Late stack illustration\nCPI {late['cpi']:.2f}  SPI {late['spi']:.2f}  {late['band']}",
         ]
     )
     ax_bar.set_xlim(-0.55, 1.55)
@@ -134,10 +143,14 @@ def plot_evm(data) -> None:
     ax_bar.set_axisbelow(True)
     for spine in ("top", "right"):
         ax_bar.spines[spine].set_visible(False)
+    m4_date = D(data["milestones"]["M4"]["date"])
     ax_bar.text(
         0.0,
         1.02,
-        "Status date 15 Oct 2026 (M-4)  ·  illustrative only; campaign not yet executed",
+        (
+            f"Status date {m4_date.day} {m4_date.strftime('%b')} {m4_date.year} (M-4)"
+            "  ·  illustrative only; campaign not yet executed"
+        ),
         transform=ax_bar.transAxes,
         ha="left",
         va="bottom",
@@ -217,17 +230,19 @@ def plot_evm(data) -> None:
     )
 
     ax_band.set_xticks(x)
-    ax_band.set_xticklabels(["On-plan (Green band)", "Late stack (Amber band)"])
+    ax_band.set_xticklabels(
+        [f"On-plan ({onp['band']} band)", f"Late stack ({late['band']} band)"]
+    )
     ax_band.set_xlim(-0.55, 1.55)
     ax_band.set_ylim(0.82, 1.10)
     ax_band.set_ylabel("CPI / SPI")
-    ax_band.set_yticks([0.90, 0.95, 1.00, 1.05])
+    ax_band.set_yticks(sorted({red_lt, amber_lo, green_lo, 1.0, green_hi}))
     for spine in ("top", "right"):
         ax_band.spines[spine].set_visible(False)
     ax_band.text(
         1.52,
         1.00,
-        "Green  0.95–1.05",
+        f"Green  {green_lo:.2f}–{green_hi:.2f}",
         ha="right",
         va="center",
         fontsize=7.0,
@@ -236,7 +251,7 @@ def plot_evm(data) -> None:
     ax_band.text(
         1.52,
         0.925,
-        "Amber  0.90–<0.95",
+        f"Amber  {amber_lo:.2f}–<{green_lo:.2f}",
         ha="right",
         va="center",
         fontsize=7.0,
@@ -245,7 +260,7 @@ def plot_evm(data) -> None:
     ax_band.text(
         1.52,
         0.86,
-        f"Red  <0.90  or  T-0 slip >{evm['t0_slip_trigger_days']} d",
+        f"Red  <{red_lt:.2f}  or  T-0 slip >{evm['t0_slip_trigger_days']} d",
         ha="right",
         va="center",
         fontsize=7.0,

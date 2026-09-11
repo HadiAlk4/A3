@@ -1,5 +1,6 @@
 \section{Delivery and control}
 \label{sec:delivery}
+\input{sections/generated/s7_macros}
 
 This section converts the baselines in Sections~\ref{sec:schedule}--\ref{sec:risk} into named decision rights, a procurement choice that fits this pad, verification hold points, Bowen-specific HSE, and an earned-value framework that will be read at M-4. It is a control design, not a progress report: the campaign has not been executed.
 
@@ -8,9 +9,9 @@ This section converts the baselines in Sections~\ref{sec:schedule}--\ref{sec:ris
 
 Governance is the organisation that will actually stop work, not a generic pyramid \citep{pmi2021,kerzner2017}. The Gilmour Executive Board is the sponsor. Abdul Wahab Obeid is Campaign Project Manager: he reports to the Board and directs three consultancy leads already named in Table~\ref{tab:raci}---Hadi Alkhub (planner and schedule), Ziyad Alahmari (risk, quality and HSE) and Ilsa Hashmi (cost, resources and the Juru commercial interface). Beneath them the pad is run by the field titles used throughout the register: Launch Director, Range Safety Officer, GSE Lead, Avionics Specialist, Juru Cultural Officer and the design-and-construct package manager. Figure~\ref{fig:governance} is that structure. The DoA sits on the PM box because that is the only place a dollar-and-hour rule can be enforced.
 
-Delegation is numeric. Abdul may approve a variance of at most \$20{,}000 \emph{and} at most 48~hours, and only if M-5 (30~October, A-133) and M-7 (15~November, A-143) do not move. Anything else---a contingency draw, Option~C's \$21{,}000, a hold-point waiver, a $T$-0 change---goes to the Board within 24~hours \citep{kerzner2017}. That is also the treatment of R-16: an RSO versus Launch Director deadlock at LRR escalates 24~hours before A-141's late finish of 10~November, not inside the review room. The \$20{,}000 ceiling is below every cost-bearing EMV in Table~\ref{tab:risk-register} that can stop hot fire (R-01 is \$90k impact; R-07 is \$70k), so a genuine recycle cannot be buried in PM discretion.
+Delegation is numeric. Abdul may approve a variance of at most \PEPdoaAud \emph{and} at most \PEPdoaHours~hours, and only if M-5 (\PEPmFiveLong, A-133) and M-7 (\PEPmSevenLong, A-143) do not move. Anything else---a contingency draw, Option~C's \PEPoptionC, a hold-point waiver, a $T$-0 change---goes to the Board within 24~hours \citep{kerzner2017}. That is also the treatment of R-16: an RSO versus Launch Director deadlock at LRR escalates 24~hours before A-141's late finish of \PEPmSixShort, not inside the review room. The \PEPdoaAud ceiling is below the dollar \emph{impact} of the hot-fire rows that would recycle the pad (R-01 \PEPrOiImpact; R-07 \PEPrViiImpact). Those rows' EMVs are \PEPrOiEmv and \PEPrViiEmv; a genuine recycle cannot be buried in PM discretion.
 
-Cadence matches the physical work. Field leads hold a daily pad standup (yesterday, today, open holds). After Gate~1 (A-111, 2~October) Ilsa publishes a weekly EVM dashboard---CPI, SPI, $EAC$, hold-point status---from A-112. Abdul takes a fortnightly pack to the sponsor. Daily standup does not rewrite Table~\ref{tab:precedence}; the weekly dashboard is where Amber is first declared. A-112 has 53~days of float so the control system does not compete with stacking for pad occupancy.
+Cadence matches the physical work. Field leads hold a daily pad standup (yesterday, today, open holds). After Gate~1 (A-111, \PEPmTwoShort) Ilsa publishes a weekly EVM dashboard---CPI, SPI, $EAC$, hold-point status---from A-112. Abdul takes a fortnightly pack to the sponsor. Daily standup does not rewrite Table~\ref{tab:precedence}; the weekly dashboard is where Amber is first declared. A-112 has 53~days of float so the control system does not compete with stacking for pad occupancy.
 
 \begin{figure}[H]
 \centering
@@ -32,9 +33,7 @@ Cadence matches the physical work. Field leads hold a daily pad standup (yesterd
     inner xsep=6pt, inner ysep=4pt, font=\scriptsize, align=center, text width=15.4cm}
 ]
 \node[board] (board) {Gilmour Executive Board \\[0.12em] \normalfont\scriptsize Sponsor --- contingency, M-5 / M-7, hold-point waivers};
-\node[pm] (pm) at (0,-2.05) {\textbf{Campaign PM}\\[-0.05em]\textbf{\mbox{Abdul Wahab Obeid}}\\[0.12em]
-  \scriptsize DoA: $\le$ \$20k \emph{and} $\le$ 48~h\\[-0.05em]
-  \scriptsize Cannot move M-5 (30~Oct) or M-7 (15~Nov)};
+\node[pm] (pm) at (0,-2.05) {\PEPpmBox};
 \draw[navy, thick, ->] (board.south) -- (pm.north);
 
 \node[lead] (hadi)  at (-4.55,-4.05) {\textbf{\mbox{Hadi Alkhub}}\\Lead Planner\\schedule, network, compression};
@@ -60,7 +59,7 @@ Cadence matches the physical work. Field leads hold a daily pad standup (yesterd
 \node[note] (cadence) at (0,-7.35) {\textbf{Reporting cadence.} Daily pad standup \quad$\cdot$\quad weekly EVM dashboard (Ilsa) \quad$\cdot$\quad fortnightly sponsor review \quad$\cdot$\quad 24~h to Board if DoA exceeded or R-16 fires.};
 \end{tikzpicture}%
 }
-\caption{Campaign governance for Bowen pad operations. Named roles, a numeric DoA on the PM, and the reporting cadence. Field titles match Table~\ref{tab:raci}. The Board, not the PM, moves M-5 or M-7 or draws the \$225{,}000 reserve.}
+\caption{Campaign governance for Bowen pad operations. Named roles, a numeric DoA on the PM, and the reporting cadence. Field titles match Table~\ref{tab:raci}. The Board, not the PM, moves M-5 or M-7 or draws the \PEPcontingency reserve.}
 \label{fig:governance}
 \end{figure}
 
@@ -69,43 +68,28 @@ Cadence matches the physical work. Field leads hold a daily pad standup (yesterd
 
 The chosen delivery model is a managing-contractor / design-and-construct hybrid \citep{turner2014,pmi2021}. Gilmour Space Technologies retains propulsion intellectual property, vehicle integration and the Australian launch licence. Civil works and cryogenic GSE packages are let as design-and-construct, with an interface-control freeze gate and liquidated damages. That split is the contractual answer to R-07 and R-08. If the D\&C GSE interface control drawing lags Gilmour's propulsion ICD, the lag is an LD event on the contractor, not a Gilmour variation (R-07). If a latent pad-civil defect appears under the hold-down, defect liability remains with the D\&C package after HP-1 NDT, which is why R-08 carries EMV \$0 to Gilmour in Table~\ref{tab:risk-register}. Abdul stays Accountable on that row; the package manager stays Responsible.
 
-Turnkey EPC was considered and rejected. After TestFlight~1's pump failure, handing the propulsion stack and the launch authorisation to a single EPC would put flight-critical intellectual property and statutory accountability in a contractor who does not hold the licence \citep{gilmour2025,asa2025}. Two tests decide the model \citep{turner2014}. Scope certainty is high on site operations---seventeen Level-3 packages, locked dates, a \$1{,}500{,}000 work estimate---and low on the vehicle, which remains Gilmour's; an EPC wants both. Client capability is the other test: Gilmour can integrate a launch vehicle; it should not pour pad grout or run a 100~t crawler as a core competence. Alliance contracting was the second rejected alternative: a four-month campaign cannot carry pain-share overhead, and GBRMPA and CASA duties are not commercially shareable \citep{gbrmpa2019,casa2024}. Factory manufacture and freight stay out of scope, so D\&C packages stop at the receiving gate and A-100 remains a zero-dollar external wait.
+Turnkey EPC was considered and rejected. After TestFlight~1's pump failure, handing the propulsion stack and the launch authorisation to a single EPC would put flight-critical intellectual property and statutory accountability in a contractor who does not hold the licence \citep{gilmour2025,asa2025}. Two tests decide the model \citep{turner2014}. Scope certainty is high on site operations---seventeen Level-3 packages, locked dates, a \PEPbase\ work estimate---and low on the vehicle, which remains Gilmour's; an EPC wants both. Client capability is the other test: Gilmour can integrate a launch vehicle; it should not pour pad grout or run a 100~t crawler as a core competence. Alliance contracting was the second rejected alternative: a four-month campaign cannot carry pain-share overhead, and GBRMPA and CASA duties are not commercially shareable \citep{gbrmpa2019,casa2024}. Factory manufacture and freight stay out of scope, so D\&C packages stop at the receiving gate and A-100 remains a zero-dollar external wait.
 
 \subsection{Quality}
 \label{sec:delivery-quality}
 
 Quality is specified against AS9100D for aviation, space and defence and ISO~9001:2015 for the process system \citep{sae2016,iso9001}. Four hold points, each tied to a register row, are the verification architecture; they are listed in Table~\ref{tab:holdpoints}. HP-1 is pad tie-down weld NDT on A-123 and is the physical close of R-08. HP-2 is the GSE helium leak test on A-124 and is the physical close of R-05 (inadequate purge before LOX). HP-3 is the pre-static-fire ignition interlock on A-133 and is the physical close of R-01 (residual pump-insulation abort). HP-4 is LRR sign-off on A-141. Work does not proceed past a hold without Ziyad's release or a Board waiver, and a Board waiver is outside Abdul's DoA.
 
-\begin{table}[H]
-\centering
-\small
-\caption{Quality hold points for the Bowen campaign. Each hold is a named artefact, not a meeting. Measurement rules in Section~\ref{sec:delivery-evm} follow the same IDs.}
-\label{tab:holdpoints}
-\begin{tabularx}{\textwidth}{@{}l l l l X@{}}
-\toprule
-Hold & Activity & Risk & Artefact & Release \\
-\midrule
-HP-1 & A-123 (15~Oct) & R-08 & Pad tie-down weld NDT & D\&C mgr / Ziyad \\
-HP-2 & A-124 (12~Oct) & R-05 & GSE helium leak test & GSE Lead / Ziyad \\
-HP-3 & A-133 (30~Oct) & R-01 & Ignition interlock prove-out & GSE Lead / Launch Director \\
-HP-4 & A-141 (10~Nov) & R-16 & LRR / RSO flight-clearance board & Launch Director / Abdul \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\input{sections/generated/s7_holdpoints_table}
 
 Measurement follows the holds. Discrete tests and permits---A-113, A-132, A-133, A-141, A-143---are 0/100: earned value is zero until the artefact exists. Installations---A-123 and A-124---are milestone percent-complete tied to HP-1 and HP-2. That is why LRR waits on A-134 rather than on A-133: HP-4 cannot be signed on incomplete post-fire data, which is the same AS9100D logic that rejected Option~A in Section~\ref{sec:schedule-compression} \citep{sae2016}. Fast-tracking LRR over diagnostics would be a hold-point failure, not a schedule saving.
 
 \subsection{Health, safety and environment}
 \label{sec:delivery-hse}
 
-HSE is this pad under the \textit{Work Health and Safety Act 2011} (Qld), not a generic construction checklist \citep{whs2011}. Liquid oxygen is the process hazard: LOX PPE, oxygen-clean tools, and exclusion during load and detank on A-132 and A-133. Blast occupancy is a 1.5~km zone and twelve people---the same cap already drawn on Figure~\ref{fig:resources}. Acoustic treatment is a water deluge sized so static-fire level at Bowen township stays at or below 135~dB (R-17), with community notice fourteen days prior. Scrub-fire breaks sit on the pad perimeter because static-fire slag is an ignition source in dry October. Juru artefact buffers and stop-work authority (R-04) are HSE controls, not a communications plan: A-114 feeds A-132 as a cultural hold, and monitors on the pad can halt WDR. Marine-mammal protocol on A-142 (R-15) is owned by the RSO inside a four-day exclusion window that Option~C does not crash \citep{gbrmpa2019}. Fatigue from Option~B's 24-hour diagnostic war room is why that crash was rejected; Option~C keeps A-142 and the staggered ten-hour shifts already in the resource baseline. Occupancy never exceeds twelve on the mitigated histogram: R-13 is already treated in the \$1{,}500{,}000 base by moving A-125 and hiring four surge technicians, not by a later HSE waiver.
+HSE is this pad under the \textit{Work Health and Safety Act 2011} (Qld), not a generic construction checklist \citep{whs2011}. Liquid oxygen is the process hazard: LOX PPE, oxygen-clean tools, and exclusion during load and detank on A-132 and A-133. Blast occupancy is a 1.5~km zone and twelve people---the same cap already drawn on Figure~\ref{fig:resources}. Acoustic treatment is a water deluge sized so static-fire level at Bowen township stays at or below 135~dB (R-17), with community notice fourteen days prior. Scrub-fire breaks sit on the pad perimeter because static-fire slag is an ignition source in dry October. Juru artefact buffers and stop-work authority (R-04) are HSE controls, not a communications plan: A-114 feeds A-132 as a cultural hold, and monitors on the pad can halt WDR. Marine-mammal protocol on A-142 (R-15) is owned by the RSO inside a four-day exclusion window that Option~C does not crash \citep{gbrmpa2019}. Fatigue from Option~B's 24-hour diagnostic war room is why that crash was rejected; Option~C keeps A-142 and the staggered ten-hour shifts already in the resource baseline. Occupancy never exceeds twelve on the mitigated histogram: R-13 is already treated in the \PEPbase\ base by moving A-125 and hiring four surge technicians, not by a later HSE waiver.
 
 \subsection{Earned value management}
 \label{sec:delivery-evm}
 
-Earned value is the instrument that will tell the Board whether the \$1{,}725{,}000 authorisation is still intact \citep{pmi2019evm,fleming2016,kerzner2017}. It is a framework. The campaign has not started, so there is no fourteen-week EV/AC history to plot.
+Earned value is the instrument that will tell the Board whether the \PEPbac\ authorisation is still intact \citep{pmi2019evm,fleming2016,kerzner2017}. It is a framework. The campaign has not started, so there is no fourteen-week EV/AC history to plot.
 
-The work performance measurement baseline (distributed planned value) is \$1{,}500{,}000, identical to Table~\ref{tab:wbs-cost} and to the S-curve that terminates at that figure in Figure~\ref{fig:scurve}. Contingency of \$225{,}000 is undistributed budget: it is not December cash and it is not monthly PV. Authorised $BAC$ is \$1{,}725{,}000. Option~C's \$21{,}000 is not in the work PMB; if R-12 or R-14 fires and the Board invokes it, the draw appears as actual cost charged to contingency.
+The work performance measurement baseline (distributed planned value) is \PEPbase, identical to Table~\ref{tab:wbs-cost} and to the S-curve that terminates at that figure in Figure~\ref{fig:scurve}. Contingency of \PEPcontingency\ is undistributed budget: it is not December cash and it is not monthly PV. Authorised $BAC$ is \PEPbac. Option~C's \PEPoptionC\ is not in the work PMB; if R-12 or R-14 fires and the Board invokes it, the draw appears as actual cost charged to contingency.
 
 $SV$ and $CV$ are currency, never days:
 \begin{equation}
@@ -117,44 +101,29 @@ In-flight estimate at completion on the work baseline is
 EAC = AC + (BAC_{\text{work}} - EV)/CPI,
 \label{eq:eac}
 \end{equation}
-with $BAC_{\text{work}} = \$1{,}500{,}000$. The same CPI is also applied to the authorisation ceiling as $BAC/CPI$, which is reported against \$1{,}725{,}000 so that a green week cannot silently spend the reserve \citep{pmi2019evm}. The finish-line rule is separate from the in-flight bands: final $AC \le \$1{,}725{,}000$. A Green CPI of 0.96 in October is allowed; finishing above $BAC$ is not.
+with $BAC_{\text{work}} = \PEPbase$. The same CPI is also applied to the authorisation ceiling as $BAC/CPI$, which is reported against \PEPbac so that a green week cannot silently spend the reserve \citep{pmi2019evm}. The finish-line rule is separate from the in-flight bands: final $AC \le \PEPbac$. A Green CPI of \PEPonPlanCPI\ in October is allowed; finishing above $BAC$ is not.
 
 Thresholds that trigger action, used only in this section, are:
 
 \begin{itemize}[leftmargin=1.4em,itemsep=0.25em]
-\item \textbf{Green} --- $0.95 \le CPI,SPI \le 1.05$: weekly dashboard only.
-\item \textbf{Amber} --- $0.90 \le$ index $< 0.95$: Exception Report and a seven-day recovery plan within 48~hours.
-\item \textbf{Red} --- index $< 0.90$, \emph{or} $T$-0 slip $> 2$~days: contingency freeze and Board intervention. $SV$ is not written in days.
+\item \textbf{Green} --- $\PEPgreenLo \le CPI,SPI \le \PEPgreenHi$: weekly dashboard only.
+\item \textbf{Amber} --- $\PEPamberLo \le$ index $< \PEPgreenLo$: Exception Report and a seven-day recovery plan within 48~hours.
+\item \textbf{Red} --- index $< \PEPredLt$, \emph{or} $T$-0 slip $> \PEPtZeroSlip$~days: contingency freeze and Board intervention. $SV$ is not written in days.
 \end{itemize}
 
-The only dashboard numbers permitted in this PEP are the two illustrative readings at M-4 (15~October~2026) in Table~\ref{tab:evm-m4} and Figure~\ref{fig:evm}. Planned value at that date is \$825{,}000: stacking accepted under the installation rule and GSE HP-2 complete (A-124 finishes 12~October). The on-plan illustration books EV \$810{,}000 and AC \$840{,}000, so $CPI = 810/840 = 0.96$ and $SPI = 810/825 = 0.98$---Green, weekly dashboard. The \$15{,}000 EV--PV gap is 0/100 on remaining A-113 permit hours (permits finish 24~October), not a stacking slip. Even so,
+The only dashboard numbers permitted in this PEP are the two illustrative readings at M-4 (\PEPmFourLong~2026) in Table~\ref{tab:evm-m4} and Figure~\ref{fig:evm}. Planned value at that date is \PEPpvmFour: stacking 0/100 complete, GSE HP-2 complete (A-124 finishes before M-4). The on-plan illustration books EV \PEPonPlanEV and AC \PEPonPlanAC, so $CPI = \PEPonPlanEVnum/\PEPonPlanACnum = \PEPonPlanCPI$ and $SPI = \PEPonPlanEVnum/\PEPpvmFournum = \PEPonPlanSPI$---Green, weekly dashboard. The \PEPmFourGap EV--PV gap is 0/100 on remaining A-113 permit hours (permits finish 24~October), not a stacking slip. Even so,
 \[
-EAC = 840{,}000 + (1{,}500{,}000 - 810{,}000)/0.96 = \$1{,}558{,}750,
+EAC = \PEPonPlanACnum + (\PEPbasenum - \PEPonPlanEVnum)/\PEPonPlanCPI = \$\PEPonPlanEacnum,
 \]
-and $BAC/CPI = 1{,}725{,}000/0.96 = \$1{,}796{,}875$, which sits above the \$1{,}725{,}000 ceiling. Green in October still carries a recovery obligation toward the finish-line rule.
+and $BAC/CPI = \PEPbacnum/\PEPonPlanCPI = \$\PEPonPlanIeacnum$, which sits above the \PEPbac ceiling. Green in October still carries a recovery obligation toward the finish-line rule.
 
-The late-stack illustration holds PV at \$825{,}000 but drops EV to \$760{,}000 and AC to \$830{,}000 because HP-1 is unsigned. Then $CPI = SPI = 0.92$---Amber. Ilsa issues the Exception Report within 48~hours and a seven-day recovery that either completes HP-1 or takes a Board decision. Work $EAC$ is $\$830{,}000 + (1{,}500{,}000 - 760{,}000)/0.92 = \$1{,}634{,}348$. Those two points are a worked example at one physical gate, not a time series and not a claim that October has already been worked.
+The late-stack illustration holds PV at \PEPpvmFour but drops EV to \PEPlateEV and AC to \PEPlateAC because HP-1 is unsigned. Then $CPI = SPI = \PEPlateCPI$---Amber. Ilsa issues the Exception Report within 48~hours and a seven-day recovery that either completes HP-1 or takes a Board decision. Work $EAC$ is $\$\PEPlateACnum + (\PEPbasenum - \PEPlateEVnum)/\PEPlateCPI = \$\PEPlateEacnum$. Those two points are a worked example at one physical gate, not a time series and not a claim that October has already been worked.
 
-\begin{table}[H]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{4.0pt}
-\caption{Illustrative earned-value status at M-4 (15~October~2026). The campaign has not been executed. PV is the locked work-PMB value at stacking complete. Indices use the reported two-decimal CPI/SPI from $EV/AC$ and $EV/PV$.}
-\label{tab:evm-m4}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.55cm} r r r c c X@{}}
-\toprule
-Status at M-4 & PV & EV & AC & CPI & SPI & Action \\
-\midrule
-Planned (HP-1 / HP-2 complete) & 825{,}000 & --- & --- & --- & --- & --- \\
-Illustrative on-plan & 825{,}000 & 810{,}000 & 840{,}000 & 0.96 & 0.98 & Green --- weekly dashboard \\
-Illustrative late stack & 825{,}000 & 760{,}000 & 830{,}000 & 0.92 & 0.92 & Amber --- 48~h exception report \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\input{sections/generated/s7_evm_table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\linewidth]{evm_example.pdf}
-\caption{Illustrative status at M-4; campaign not yet executed. Upper panel: PV, EV and AC at the single status date 15~October~2026 for the on-plan and late-stack cases. Lower panel: Green / Amber / Red CPI--SPI bands, with the on-plan pair (0.96, 0.98) in Green and the late-stack pair (0.92, 0.92) in Amber. Red is also triggered by $T$-0 slip greater than two days. No weekly EV/AC history is implied.}
+\caption{Illustrative status at M-4; campaign not yet executed. Upper panel: PV, EV and AC at the single status date \PEPmFourLong~2026 for the on-plan and late-stack cases. Lower panel: Green / Amber / Red CPI--SPI bands, with the on-plan pair (\PEPonPlanCPI, \PEPonPlanSPI) in Green and the late-stack pair (\PEPlateCPI, \PEPlateSPI) in Amber. Red is also triggered by $T$-0 slip greater than \PEPtZeroSlip days. No weekly EV/AC history is implied.}
 \label{fig:evm}
 \end{figure}

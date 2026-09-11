@@ -97,8 +97,50 @@ resource_weeks:
 
 evm_m4:
   pv: 825000
-  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green}
-  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber}
+  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green, eac_work: 1558750, ieac_bac: 1796875}
+  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1634348, ieac_bac: 1875000}
+
+# In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
+evm:
+  green_lo: 0.95
+  green_hi: 1.05
+  amber_lo: 0.90
+  red_lt: 0.90
+  t0_slip_trigger_days: 2
+  measurement_0_100: [A-113, A-132, A-133, A-141, A-143]
+  measurement_milestone: [A-123, A-124]
+  pm_doa_aud: 20000
+  pm_doa_hours: 48
+
+governance:
+  sponsor: Gilmour Executive Board
+  pm_name: Abdul Wahab Obeid
+  cannot_move: [M5, M7]
+  cadence:
+    daily: Pad standup
+    weekly: EVM dashboard
+    fortnightly: Sponsor review
+  consultancy:
+    - {name: Hadi Alkhub, role: Lead Planner}
+    - {name: Ziyad Alahmari, role: Risk and Quality Lead}
+    - {name: Ilsa Hashmi, role: Cost and Resource Lead}
+  field:
+    - Launch Director
+    - Range Safety Officer
+    - GSE Lead
+    - Avionics Specialist
+    - Juru Cultural Officer
+    - D&C package manager
+
+hold_points:
+  - {id: HP-1, name: Pad tie-down weld NDT, activity: A-123, risk: R-08}
+  - {id: HP-2, name: GSE helium leak test, activity: A-124, risk: R-05}
+  - {id: HP-3, name: Pre-static-fire ignition interlock, activity: A-133, risk: R-01}
+  - {id: HP-4, name: LRR sign-off, activity: A-141, risk: R-16}
+
+hse:
+  blast_zone_km: 1.5
+  acoustic_db: 135
 
 risks:
   - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 3, emv: 27000, i_dollar: 90000, p_pct: 0.30}

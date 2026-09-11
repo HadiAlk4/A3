@@ -16,6 +16,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 YAML_PATH = ROOT / "data" / "pep_baseline.yaml"
 TEX_PATH = ROOT / "sections" / "03_schedule.tex"
+DELIVERY_TEX = ROOT / "sections" / "07_delivery.tex"
 
 # A-125 has no FS successor; LF is imposed as the day before A-133 ES (before hot fire).
 A125_LF_CONSTRAINT = "A-133"
@@ -191,6 +192,38 @@ def check(data) -> list[str]:
     if data["evm_m4"]["pv"] != proj["pv_at_m4"]:
         errors.append("evm_m4.pv != project.pv_at_m4")
 
+    evm = data["evm"]
+    if evm["pm_doa_aud"] != 20000 or evm["pm_doa_hours"] != 48:
+        errors.append("PM DoA must be $20,000 and 48 hours")
+    if evm["t0_slip_trigger_days"] != 2:
+        errors.append("T-0 slip trigger must be 2 days")
+    if set(evm["measurement_0_100"]) != {"A-113", "A-132", "A-133", "A-141", "A-143"}:
+        errors.append("0/100 set != A-113, A-132, A-133, A-141, A-143")
+    if set(evm["measurement_milestone"]) != {"A-123", "A-124"}:
+        errors.append("milestone-percent set != A-123, A-124")
+    if data["hse"]["blast_zone_km"] != 1.5 or data["hse"]["acoustic_db"] != 135:
+        errors.append("HSE blast zone / acoustic != 1.5 km / 135 dB")
+    if data["hse"]["blast_zone_km"] and proj["hse_pad_cap"] != 12:
+        errors.append("HSE pad cap != 12")
+
+    for key, case in (("on_plan", data["evm_m4"]["on_plan"]), ("late_stack", data["evm_m4"]["late_stack"])):
+        cpi = case["ev"] / case["ac"]
+        spi = case["ev"] / data["evm_m4"]["pv"]
+        if round(cpi + 1e-12, 2) != case["cpi"]:
+            errors.append(f"{key} CPI {case['cpi']} != round(EV/AC,2)={round(cpi, 2)}")
+        if round(spi + 1e-12, 2) != case["spi"]:
+            errors.append(f"{key} SPI {case['spi']} != round(EV/PV,2)={round(spi, 2)}")
+        eac = case["ac"] + (proj["base_estimate"] - case["ev"]) / case["cpi"]
+        if abs(eac - case["eac_work"]) > 0.51:
+            errors.append(f"{key} eac_work {case['eac_work']} != {eac:.1f}")
+        ieac = proj["bac"] / case["cpi"]
+        if abs(ieac - case["ieac_bac"]) > 0.51:
+            errors.append(f"{key} ieac_bac {case['ieac_bac']} != {ieac:.1f}")
+
+    hp_ids = [h["id"] for h in data["hold_points"]]
+    if hp_ids != ["HP-1", "HP-2", "HP-3", "HP-4"]:
+        errors.append(f"hold points {hp_ids} != HP-1..HP-4")
+
     pct = sum(c["pct"] for c in data["contribution"])
     if abs(pct - 100.0) > 1e-6:
         errors.append(f"contribution {pct} != 100")
@@ -229,9 +262,65 @@ def check_table_31(data) -> list[str]:
     return errors
 
 
+def _aud(n: int) -> str:
+    return f"{n:,}".replace(",", "{,}")
+
+
+def check_section_7(data) -> list[str]:
+    if not DELIVERY_TEX.exists():
+        return ["sections/07_delivery.tex missing"]
+    tex = DELIVERY_TEX.read_text()
+    errors: list[str] = []
+    m4 = data["evm_m4"]
+    proj = data["project"]
+    evm = data["evm"]
+    required = [
+        _aud(m4["pv"]),
+        _aud(m4["on_plan"]["ev"]),
+        _aud(m4["on_plan"]["ac"]),
+        _aud(m4["late_stack"]["ev"]),
+        _aud(m4["late_stack"]["ac"]),
+        _aud(m4["on_plan"]["eac_work"]),
+        _aud(m4["on_plan"]["ieac_bac"]),
+        _aud(m4["late_stack"]["eac_work"]),
+        _aud(proj["base_estimate"]),
+        _aud(proj["bac"]),
+        _aud(proj["contingency"]),
+        _aud(evm["pm_doa_aud"]),
+        _aud(proj["option_c_cost"]),
+        "campaign not yet executed",
+        "0.96",
+        "0.98",
+        "0.92",
+        "HP-1",
+        "HP-2",
+        "HP-3",
+        "HP-4",
+        "evm_example.pdf",
+        "1.5~km",
+        "135~dB",
+        "Managing-contractor" if False else "managing-contractor",
+    ]
+    for needle in required:
+        if needle not in tex:
+            errors.append(f"07_delivery.tex missing locked string: {needle}")
+    for act in evm["measurement_0_100"] + evm["measurement_milestone"]:
+        if act not in tex:
+            errors.append(f"07_delivery.tex missing measurement activity {act}")
+    for rid in RETIRED:
+        if re.search(rf"\b{rid}\b", tex):
+            errors.append(f"retired ID {rid} appears in 07_delivery.tex")
+    # Guardrail: do not invent a 14-week EV/AC history.
+    if re.search(r"week(?:s)?\s+(1|14)\b", tex, re.I) and "fourteen-week" not in tex.lower():
+        errors.append("07_delivery.tex looks like a fake weekly EV history")
+    if "SV > -5" in tex or r"$SV > -5" in tex:
+        errors.append("do not write SV in days")
+    return errors
+
+
 def main() -> int:
     data = load()
-    errors = check(data) + check_table_31(data)
+    errors = check(data) + check_table_31(data) + check_section_7(data)
     if errors:
         print("FAIL")
         for e in errors:
@@ -239,6 +328,7 @@ def main() -> int:
         return 1
     print("PASS  pep_baseline.yaml identities hold")
     print("      Table 3.1 dates/durations match YAML")
+    print("      Section 7 DoA / EVM / hold-point numbers match YAML")
     print("      A-125 LF is imposed before A-133 (not project finish)")
     print("      R-12 EMV is 0 by design (Option C not double-counted)")
     return 0

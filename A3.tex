@@ -1,0 +1,287 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Layout (brief: 12 pt, 1.5 line spacing, numbered headings) ---
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{setspace}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+
+% --- Figures, tables, maths ---
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,calc}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\graphicspath{{figures/}}
+\onehalfspacing
+\setcounter{tocdepth}{2}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue
+}
+
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+\fancyhf{}
+\fancyhead[L]{\small 3004ENG --- Project Management Principles}
+\fancyhead[R]{\small Group 1 --- Assessment 3}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\tabularxcolumn}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Empty headings are otherwise glued together by LaTeX's \@nobreak
+% (which is what produced the ~600 pt overfull vbox on the first compile).
+\newcommand{\emptysec}{\par\mbox{}\par}
+
+% =============================================================================
+\begin{document}
+
+% -----------------------------------------------------------------------------
+% Title page
+% -----------------------------------------------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}
+\hypersetup{pageanchor=false}
+\centering
+\singlespacing
+{\large Griffith School of Engineering and Built Environment}\\[0.25em]
+{\large Griffith University}\\[1.2em]
+{\LARGE\bfseries 3004ENG --- Project Management Principles}\\[0.5em]
+{\Large Trimester 2, 2026}\\[1.1em]
+{\LARGE\bfseries Eris TestFlight2 Launch Campaign}\\[0.35em]
+{\Large Project Execution Plan}\\[0.7em]
+{\large Assessment 3: Group Project Execution Plan --- Group 1}\\[1.1em]
+
+\begin{tabular}{@{}ll@{}}
+\textbf{Course} & 3004ENG Project Management Principles \\
+\textbf{School} & Engineering and Built Environment \\
+\textbf{Version} & Draft \\
+\textbf{Submission date} & 2 October 2026 \\
+\textbf{Word count} & \textit{(to be inserted; target 6{,}000 $\pm$ 10\%)} \\
+\end{tabular}
+
+\vspace{1.2em}
+
+{\large\bfseries Project team}\\[0.5em]
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{tabularx}{\textwidth}{@{}l l l >{\raggedright\arraybackslash}X r@{}}
+\toprule
+\textbf{Name} & \textbf{Student ID} & \textbf{Discipline} & \textbf{Project role} & \textbf{\%} \\
+\midrule
+Abdul Wahab Obeid & s5303839 & Mechatronics Engineering & Project Lead \& Integration Manager & 25.0 \\
+Hadi Alkhub       & s5331680 & Software Engineering     & Lead Planner \& Scope Manager & 25.0 \\
+Ziyad Alahmari    & s5375826 & Mechanical \& Aviation   & Risk \& Quality Lead & 25.0 \\
+Ilsa Hashmi       & s5310047 & Software Engineering     & Stakeholder \& Resource Lead & 25.0 \\
+\midrule
+ &  &  & \textbf{Total} & \textbf{100.0} \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+{\small Acting as a project management consultancy engaged to deliver launch-site operations at Bowen Orbital Spaceport.}
+\par
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\onehalfspacing
+\renewcommand{\arraystretch}{1.0}
+
+\newpage
+{\singlespacing
+\tableofcontents
+\vspace{1.8em}
+\listoffigures
+\vspace{1.8em}
+\listoftables
+\par}
+\newpage
+
+% -----------------------------------------------------------------------------
+\section{Executive summary}
+\label{sec:exec}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Refined project overview}
+\label{sec:overview}
+
+\subsection{Background and purpose}
+\label{sec:overview-background}
+\emptysec
+
+\subsection{Scope}
+\label{sec:overview-scope}
+\emptysec
+
+\subsection{Charter baseline versus PEP refinement}
+\label{sec:overview-changes}
+\emptysec
+
+\subsection{Objectives and success criteria}
+\label{sec:overview-objectives}
+\emptysec
+
+\subsection{Work breakdown structure}
+\label{sec:overview-wbs}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Schedule management}
+\label{sec:schedule}
+
+\subsection{Network logic and float analysis}
+\label{sec:schedule-network}
+\emptysec
+
+\subsection{Schedule baseline}
+\label{sec:schedule-baseline}
+\emptysec
+
+\subsection{Schedule compression}
+\label{sec:schedule-compression}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Cost management}
+\label{sec:cost}
+
+\subsection{Estimating basis and assumptions}
+\label{sec:cost-basis}
+\emptysec
+
+\subsection{WBS cost baseline}
+\label{sec:cost-wbs}
+\emptysec
+
+\subsection{Contingency}
+\label{sec:cost-contingency}
+\emptysec
+
+\subsection{Time-phased budget and cash flow}
+\label{sec:cost-cashflow}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Resource management}
+\label{sec:resource}
+
+\subsection{Roles and responsibilities}
+\label{sec:resource-raci}
+\emptysec
+
+\subsection{Capacity planning}
+\label{sec:resource-capacity}
+\emptysec
+
+\subsection{Conflict resolution and fallback}
+\label{sec:resource-escalation}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Risk management}
+\label{sec:risk}
+
+\subsection{Risk approach and scales}
+\label{sec:risk-approach}
+\emptysec
+
+\subsection{Integrated risk register}
+\label{sec:risk-register}
+\emptysec
+
+\subsection{Top risks, contingency, float and delivery model}
+\label{sec:risk-response}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Delivery and control}
+\label{sec:delivery}
+
+\subsection{Governance and reporting}
+\label{sec:delivery-governance}
+\emptysec
+
+\subsection{Delivery model and procurement}
+\label{sec:delivery-model}
+\emptysec
+
+\subsection{Quality}
+\label{sec:delivery-quality}
+\emptysec
+
+\subsection{Health, safety and environment}
+\label{sec:delivery-hse}
+\emptysec
+
+\subsection{Earned value management}
+\label{sec:delivery-evm}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section{Integration and professionalism}
+\label{sec:integration}
+
+\subsection{Document consistency}
+\label{sec:integration-consistency}
+\emptysec
+
+\subsection{Presentation and referencing}
+\label{sec:integration-presentation}
+\emptysec
+
+% -----------------------------------------------------------------------------
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\noindent\textit{APA 7th references will be inserted during drafting.}
+\par
+
+% -----------------------------------------------------------------------------
+\appendix
+\section{Contribution appendix}
+\label{app:contribution}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.32\textwidth} >{\raggedright\arraybackslash}X r@{}}
+\toprule
+\textbf{Team member} & \textbf{Primary deliverables} & \textbf{\%} \\
+\midrule
+Abdul Wahab Obeid (s5303839) & Executive summary; integration; final QA & 25.0 \\
+Hadi Alkhub (s5331680) & Scope; schedule; network logic; Gantt; compression & 25.0 \\
+Ziyad Alahmari (s5375826) & Risk register; quality and HSE & 25.0 \\
+Ilsa Hashmi (s5310047) & Cost; resources; capacity planning & 25.0 \\
+\midrule
+\textbf{Total} & & \textbf{100.0} \\
+\bottomrule
+\end{tabularx}
+
+\vspace{1.4em}
+\noindent
+We confirm that the contribution percentages above are agreed by all members.
+
+\vspace{1.4em}
+\noindent
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+Abdul Wahab Obeid \newline Signature: \underline{\hspace{4.2cm}} \newline Date: \underline{\hspace{3.0cm}}
+&
+Hadi Alkhub \newline Signature: \underline{\hspace{4.2cm}} \newline Date: \underline{\hspace{3.0cm}} \\[2.2em]
+Ziyad Alahmari \newline Signature: \underline{\hspace{4.2cm}} \newline Date: \underline{\hspace{3.0cm}}
+&
+Ilsa Hashmi \newline Signature: \underline{\hspace{4.2cm}} \newline Date: \underline{\hspace{3.0cm}} \\
+\end{tabularx}
+
+\end{document}

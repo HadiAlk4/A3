@@ -1,0 +1,113 @@
+\section{Cost management}
+\label{sec:cost}
+
+The cost baseline is the WBS in Figure~\ref{fig:wbs} priced at Level~3. Seventeen control accounts sum to a work estimate of \$1{,}500{,}000. Contingency of \$225{,}000 is sized from quantified risk, not from a round-number markup, so the authorised budget at completion is \$1{,}725{,}000.
+
+\subsection{Estimating basis and assumptions}
+\label{sec:cost-basis}
+
+The estimate is bottom-up at Level~3, with analogous plant and commodity rates beside the hours \citep{kerzner2017,pmi2021}. Loaded 2026 Australian-dollar rates are used throughout: systems-engineering and project-management time at \$150/h, pad technicians at \$95/h, cryogenic and range-safety specialists at \$165/h, and surge technicians at \$100/h. Base pay follows the Manufacturing and Associated Industries Award with on-costs for superannuation, leave and workers compensation \citep{fwo2020}. The 100~t crawler for 23\,m stacking is priced at \$4{,}200 per operating day, including operator, from published Queensland plant-hire schedules cross-checked against Rawlinsons \citep{rawlinsons2025}.
+
+Inclusions are the seventeen packages in Figure~\ref{fig:wbs}: mobilisation through demobilisation at Bowen. Factory manufacture, engine research and development, and freight to the receiving gate remain out of scope, so A-100 is a zero-dollar external wait rather than a cost account. The four-person surge crew (\$22{,}400) is inside WBS~1.3.3 as planned capacity. The \$21{,}000 hybrid compression cost in Section~\ref{sec:schedule-compression} is a contingent draw against the \$225{,}000 reserve if R-12 or R-14 is realised; it is not in the \$1{,}500{,}000 performance measurement baseline.
+
+A limited notice-to-proceed in the Week~4 charter authorised mobilisation from 10~August. Full cost and schedule lock at Gate~1 (A-111, 2~October). August--September field cost is planned spend, not unauthorised commitment.
+
+\subsection{WBS cost baseline}
+\label{sec:cost-wbs}
+
+Table~\ref{tab:wbs-cost} is the rollup. Pad logistics (1.2) is \$518{,}000 (34.5\% of the work estimate), pad testing (1.3) \$414{,}000 (27.6\%), governance (1.1) \$300{,}000 (20.0\%), and flight/closeout (1.4) \$268{,}000 (17.9\%).
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.2pt}
+\caption{Bottom-up cost baseline by Level-3 WBS package. Totals equal the work estimate of \$1{,}500{,}000. A-100 is omitted because it is not a cost account.}
+\label{tab:wbs-cost}
+\begin{tabularx}{\textwidth}{@{}l p{4.15cm} r X@{}}
+\toprule
+WBS & Package & Amount (AUD) & Basis \\
+\midrule
+1.1.1 & PEP and integration & 72{,}000 & 480~h PM @ \$150 \\
+1.1.2 & Governance and EVM & 48{,}000 & 320~h planner/cost @ \$150 \\
+1.1.3 & CASA / GBRMPA permits & 88{,}000 & Consultant + CASA cost-recovery \\
+1.1.4 & Juru monitors and heritage & 92{,}000 & Two monitors + survey \\
+1.2.1 & Receiving and cleanroom & 68{,}000 & Technician hours + consumables \\
+1.2.2 & Crane and 23\,m stacking & 218{,}000 & 24~d $\times$ \$4{,}200 $=$ \$100{,}800 + riggers \\
+1.2.3 & Cryo GSE & 180{,}000 & Valves/piping + specialist crew \\
+1.2.4 & RF array calibration & 52{,}000 & Crew + analyser hire \\
+1.3.1 & Avionics power-on & 58{,}000 & Engineers @ \$150/h + EGSE \\
+1.3.2 & WDR (cold) & 160{,}000 & Includes bulk LOX 25~t and LN2 \$68{,}500 \\
+1.3.3 & Static fire & 148{,}000 & Includes surge hire \$22{,}400 \\
+1.3.4 & Post-fire diagnostics & 48{,}000 & Engineers + LRU handling \\
+1.4.1 & LRR and RSO & 38{,}000 & Review board \\
+1.4.2 & Range exclusion / marine & 58{,}000 & Patrol boats + NOTAM \\
+1.4.3 & Launch and telemetry capture & 82{,}000 & Launch-day operations \\
+1.4.4 & Decrypt and handover & 24{,}000 & Five-day engineering handover \\
+1.4.5 & Demobilisation and audit & 66{,}000 & Site restore + audit \\
+\midrule
+\textbf{Base} & & \textbf{1{,}500{,}000} & \mbox{} \\
+\bottomrule
+\end{tabularx}
+
+\vspace{0.35em}
+{\footnotesize\textit{Notes.} Labour: Award base plus on-costs \citep{fwo2020}. Crane and demobilisation: Rawlinsons and Queensland plant-hire \citep{rawlinsons2025}. CASA line: agency cost-recovery \citep{casa2024}. Surge \$22{,}400 $=$ $4 \times 7$~d $\times$ 8~h $\times$ \$100 and sits in 1.3.3, not in contingency.}
+\end{table}
+
+The largest package is crane mobilisation and stacking (1.2.2, \$218{,}000) because A-123 occupies 24 calendar days on the launch-critical path: 24~days $\times$ \$4{,}200 $=$ \$100{,}800 of hire, with the balance in rigger labour. Wet Dress Rehearsal (1.3.2) carries \$68{,}500 of bulk liquid oxygen and nitrogen inside \$160{,}000. Static fire (1.3.3) carries the planned surge inside \$148{,}000. Demobilisation (1.4.5) is a Rawlinsons-based site restore plus the closeout audit \citep{rawlinsons2025}. Regulatory labour in 1.1.3 includes Civil Aviation Safety Authority cost-recovery \citep{casa2024}. The seventeen lines sum to \$1{,}500{,}000 with no miscellaneous remainder. Package 1.2.1 remains one control account for A-121 and A-122.
+
+\subsection{Contingency}
+\label{sec:cost-contingency}
+
+Contingency is not a 15\% story that happens to look quantitative. The 15.00\% ratio is the \emph{result} of adding an expected-monetary-value (EMV) pool to a residual uncertainty allowance \citep{kerzner2017}. Table~\ref{tab:contingency} is the arithmetic. EMV uses the dollar-impact column of the risk register ($EMV = P_{\%} \times I_{\$}$), not the 1--5 ordinal scores. Summing the eleven cost-bearing risks R-01, R-02, R-03, R-04, R-05, R-06, R-07, R-09, R-10, R-13 and R-14 gives \$175{,}500. An in-scope residual-uncertainty (RES) allowance of \$49{,}500 covers liquid-oxygen remote-delivery price variance, crane standby in wind, and unquantified pad anomalies. Vehicle freight is out of scope and is not in RES. The two components sum to \$225{,}000, which is 15.00\% of \$1{,}500{,}000, and the authorised $BAC$ is therefore \$1{,}725{,}000.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Contingency build-up. The 15.00\% ratio is the result of EMV plus an in-scope residual allowance, not an input markup.}
+\label{tab:contingency}
+\begin{tabular}{@{}p{6.15cm} r p{6.35cm}@{}}
+\toprule
+Component & Amount (AUD) & Rule \\
+\midrule
+$\Sigma$ EMV of eleven cost-bearing risks & 175{,}500 & Dollar EMV from Sec.~\ref{sec:risk-register}; not 1--5 scores \\
+RES uncertainty allowance & 49{,}500 & LOX price, crane wind, pad anomalies; not freight \\
+\midrule
+\textbf{Contingency reserve} & \textbf{225{,}000} & 15.00\% of base as a \emph{result} \\
+\textbf{$BAC$} & \textbf{1{,}725{,}000} & Base + contingency \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Several register rows are kept out of the \$175{,}500 so that money is not counted twice. R-08 (pad-civil defect) is contract-transferred under the design-and-construct package and carries no Gilmour EMV. R-11, R-15, R-16, R-17 and R-18 are schedule or HSE exposures without a residual dollar draw. R-12 (payload LEO window) carries a \$21{,}000 impact equal to Option~C; its EMV is held at zero so the compression what-if is not also inside the pre-event total. If R-12 or R-14 is realised and Option~C is invoked, the \$21{,}000 is drawn from the \$225{,}000 reserve. It is not added to the \$1{,}500{,}000 work baseline. There is no management reserve above $BAC$: unknown unknowns would require a board variation this plan does not authorise \citep{pmi2021}.
+
+\subsection{Time-phased budget and cash flow}
+\label{sec:cost-cashflow}
+
+The performance measurement baseline is the work estimate spread across the same dates as Table~\ref{tab:precedence}. Table~\ref{tab:cashflow} and Figure~\ref{fig:scurve} are that spread. August and September (\$218{,}000 and \$284{,}000) are charter-authorised mobilisation. October is the peak month at \$657{,}000 because stacking completes (M-4, 15~October), Wet Dress Rehearsal runs, and the five-second static fire is executed. November carries range, $T$-0 and most of demobilisation (\$315{,}000). December is a \$26{,}000 residual on 1~December, not a parking place for unused contingency.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Time-phased planned value of the \$1{,}500{,}000 work baseline. Contingency is not monthly spend.}
+\label{tab:cashflow}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Month & Period PV (AUD) & Cumulative PV (AUD) \\
+\midrule
+Aug 2026 & 218{,}000 & 218{,}000 \\
+Sep 2026 & 284{,}000 & 502{,}000 \\
+Oct 2026 (peak: stack, WDR, static fire) & 657{,}000 & 1{,}159{,}000 \\
+Nov 2026 & 315{,}000 & 1{,}474{,}000 \\
+Dec 2026 & 26{,}000 & \textbf{1{,}500{,}000} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The S-curve therefore terminates at \$1{,}500{,}000. Figure~\ref{fig:scurve} draws $BAC = \$1{,}725{,}000$ as a horizontal authorisation line. Planned value at the first physical gate (M-4, 15~October) is \$825{,}000---mid-October, between the September close of \$502{,}000 and the October close of \$1{,}159{,}000. That M-4 figure is the $PV$ used in Section~\ref{sec:delivery-evm}; it is not a fourteenth weekly data point invented after the fact. Option~C's \$21{,}000 is excluded from every period in Table~\ref{tab:cashflow}. If it is spent, it will appear as actual cost charged to contingency, not as a rewrite of the S-curve.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{cash_flow_scurve.pdf}
+\caption{Cumulative planned-value S-curve for the Bowen campaign. Period bars are monthly PV; the teal line is cumulative PV and ends at the \$1{,}500{,}000 work baseline. The crimson dotted line is $BAC$ (\$1{,}725{,}000) as an authorisation ceiling, not December cash. Contingency remains undistributed. Option~C is not in the curve.}
+\label{fig:scurve}
+\end{figure}

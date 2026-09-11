@@ -1,0 +1,143 @@
+\section{Schedule management}
+\label{sec:schedule}
+
+The campaign schedule converts the WBS into a time-phased baseline for board approval. Dates are derived from a finish-to-start activity-on-node network on a seven-day pad calendar from 10~August to 1~December~2026. Approved $T$-0 remains 15~November~2026. A five-day pull-in to 10~November is a contingent response to payload-window or airspace-slot risk; it is not the baseline.
+
+\subsection{Network logic and float analysis}
+\label{sec:schedule-network}
+
+Precedence is modelled as activity-on-node with finish-to-start links and zero lag \cite{pmi2021,kerzner2017}. Textbook discrete-time notation writes $EF = ES + D$ when $EF$ is exclusive. On the Bowen calendar every displayed date is inclusive, so the implemented identities are
+\begin{equation}
+ES_{i} = \max_{j \in P_{i}}(EF_{j}) + 1,
+\qquad
+EF_{i} = ES_{i} + D_{i} - 1,
+\label{eq:fwd}
+\end{equation}
+\begin{equation}
+LF_{i} = \min_{k \in S_{i}}(LS_{k}) - 1,
+\qquad
+LS_{i} = LF_{i} - D_{i} + 1,
+\label{eq:bwd}
+\end{equation}
+with $P_{i}$ and $S_{i}$ the predecessor and successor sets of activity $i$, and with $ES$ equal to the campaign start where $P_{i}$ is empty. Total float and free float then follow as
+\begin{equation}
+TF_{i} = LS_{i} - ES_{i} = LF_{i} - EF_{i},
+\qquad
+FF_{i} = \min_{k \in S_{i}}(ES_{k}) - EF_{i} - 1,
+\label{eq:float}
+\end{equation}
+taking $FF_{i} = TF_{i}$ when $S_{i}$ is empty. Launch-critical means $TF_{i} = 0$ on a path that sets $T$-0 or closeout. Table~\ref{tab:precedence} is the full pass and matches the locked register.
+
+The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external gate receipt; freight out of scope), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical: the Week~4 charter already authorised mobilisation.
+
+Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132 \emph{and} flight permits (A-113)---the regulatory merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \cite{sae2016}.
+
+Feeder float is not interchangeable. A-131 has one day into A-132 and is near-critical; A-124 has three. A-125 (RF) has 39 days and is parked in August--September so it does not sit on the October pad peak; moving it does not change 15~November. A-121 is the instructive case: $TF = 3$ but $FF = 0$, so delay is absorbed before $T$-0 only by consuming A-124's float, while A-124's early start moves immediately. Total float protects $T$-0; free float protects the successor. Figure~\ref{fig:network_logic} draws the links. Crimson arrows are the $TF = 0$ launch paths; the navy outline on A-111 is Gate~1.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{network_logic.pdf}
+\caption{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical.}
+\label{fig:network_logic}
+\end{figure}
+
+\begin{landscape}
+\small
+\setlength{\tabcolsep}{4.2pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{@{}l l l r l c c c c r r c@{}}
+\caption{Master campaign activity precedence and float register. Dates are inclusive. $FF = \min(ES_{\text{succ}}) - EF - 1$ days, or $FF = TF$ if there is no successor. A-111 $TF = 0$ is an imposed Gate~1 finish, not launch-critical.}
+\label{tab:precedence}\\
+\toprule
+ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
+\midrule
+\endfirsthead
+\caption[]{Master campaign activity precedence and float register (continued).}\\
+\toprule
+ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+A-100 & EXT & Vehicle receipt window & 35 & --- & 10 Aug & 13 Sep & 10 Aug & 13 Sep & 0 & 0 & Y \\
+A-111 & 1.1.1 & PEP and integration baseline & 54 & --- & 10 Aug & 2 Oct & 10 Aug & 2 Oct & 0* & 0 & Gate \\
+A-112 & 1.1.2 & EVM control stand-up & 7 & A-111 & 3 Oct & 9 Oct & 25 Nov & 1 Dec & 53 & 53 & N \\
+A-113 & 1.1.3 & CASA / GBRMPA / airspace & 76 & --- & 10 Aug & 24 Oct & 10 Aug & 24 Oct & 0 & 0 & Y \\
+A-114 & 1.1.4 & Juru monitor mobilisation & 62 & --- & 10 Aug & 10 Oct & 15 Aug & 15 Oct & 5 & 5 & N \\
+A-121 & 1.2.1a & Site mobilisation and cleanroom & 19 & --- & 10 Aug & 28 Aug & 13 Aug & 31 Aug & 3 & 0 & N \\
+A-122 & 1.2.1b & Receiving and unpacking & 8 & A-100, A-121 & 14 Sep & 21 Sep & 14 Sep & 21 Sep & 0 & 0 & Y \\
+A-123 & 1.2.2 & Crane and vertical stacking & 24 & A-122 & 22 Sep & 15 Oct & 22 Sep & 15 Oct & 0 & 0 & Y \\
+A-124 & 1.2.3 & Cryo GSE piping and checkouts & 45 & A-121 & 29 Aug & 12 Oct & 1 Sep & 15 Oct & 3 & 3 & N \\
+A-125 & 1.2.4 & RF telemetry calibration & 18 & A-121 & 29 Aug & 15 Sep & 7 Oct & 24 Oct & 39 & 39 & N \\
+A-131 & 1.3.1 & Avionics power-on sweeps & 23 & A-122 & 22 Sep & 14 Oct & 23 Sep & 15 Oct & 1 & 1 & N \\
+A-132 & 1.3.2 & Wet Dress Rehearsal (cold) & 9 & A-114, A-123, A-124, A-131 & 16 Oct & 24 Oct & 16 Oct & 24 Oct & 0 & 0 & Y \\
+A-133 & 1.3.3 & 5-second static fire & 6 & A-132, A-113 & 25 Oct & 30 Oct & 25 Oct & 30 Oct & 0 & 0 & Y \\
+A-134 & 1.3.4 & Post-fire diagnostics and LRU & 6 & A-133 & 31 Oct & 5 Nov & 31 Oct & 5 Nov & 0 & 0 & Y \\
+A-141 & 1.4.1 & LRR and RSO clearance & 5 & A-134 & 6 Nov & 10 Nov & 6 Nov & 10 Nov & 0 & 0 & Y \\
+A-142 & 1.4.2 & Range exclusion and countdown & 4 & A-141 & 11 Nov & 14 Nov & 11 Nov & 14 Nov & 0 & 0 & Y \\
+A-143 & 1.4.3 & Launch execution ($T$-0) & 1 & A-142 & 15 Nov & 15 Nov & 15 Nov & 15 Nov & 0 & 0 & Y \\
+A-144 & 1.4.4 & Telemetry decrypt and handover & 5 & A-143 & 16 Nov & 20 Nov & 16 Nov & 20 Nov & 0 & 0 & Y \\
+A-145 & 1.4.5 & Demobilisation and closeout & 11 & A-144 & 21 Nov & 1 Dec & 21 Nov & 1 Dec & 0 & 0 & Y \\
+\end{longtable}
+\end{landscape}
+
+\subsection{Schedule baseline, Gantt visualisation and milestone integrity}
+\label{sec:schedule-baseline}
+
+The dates in Table~\ref{tab:precedence} \emph{are} the schedule baseline. Figure~\ref{fig:gantt_chart} plots the same $ES$/$EF$ values, colours launch-critical bars crimson, and shows remaining total float as a teal whisker to $LF$. Permitting, heritage, mobilisation and GSE run through August and September; October is the physical peak (stack 15~October, WDR 16--24~October, static fire 25--30~October); November is the flight-clearance tail.
+
+Two Week~4 collisions are closed here. The charter dated pad integration 15~October in Objective~1 and stacking as M-4 on 28~October; the PEP locks M-4 to A-123 on \textbf{15~October~2026}, restoring the cold-flow window before hot fire. Handover ``within five days of lift-off'' was also dated M-8 at 22~November (seven days after a 15~November $T$-0); M-8 is now A-144 on \textbf{20~November}. Because the facility licence is already held, A-113 gates static fire, not stacking. Treating flight permits as a stacking predecessor was an initiation error.
+
+Three gates sit on the baseline. Gate~1 is the PEP lock at A-111 on 2~October. Gate~2 is A-113 on 24~October: without those instruments A-133 cannot start, and that path is already $TF = 0$. Gate~3 is A-141 on 10~November. Crashing stacking without crashing A-113 therefore cannot pull $T$-0.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{gantt_chart.pdf}
+\caption{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
+\label{fig:gantt_chart}
+\end{figure}
+
+\subsection{Schedule compression: crashing and fast-tracking}
+\label{sec:schedule-compression}
+
+\citet{kerzner2017} and \citet{pmi2021} distinguish fast-tracking (overlap of sequential work, usually at zero direct cost) from crashing (added resource on critical work, paid as a cost slope). The Board question is not weather. It is whether $T$-0 can move from 15~November to 10~November if R-12 is realised (payload LEO geometry valid only 10--12~November) or R-14 is realised (CASA NOTAM refuses the 15~November slot). Five days must come off a $TF = 0$ path that actually sets lift-off. After the A-133 merge that path is the tail A-134--A-143. Crashing A-123 by five days, or overlapping A-123 with A-124, saves \textbf{zero} days on $T$-0 while A-113 still finishes on 24~October. A-124 already runs in parallel with stacking.
+
+The crash-cost slope on a crashed activity is
+\begin{equation}
+\text{Cost slope} = \frac{\Delta C}{\Delta T}
+= \frac{\text{crash cost} - \text{normal cost}}{\text{normal duration} - \text{crash duration}}.
+\label{eq:slope}
+\end{equation}
+Table~\ref{tab:compression} and Figure~\ref{fig:compression_curve} compare three options that each claim five days. Only Option~C is both CPM-valid and acceptable against the LRR hold point.
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$225{,}000 reserve, not an addition to the \$1{,}500{,}000 base.}
+\label{tab:compression}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X c r r >{\raggedright\arraybackslash}X l@{}}
+\toprule
+Option & Activities modified & Days & Added cost & Slope & Secondary risks & Verdict \\
+\midrule
+A Pure fast-track & A-134 $\to$ A-141 SS+1 (LRR overlaps diagnostics) & 5 & \$0 & \$0/d & LRR before diagnostic close-out; LRU rework; AS9100D hold-point failure & Rejected \\
+B Pure crash & A-134 crashed 6~$\to$~1~d & 5 & \$40{,}000 & \$8{,}000/d & Fatigue; skipped thermal/electrical screens; recycle into A-141 & Rejected \\
+C Hybrid (if R-12/R-14 fires) & A-134 6~$\to$~3~d (\$9{,}000); A-141 5~$\to$~3~d (\$12{,}000); A-142 uncrashed & 5 & \textbf{\$21{,}000} & \textbf{\$4{,}200/d} & Staggered 10-hour shifts; residual diagnostic pressure, buffered by countdown & Contingent \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Option~A buys five days at zero direct cost by starting A-141 one day after A-134 starts, so the review board would sit while diagnostics were still open. An LRU swap on day four either rubber-stamps incomplete evidence or recalls the review---a hold-point failure under AS9100D \cite{sae2016}. Option~A is rejected.
+
+Option~B keeps finish-to-start logic but compresses A-134 from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour diagnostic war room on a vehicle that has just fired is a human-factors problem: thermal and electrical screens are the work most likely to be skipped. The slope is also the dearest of the three. Option~B is rejected.
+
+Option~C splits the five days across two critical activities after the permit merge: three days off A-134 ($\$3{,}000$ per day, $\$9{,}000$) and two days off A-141 ($\$6{,}000$ per day, $\$12{,}000$). The weighted slope is $\$21{,}000/5 = \$4{,}200$ per day, about half of Option~B. Diagnostics remain three days rather than one; LRR remains a finish-to-start successor; A-142 is not crashed, so the four-day range and countdown buffer before $T$-0 is kept. Fatigue is managed with staggered ten-hour shifts. If invoked, the dates become A-134 31~October--2~November, A-141 3--5~November, A-142 6--9~November, and A-143 on \textbf{10~November}. The \$21{,}000 is drawn from the \$225{,}000 contingency only if R-12 or R-14 is realised. It is not loaded into the \$1{,}500{,}000 base, and Figure~\ref{fig:gantt_chart} is not redrawn.
+
+Because Option~C does not shorten A-132 or A-133, feeder floats do not tighten: A-131 stays at $TF = 1$, A-124 at $TF = 3$. No secondary critical path is created. Residual exposure is quality pressure on a shorter diagnostic window, which is why A-142 is left intact and why the option remains contingent.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{compression_tradeoff.pdf}
+\caption{Compression trade-off for a five-day pull-in of $T$-0. Left: direct added cost. Right: residual schedule and quality risk after treatment. Option~C is the only CPM-valid pull-in that keeps A-142 uncrashed and pays \$4{,}200 per day rather than \$8{,}000.}
+\label{fig:compression_curve}
+\end{figure}

@@ -1,69 +1,34 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-*.so.*
-
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-Build/
-build-*/
-
-# CMake generated files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-install_manifest.txt
-compile_commands.json
-
-# Temporary files
-*.tmp
+## Core LaTeX auxiliary and build files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
 *.log
-*.bak
-*.swp
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.toc
 
-# vcpkg
-vcpkg_installed/
+## Lists, tables, and glossaries
+*.lof
+*.lot
+*.glo
+*.gls
+*.glg
+*.ist
+*.acn
+*.acr
+*.alg
 
-# debug information files
-*.dwo
+## Presentation, notes, and minted cache
+*.nav
+*.snm
+*.vrb
+_minted-*/
 
-# test output & cache
-Testing/
-.cache/
+## OS-specific clutter
+.DS_Store
+Thumbs.db

@@ -32,3 +32,6 @@ _minted-*/
 ## OS-specific clutter
 .DS_Store
 Thumbs.db
+
+## Python
+scripts/__pycache__/

@@ -116,9 +116,11 @@ def plot_gantt(data) -> None:
     ax.set_xticks(ticks)
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
     ax.set_xlabel("Date (2026)")
+    ax.tick_params(axis="x", pad=34)
+    ax.xaxis.labelpad = 10
     ax.grid(axis="x", color=GREY, lw=0.6, zorder=0)
     ax.set_axisbelow(True)
-    ax.set_ylim(-1.55, n - 0.35)
+    ax.set_ylim(-0.55, n - 0.35)
 
     # M-4 … M-9: full-height crimson. M-2 is a smaller navy marker on A-111.
     for key, name in (
@@ -131,15 +133,22 @@ def plot_gantt(data) -> None:
     ):
         x = parse(miles[key]["date"])
         ax.axvline(x, color=CRIMSON, ls="--", lw=0.9, zorder=1)
-        ax.text(
-            x,
-            -1.15,
+        # Left of the marker, in the pad under the spine, so the label
+        # does not sit on the dashed line or the date axis.
+        ax.annotate(
             name,
+            xy=(x, 0),
+            xycoords=("data", "axes fraction"),
+            xytext=(-7, -10),
+            textcoords="offset points",
             rotation=90,
             va="top",
-            ha="center",
-            fontsize=6.5,
+            ha="right",
+            fontsize=7.0,
             color=CRIMSON,
+            clip_on=False,
+            annotation_clip=False,
+            zorder=6,
         )
 
     if y_gate is not None:
@@ -191,7 +200,7 @@ def plot_gantt(data) -> None:
     ax.legend(
         handles=legend,
         loc="upper left",
-        bbox_to_anchor=(0.0, -0.12),
+        bbox_to_anchor=(0.0, -0.26),
         ncol=4,
         frameon=False,
         fontsize=7,
@@ -199,7 +208,7 @@ def plot_gantt(data) -> None:
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
     fig.tight_layout()
-    fig.subplots_adjust(left=0.30)
+    fig.subplots_adjust(left=0.30, bottom=0.20)
     save(fig, "gantt_chart.pdf")
 
 

@@ -137,7 +137,7 @@ def change_table(data: dict) -> str:
         "\\footnotesize\n"
         "\\setlength{\\tabcolsep}{3.0pt}\n"
         "\\renewcommand{\\arraystretch}{1.12}\n"
-        "\\caption{Charter baseline versus PEP refinement. A1 wording is the Week~4 "
+        "\\caption[Charter baseline versus PEP refinement]{Charter baseline versus PEP refinement. A1 wording is the Week~4 "
         "charter. A3 dates and dollars are the locked YAML values used in "
         "Tables~\\ref{tab:precedence}, \\ref{tab:wbs-cost} and \\ref{tab:risk-register}.}\n"
         "\\label{tab:charter-pep}\n"

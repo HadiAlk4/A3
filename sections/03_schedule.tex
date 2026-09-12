@@ -6,7 +6,7 @@ The campaign schedule converts the WBS into a time-phased baseline for board app
 \subsection{Network logic and float analysis}
 \label{sec:schedule-network}
 
-Precedence is modelled as activity-on-node with finish-to-start links and zero lag \cite{pmi2021,kerzner2017}. Textbook discrete-time notation writes $EF = ES + D$ when $EF$ is exclusive. On the Bowen calendar every displayed date is inclusive, so the implemented identities are
+Precedence is modelled as activity-on-node with finish-to-start links and zero lag \citep{pmi2021,kerzner2017}. Textbook discrete-time notation writes $EF = ES + D$ when $EF$ is exclusive. On the Bowen calendar every displayed date is inclusive, so the implemented identities are
 \begin{equation}
 ES_{i} = \max_{j \in P_{i}}(EF_{j}) + 1,
 \qquad
@@ -30,7 +30,7 @@ taking $FF_{i} = TF_{i}$ when $S_{i}$ is empty. Launch-critical means $TF_{i} = 
 
 The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external gate receipt; freight out of scope), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical: the Week~4 charter already authorised mobilisation.
 
-Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132 \emph{and} flight permits (A-113)---the regulatory merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \cite{sae2016}.
+Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132 \emph{and} flight permits (A-113)---the regulatory merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \citep{sae2016}.
 
 Feeder float is not interchangeable. A-131 has one day into A-132 and is near-critical; A-124 has three. A-125 (RF) has 39 days and is parked in August--September so it does not sit on the October pad peak; moving it does not change 15~November. A-121 is the instructive case: $TF = 3$ but $FF = 0$, so delay is absorbed before $T$-0 only by consuming A-124's float, while A-124's early start moves immediately. Total float protects $T$-0; free float protects the successor. Figure~\ref{fig:network_logic} draws the links. Crimson arrows are the $TF = 0$ launch paths; the navy outline on A-111 is Gate~1.
 
@@ -90,7 +90,7 @@ Two Week~4 collisions are closed here. The charter dated pad integration 15~Octo
 
 Three gates sit on the baseline. Gate~1 is the PEP lock at A-111 on 2~October. Gate~2 is A-113 on 24~October: without those instruments A-133 cannot start, and that path is already $TF = 0$. Gate~3 is A-141 on 10~November. Crashing stacking without crashing A-113 therefore cannot pull $T$-0.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{gantt_chart.pdf}
 \caption{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
@@ -110,7 +110,7 @@ The crash-cost slope on a crashed activity is
 \end{equation}
 Table~\ref{tab:compression} and Figure~\ref{fig:compression_curve} compare three options that each claim five days. Only Option~C is both CPM-valid and acceptable against the LRR hold point.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \small
 \setlength{\tabcolsep}{3.5pt}
@@ -127,7 +127,7 @@ C Hybrid (if R-12/R-14 fires) & A-134 6~$\to$~3~d (\$9{,}000); A-141 5~$\to$~3~d
 \end{tabularx}
 \end{table}
 
-Option~A buys five days at zero direct cost by starting A-141 one day after A-134 starts, so the review board would sit while diagnostics were still open. An LRU swap on day four either rubber-stamps incomplete evidence or recalls the review---a hold-point failure under AS9100D \cite{sae2016}. Option~A is rejected.
+Option~A buys five days at zero direct cost by starting A-141 one day after A-134 starts, so the review board would sit while diagnostics were still open. An LRU swap on day four either rubber-stamps incomplete evidence or recalls the review---a hold-point failure under AS9100D \citep{sae2016}. Option~A is rejected.
 
 Option~B keeps finish-to-start logic but compresses A-134 from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour diagnostic war room on a vehicle that has just fired is a human-factors problem: thermal and electrical screens are the work most likely to be skipped. The slope is also the dearest of the three. Option~B is rejected.
 

@@ -214,3 +214,11 @@ charter_refinements:
     element: Resource peak
     a1: "Roles listed; no demand vs capacity."
     why: "A1 could not show where the plan exceeds capacity."
+
+# Board-facing sentences for Section 1. Consequences must match Table 6.1.
+executive:
+  top_risks: [R-01, R-09, R-14]
+  risks:
+    R-01: "R-01 is a residual pump-insulation defect: static-fire auto-abort on A-133 and a 12--14~day critical-path recycle."
+    R-09: "R-09 is a stage-separation timing error: debris outside the predicted footprint, a GBRMPA inquiry and range halt."
+    R-14: "R-14 is Townsville military airspace or a late CASA NOTAM refusing the 15~November slot."

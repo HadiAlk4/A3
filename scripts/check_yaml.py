@@ -22,6 +22,7 @@ WBS_TEX = ROOT / "sections" / "02_wbs.tex"
 DELIVERY_TEX = ROOT / "sections" / "07_delivery.tex"
 INTEGRATION_TEX = ROOT / "sections" / "08_integration.tex"
 MAIN_TEX = ROOT / "A3.tex"
+EXEC_TEX = ROOT / "sections" / "01_exec.tex"
 GEN_DIR = ROOT / "sections" / "generated"
 
 # A-125 has no FS successor; LF is imposed as the day before A-133 ES (before hot fire).
@@ -483,20 +484,110 @@ def check_section_8(data) -> list[str]:
     return errors
 
 
+def check_section_1(data: dict) -> list[str]:
+    """Board-ready executive: locked money, dates, top three risks, verbatim recommendation."""
+    if not EXEC_TEX.exists():
+        return ["sections/01_exec.tex missing"]
+    macros_path = GEN_DIR / "s1_macros.tex"
+    if not macros_path.exists():
+        return ["sections/generated/s1_macros.tex missing; run python3 scripts/export_section1.py"]
+
+    errors: list[str] = []
+    exec_tex = EXEC_TEX.read_text()
+    rec_tex = macros_path.read_text()
+    a3 = MAIN_TEX.read_text() if MAIN_TEX.exists() else ""
+    proj = data["project"]
+
+    required = [
+        "launch-site operations",
+        "managing-contractor",
+        "five-second",
+        "gilmour2025",
+        "pad occupancy cap of twelve",
+        "organic crew is eight",
+        r"\PEPrOiBoard",
+        r"\PEPrIxBoard",
+        r"\PEPrXivBoard",
+        r"\textit{\PEPrecommendation}",
+        r"\input{sections/generated/s1_macros}",
+    ]
+    for needle in required:
+        if needle not in exec_tex:
+            errors.append(f"Section 1 missing {needle!r}")
+
+    if r"\input{sections/01_exec}" not in a3:
+        errors.append("A3.tex does not input sections/01_exec")
+    if r"\section{Executive summary}" in a3:
+        errors.append("A3.tex still contains an inline Executive summary heading")
+
+    money_needles = [
+        _aud(proj["base_estimate"]),
+        _aud(proj["contingency"]),
+        _aud(proj["emv_sum"]),
+        _aud(proj["res_allowance"]),
+        _aud(proj["bac"]),
+        _aud(proj["option_c_cost"]),
+        r"15.00\%",
+        "15~October~2026",
+        "30~October~2026",
+        "10~November~2026",
+        "15~November~2026",
+        "20~November~2026",
+        "1~December~2026",
+    ]
+    for needle in money_needles:
+        if needle not in exec_tex:
+            errors.append(f"Section 1 missing locked figure {needle!r}")
+
+    for rid in data.get("executive", {}).get("top_risks", ["R-01", "R-09", "R-14"]):
+        if rid not in exec_tex:
+            errors.append(f"Section 1 missing top risk {rid}")
+        if rid not in rec_tex:
+            errors.append(f"s1_macros missing {rid}")
+
+    if "It is recommended that the Executive Board approve this Project Execution Plan" not in rec_tex:
+        errors.append("Recommendation prefix is not the locked board sentence")
+    if _aud(proj["bac"]) not in rec_tex:
+        errors.append("Recommendation BAC does not match YAML")
+    if _aud(proj["contingency"]) not in rec_tex:
+        errors.append("Recommendation contingency does not match YAML")
+    return errors
+
+
+def check_all_tex(data: dict) -> list[str]:
+    """Whole-plan scan: no retired WBS ids, no SV-in-days."""
+    del data
+    errors: list[str] = []
+    blobs = [p.read_text() for p in sorted((ROOT / "sections").rglob("*.tex"))]
+    if MAIN_TEX.exists():
+        blobs.append(MAIN_TEX.read_text())
+    all_tex = "\n".join(blobs)
+    for wid in sorted(RETIRED):
+        if re.search(rf"\b{wid}\b", all_tex):
+            errors.append(f"retired WBS id {wid} still appears in the plan")
+    if "SV > -5" in all_tex:
+        errors.append("SV threshold still written as days")
+    return errors
+
+
 def main() -> int:
     data = load()
+    export_section1 = _load_exporter("export_section1")
     export_section2 = _load_exporter("export_section2")
     export_section7 = _load_exporter("export_section7")
     export_section8 = _load_exporter("export_section8")
     errors = (
         check(data)
         + check_table_31(data)
+        + export_section1.check(data)
         + export_section2.check(data)
         + export_section7.check(data)
         + export_section8.check(data)
+        + check_section_1(data)
         + check_section_2(data)
         + check_section_7(data)
         + check_section_8(data)
+        + check_all_tex(data)
     )
     if errors:
         print("FAIL")
@@ -505,6 +596,7 @@ def main() -> int:
         return 1
     print("PASS  pep_baseline.yaml identities hold")
     print("      Table 3.1 dates/durations match YAML")
+    print("      Section 1 recommendation / top risks generated from YAML")
     print("      Table 2.1 A3 cells generated from YAML")
     print("      Table 8.1 / contribution hours generated from YAML")
     print("      Section 7 DoA / EVM / hold-point numbers match YAML")

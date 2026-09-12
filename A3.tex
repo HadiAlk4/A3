@@ -20,6 +20,7 @@
 \usepackage{pdflscape}
 \usepackage{caption}
 \usepackage{float}
+\usepackage[section]{placeins}
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{xspace}
@@ -33,6 +34,7 @@
 
 \graphicspath{{figures/}}
 \onehalfspacing
+\raggedbottom
 \setcounter{tocdepth}{2}
 \hypersetup{
   colorlinks=true,
@@ -78,9 +80,9 @@
 \begin{tabular}{@{}l p{11.2cm}@{}}
 \textbf{Course} & 3004ENG Project Management Principles \\
 \textbf{School} & Engineering and Built Environment \\
-\textbf{Version} & Draft \\
+\textbf{Version} & 1.0 --- for board approval \\
 \textbf{Submission date} & 2 October 2026 \\
-\textbf{Word count} & 5{,}800 (target 6{,}000 $\pm$ 10\%; excludes references, appendices, tables and figures) \\
+\textbf{Word count} & 6{,}200 (target 6{,}000 $\pm$ 10\%; excludes references, appendices, tables and figures) \\
 \end{tabular}
 
 \vspace{1.2em}
@@ -121,9 +123,7 @@ Ilsa Hashmi       & s5310047 & Software Engineering     & Stakeholder \& Resourc
 \newpage
 
 % -----------------------------------------------------------------------------
-\section{Executive summary}
-\label{sec:exec}
-\emptysec
+\input{sections/01_exec}
 
 % -----------------------------------------------------------------------------
 \input{sections/02_overview}

@@ -164,7 +164,53 @@ risks:
   - {id: R-18, p: 2, i: 4, p_res: 1, i_res: 3, emv: 0, i_dollar: 0, p_pct: 0.12}
 
 contribution:
-  - {name: Abdul Wahab Obeid, id: s5303839, pct: 25.0}
-  - {name: Hadi Alkhub, id: s5331680, pct: 25.0}
-  - {name: Ziyad Alahmari, id: s5375826, pct: 25.0}
-  - {name: Ilsa Hashmi, id: s5310047, pct: 25.0}
+  - {name: Abdul Wahab Obeid, id: s5303839, pct: 25.0, hours: 42, deliverables: "Executive summary; integration; governance; delivery model; final QA"}
+  - {name: Hadi Alkhub, id: s5331680, pct: 25.0, hours: 42, deliverables: "Scope; schedule; network logic; Gantt; compression"}
+  - {name: Ziyad Alahmari, id: s5375826, pct: 25.0, hours: 42, deliverables: "Risk register; quality and HSE"}
+  - {name: Ilsa Hashmi, id: s5310047, pct: 25.0, hours: 42, deliverables: "Cost; resources; capacity; EVM framework"}
+
+# Qualitative A1 wording for Table 2.1. The A3 column is generated from
+# milestones, activities, costs and resource caps so it cannot drift.
+charter:
+  dated: 2026-08-07
+  mobilisation: 2026-08-10
+  facility_licence: "Mar 2024"
+  a1_m4: 2026-10-28
+  a1_m8: 2026-11-22
+  a1_m3_permits: 2026-10-25
+  juru_power_interest: "High / High"
+  juru_strategy: "Manage Closely"
+
+charter_refinements:
+  - key: m4
+    element: M-4 stacking date
+    a1: "Objective 1: pad integration 15 Oct. Milestone M-4: stacking 28 Oct."
+    why: "Removes the internal collision. Creates a 15-day pad-test buffer before the 30 Oct hot-fire gate."
+  - key: m8
+    element: M-8 handover date
+    a1: "``5 days post-launch'' and milestone date 22 Nov (7 days after 15 Nov)."
+    why: "Aligns the milestone with Objective 5 and the 5-day rule."
+  - key: cost
+    element: Cost baseline
+    a1: "``Manage within the allocated operational budget.'' No figure."
+    why: "Crane hire, cryogenic crews, and LOX delivery cannot be controlled without a numbered baseline."
+  - key: permits
+    element: Permit vs stacking logic
+    a1: "M-3 flight permits 25 Oct were predecessors of M-4 stacking (then 28 Oct)."
+    why: "Stacking is a site-licence activity. Hot fire is a range activity. This also creates a second critical path."
+  - key: juru
+    element: Juru engagement
+    a1: "High power / high interest, Manage Closely, consultation and monitoring."
+    why: "A1 strategy was correct in class; the PEP makes it an enforceable pad control, not a comms plan."
+  - key: testing
+    element: Testing sequence
+    a1: "WDR and 5-second static fire as one Objective 3 output by 30 Oct."
+    why: "Hot fire must wait for flight permits. LRR cannot start on incomplete post-fire data."
+  - key: risk
+    element: Risk governance
+    a1: "Five high-level threats, no $P \\times I$ money."
+    why: "Generic rows cannot size contingency or point at a WBS line."
+  - key: resource
+    element: Resource peak
+    a1: "Roles listed; no demand vs capacity."
+    why: "A1 could not show where the plan exceeds capacity."

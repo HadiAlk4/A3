@@ -17,7 +17,11 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 YAML_PATH = ROOT / "data" / "pep_baseline.yaml"
 TEX_PATH = ROOT / "sections" / "03_schedule.tex"
+OVERVIEW_TEX = ROOT / "sections" / "02_overview.tex"
+WBS_TEX = ROOT / "sections" / "02_wbs.tex"
 DELIVERY_TEX = ROOT / "sections" / "07_delivery.tex"
+INTEGRATION_TEX = ROOT / "sections" / "08_integration.tex"
+MAIN_TEX = ROOT / "A3.tex"
 GEN_DIR = ROOT / "sections" / "generated"
 
 # A-125 has no FS successor; LF is imposed as the day before A-133 ES (before hot fire).
@@ -234,6 +238,12 @@ def check(data) -> list[str]:
     pct = sum(c["pct"] for c in data["contribution"])
     if abs(pct - 100.0) > 1e-6:
         errors.append(f"contribution {pct} != 100")
+    hours = [c["hours"] for c in data["contribution"]]
+    if len(hours) != 4 or len(set(hours)) != 1:
+        errors.append("contribution hours must be four equalised values")
+    for c in data["contribution"]:
+        if abs(c["pct"] - 25.0) > 1e-6:
+            errors.append(f"{c['name']} pct {c['pct']} != 25.0")
 
     return errors
 
@@ -339,18 +349,154 @@ def check_section_7(data) -> list[str]:
     return errors
 
 
+def _load_exporter(name: str):
+    spec = importlib.util.spec_from_file_location(name, ROOT / "scripts" / f"{name}.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _ref_before(tex: str, label: str, needle: str) -> bool:
+    ref = tex.find(rf"\ref{{{label}}}")
+    at = tex.find(needle)
+    return ref >= 0 and at >= 0 and ref < at
+
+
+def check_section_2(data) -> list[str]:
+    if not OVERVIEW_TEX.exists():
+        return ["sections/02_overview.tex missing"]
+    tex = OVERVIEW_TEX.read_text()
+    wbs = WBS_TEX.read_text() if WBS_TEX.exists() else ""
+    gen = ""
+    p = GEN_DIR / "s2_change_table.tex"
+    if p.exists():
+        gen = p.read_text()
+    blob = tex + "\n" + wbs + "\n" + gen
+    errors: list[str] = []
+    required = [
+        r"Deliver launch-site operations within the \$1{,}500{,}000 AUD base estimate",
+        r"authorised \$225{,}000 AUD contingency",
+        r"\$1{,}725{,}000",
+        "15~October~2026",
+        "20~November",
+        "Manage Closely",
+        "stop-work",
+        "s2_change_table",
+        "sections/02_wbs",
+        "tab:charter-pep",
+        "fig:wbs",
+        "dougherty2026",
+        "gilmour2025",
+        "asa2025",
+        "gbrmpa2019",
+        "pmi2021",
+        "kerzner2017",
+        r"five-second",
+        "gates static fire",
+        r"organic crew eight",
+    ]
+    for needle in required:
+        if needle not in blob:
+            errors.append(f"02_overview.tex missing locked string: {needle}")
+    if not _ref_before(tex, "tab:charter-pep", r"\input{sections/generated/s2_change_table}"):
+        errors.append("Table 2.1 must be referred to before it is input")
+    if not _ref_before(tex + "\n" + wbs, "fig:wbs", r"\begin{figure}"):
+        errors.append("Figure 2.1 must be referred to before the WBS TikZ figure")
+    for rid in RETIRED:
+        if re.search(rf"\b{rid}\b", blob):
+            errors.append(f"retired ID {rid} appears in Section 2")
+    for needle in (
+        _aud(data["project"]["base_estimate"]),
+        _aud(data["project"]["contingency"]),
+        _aud(data["project"]["emv_sum"]),
+        "15~Oct~2026",
+        "20~Nov~2026",
+        "24~Oct",
+        "25~Oct",
+        "18 campaign-specific risks",
+        "Embedded monitors with stop-work authority",
+    ):
+        if needle not in gen:
+            errors.append(f"s2_change_table.tex missing locked A3 cell: {needle}")
+    main = MAIN_TEX.read_text() if MAIN_TEX.exists() else ""
+    if r"\input{sections/02_overview}" not in main:
+        errors.append("A3.tex must input sections/02_overview")
+    if r"\section{Refined project overview}" in main:
+        errors.append("A3.tex still has empty Section 2 stubs")
+    return errors
+
+
+def check_section_8(data) -> list[str]:
+    if not INTEGRATION_TEX.exists():
+        return ["sections/08_integration.tex missing"]
+    tex = INTEGRATION_TEX.read_text()
+    main = MAIN_TEX.read_text() if MAIN_TEX.exists() else ""
+    gen = ""
+    for name in ("s8_reconcile_table.tex", "s8_contribution_table.tex"):
+        p = GEN_DIR / name
+        if p.exists():
+            gen += "\n" + p.read_text()
+    blob = tex + "\n" + main + "\n" + gen
+    errors: list[str] = []
+    proj = data["project"]
+    hours = data["contribution"][0]["hours"]
+    required = [
+        _aud(proj["base_estimate"]),
+        _aud(proj["contingency"]),
+        _aud(proj["emv_sum"]),
+        _aud(proj["res_allowance"]),
+        _aud(proj["bac"]),
+        _aud(proj["surge_hire_cost"]),
+        _aud(proj["option_c_cost"]),
+        "Buddycheck",
+        "12~hours",
+        f"{hours}~hours",
+        "25.0",
+        "100.0",
+        "tab:reconcile",
+        "s8_reconcile_table",
+        "s8_contribution_table",
+        "tab:contribution",
+        "app:contribution",
+        "Signature:",
+        "one campaign",
+        r"$SV$ is currency",
+        "dougherty2026",
+        "fleming2016",
+        "iso31000",
+    ]
+    for needle in required:
+        if needle not in blob:
+            errors.append(f"Section 8 / appendix missing locked string: {needle}")
+    if not _ref_before(tex, "tab:reconcile", r"\input{sections/generated/s8_reconcile_table}"):
+        errors.append("Table 8.1 must be referred to before it is input")
+    for rid in RETIRED:
+        if re.search(rf"\b{rid}\b", blob):
+            errors.append(f"retired ID {rid} appears in Section 8")
+    if r"\input{sections/08_integration}" not in main:
+        errors.append("A3.tex must input sections/08_integration")
+    if r"\section{Integration and professionalism}" in main:
+        errors.append("A3.tex still has empty Section 8 stubs")
+    for c in data["contribution"]:
+        if c["id"] not in main:
+            errors.append(f"title/appendix missing student id {c['id']}")
+    return errors
+
+
 def main() -> int:
     data = load()
-    spec = importlib.util.spec_from_file_location(
-        "export_section7", ROOT / "scripts" / "export_section7.py"
-    )
-    export_section7 = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(export_section7)
+    export_section2 = _load_exporter("export_section2")
+    export_section7 = _load_exporter("export_section7")
+    export_section8 = _load_exporter("export_section8")
     errors = (
         check(data)
         + check_table_31(data)
+        + export_section2.check(data)
         + export_section7.check(data)
+        + export_section8.check(data)
+        + check_section_2(data)
         + check_section_7(data)
+        + check_section_8(data)
     )
     if errors:
         print("FAIL")
@@ -359,6 +505,8 @@ def main() -> int:
         return 1
     print("PASS  pep_baseline.yaml identities hold")
     print("      Table 3.1 dates/durations match YAML")
+    print("      Table 2.1 A3 cells generated from YAML")
+    print("      Table 8.1 / contribution hours generated from YAML")
     print("      Section 7 DoA / EVM / hold-point numbers match YAML")
     print("      A-125 LF is imposed before A-133 (not project finish)")
     print("      R-12 EMV is 0 by design (Option C not double-counted)")

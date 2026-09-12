@@ -37,7 +37,7 @@ Feeder float is not interchangeable. A-131 has one day into A-132 and is near-cr
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{network_logic.pdf}
-\caption{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical.}
+\caption[Activity-on-node network]{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical.}
 \label{fig:network_logic}
 \end{figure}
 
@@ -46,7 +46,7 @@ Feeder float is not interchangeable. A-131 has one day into A-132 and is near-cr
 \setlength{\tabcolsep}{4.2pt}
 \renewcommand{\arraystretch}{1.15}
 \begin{longtable}{@{}l l l r l c c c c r r c@{}}
-\caption{Master campaign activity precedence and float register. Dates are inclusive. $FF = \min(ES_{\text{succ}}) - EF - 1$ days, or $FF = TF$ if there is no successor. A-111 $TF = 0$ is an imposed Gate~1 finish, not launch-critical.}
+\caption[Activity precedence and float register]{Master campaign activity precedence and float register. Dates are inclusive. $FF = \min(ES_{\text{succ}}) - EF - 1$ days, or $FF = TF$ if there is no successor. A-111 $TF = 0$ is an imposed Gate~1 finish, not launch-critical.}
 \label{tab:precedence}\\
 \toprule
 ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
@@ -93,7 +93,7 @@ Three gates sit on the baseline. Gate~1 is the PEP lock at A-111 on 2~October. G
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{gantt_chart.pdf}
-\caption{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
+\caption[Baseline Gantt chart]{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
 \label{fig:gantt_chart}
 \end{figure}
 
@@ -114,7 +114,7 @@ Table~\ref{tab:compression} and Figure~\ref{fig:compression_curve} compare three
 \centering
 \small
 \setlength{\tabcolsep}{3.5pt}
-\caption{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$225{,}000 reserve, not an addition to the \$1{,}500{,}000 base.}
+\caption[Schedule compression evaluation]{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$225{,}000 reserve, not an addition to the \$1{,}500{,}000 base.}
 \label{tab:compression}
 \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X c r r >{\raggedright\arraybackslash}X l@{}}
 \toprule
@@ -138,6 +138,6 @@ Because Option~C does not shorten A-132 or A-133, feeder floats do not tighten: 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\linewidth]{compression_tradeoff.pdf}
-\caption{Compression trade-off for a five-day pull-in of $T$-0. Left: direct added cost. Right: residual schedule and quality risk after treatment. Option~C is the only CPM-valid pull-in that keeps A-142 uncrashed and pays \$4{,}200 per day rather than \$8{,}000.}
+\caption[Compression cost and risk trade-off]{Compression trade-off for a five-day pull-in of $T$-0. Left: direct added cost. Right: residual schedule and quality risk after treatment. Option~C is the only CPM-valid pull-in that keeps A-142 uncrashed and pays \$4{,}200 per day rather than \$8{,}000.}
 \label{fig:compression_curve}
 \end{figure}

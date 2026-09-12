@@ -58,13 +58,14 @@ def reconcile_table(data: dict) -> str:
     n = len(contrib)
     colspec = (
         r"@{}>{\raggedright\arraybackslash}p{2.55cm}"
-        r" >{\raggedright\arraybackslash}p{4.15cm}"
+        r" >{\raggedright\arraybackslash}p{4.55cm}"
         r" X@{}"
     )
     rows = [
         (
             f"Work PMB & {aud(proj['base_estimate'])} & "
-            f"Sec.~\\ref{{sec:overview-objectives}}; Table~\\ref{{tab:wbs-cost}}; "
+            f"Sec.~\\ref{{sec:exec}}; Sec.~\\ref{{sec:overview-objectives}}; "
+            f"Table~\\ref{{tab:wbs-cost}}; "
             f"Table~\\ref{{tab:cashflow}} (ends here); Fig.~\\ref{{fig:scurve}}; "
             f"Sec.~\\ref{{sec:delivery-evm}} distributed $PV$ \\\\"
         ),
@@ -76,7 +77,8 @@ def reconcile_table(data: dict) -> str:
         ),
         (
             f"Authorised $BAC$ & {aud(proj['bac'])} & "
-            f"Finish-line $AC \\le BAC$ in Sec.~\\ref{{sec:overview-objectives}} "
+            f"Finish-line $AC \\le BAC$ in Sec.~\\ref{{sec:exec}}, "
+            f"Sec.~\\ref{{sec:overview-objectives}} "
             f"and Sec.~\\ref{{sec:delivery-evm}} \\\\"
         ),
         (
@@ -94,7 +96,7 @@ def reconcile_table(data: dict) -> str:
         ),
         (
             f"M-7 $T$-0 & {day_mon_year(miles['M7']['date'])} $=$ A-143 $EF$ & "
-            f"Baseline. Option~C {day_mon_year(data['compression']['option_c_t0'])} "
+            f"Baseline (Sec.~\\ref{{sec:exec}}). Option~C {day_mon_year(data['compression']['option_c_t0'])} "
             f"is contingent only; not redrawn on Fig.~\\ref{{fig:gantt_chart}} \\\\"
         ),
         (
@@ -102,8 +104,8 @@ def reconcile_table(data: dict) -> str:
             f"Five days after M-7; Table~\\ref{{tab:charter-pep}} closes the 22~Nov collision \\\\"
         ),
         (
-            f"Pad occupancy & organic {proj['organic_crew']} / cap {proj['hse_pad_cap']} / "
-            f"unmit.\\ {proj['unmitigated_peak']} / mit.\\ {proj['mitigated_peak']} & "
+            f"Pad occupancy & {proj['organic_crew']} org.\\ / {proj['hse_pad_cap']} cap / "
+            f"{proj['unmitigated_peak']} unmit.\\ / {proj['mitigated_peak']} mit. & "
             f"Fig.~\\ref{{fig:resources}}; R-13; Sec.~\\ref{{sec:delivery-hse}} \\\\"
         ),
         (

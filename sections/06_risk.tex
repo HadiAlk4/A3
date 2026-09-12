@@ -1,0 +1,72 @@
+\section{Risk management}
+\label{sec:risk}
+
+Campaign risk is owned by Ziyad Alahmari (Risk and Quality Lead) and is scored on this pad, not as generic weather or budget-overrun rows. Eighteen cause--event--effect statements in Table~\ref{tab:risk-register} size the \$225{,}000 contingency already reported in Table~\ref{tab:contingency}, name the float that absorbs non-critical delay, and fix the owners who treat each item.
+
+\subsection{Risk approach and scales}
+\label{sec:risk-approach}
+
+The process follows ISO~31000 identify--analyse--evaluate--treat--monitor \citep{iso31000}. Expected monetary value is calculated as in \citet{kerzner2017}: money is never read from the 1--5 heat-map scores. $EMV = P_{\%} \times I_{\$}$ uses the dollar column in Table~\ref{tab:risk-register}. Probability bands are $P=1$ below 5\% (3\% in EMV), $P=2$ from 5--20\% (12\%), $P=3$ from 21--40\% (30\%), $P=4$ from 41--60\% (50\%), and $P=5$ above 60\% (70\%). Schedule impact $I_{S}$ is 1 ($<2$~d), 2 (2--5~d), 3 (6--10~d), 4 (11--15~d) and 5 ($>15$~d on a $TF=0$ path). Cost impact $I_{C}$ is the dollar figure in the same row. The matrix coordinate $I$ is the maximum of those two bands \citep{pmi2021}. Residual $P$ and $I$ fall only where the named response actually bites. R-12 keeps $P=2$ because Option~C does not make the payload window more likely; it only prices the pull-in. Ziyad re-scores the register at Gate~1 (2~October), at M-4 (15~October) and at M-5 (30~October), in the same cadence as the EVM dashboard in Section~\ref{sec:delivery-evm}.
+
+\subsection{Integrated risk register}
+\label{sec:risk-register}
+
+Table~\ref{tab:risk-register} is the full set. Cause, event and effect are three clauses. Owners match the RACI in Table~\ref{tab:raci}: Ziyad with the GSE Lead on static-fire abort (R-01) and township acoustics (R-17); the Launch Director on footprint and stage-separation (R-02, R-09); Ilsa Hashmi on LOX logistics, occupancy and the Juru commercial interface (R-10, R-13, R-04 with the Juru Cultural Officer); Hadi Alkhub on the dawn-lift window and countdown software (R-06, R-18); Abdul Wahab Obeid on permits, LRR deadlock and the Option~C draw (R-14, R-16, R-12). Figure~\ref{fig:risk-matrix} plots every inherent point and the residual after treatment. R-02 and R-09 share $(P,I)=(2,5)$ and are jittered so both remain visible.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\linewidth]{risk_matrix.pdf}
+\caption{Inherent (crimson) to residual (teal) movement for all eighteen register items. $P$ is vertical and $I$ is horizontal. Most treatment arrows run down and left. R-12 keeps $P=2$ (the payload window is not made less likely) and moves $I$ only. R-02 and R-09 share the $(2,5)$ cell and are offset.}
+\label{fig:risk-matrix}
+\end{figure}
+
+\begin{landscape}
+\footnotesize
+\setlength{\tabcolsep}{3.0pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}l l >{\raggedright\arraybackslash}p{4.55cm} c c c >{\raggedright\arraybackslash}p{2.28cm} >{\raggedright\arraybackslash}p{3.55cm} c c r@{}}
+\caption{Integrated campaign risk register. $P{\times}I$ uses the 1--5 scores. EMV uses $P_{\%}\times I_{\$}$, not those scores. A dash means the row is not in the \$175{,}500 pool.}
+\label{tab:risk-register}\\
+\toprule
+ID & Anchor & Cause $\rightarrow$ event $\rightarrow$ effect & $P$ & $I$ & $P{\times}I$ & Owner & Response & $P'$ & $I'$ & EMV \\
+\midrule
+\endfirsthead
+\caption[]{Integrated campaign risk register (continued).}\\
+\toprule
+ID & Anchor & Cause $\rightarrow$ event $\rightarrow$ effect & $P$ & $I$ & $P{\times}I$ & Owner & Response & $P'$ & $I'$ & EMV \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+R-01 & A-133 / 1.3.3 & Residual pump insulation $\rightarrow$ static-fire auto-abort $\rightarrow$ 12--14~d recycle / \$90k & 3 & 4 & 12 & Ziyad / GSE Lead & Thermal soak; on-pad LRU kit; 48~h recycle procedure & 1 & 3 & 27{,}000 \\
+R-02 & A-143 / 1.4.3 & Trajectory energy toward park boundary $\rightarrow$ debris in GBRMPA zone $\rightarrow$ statutory halt & 2 & 5 & 10 & Launch Director & South-biased LRR footprint; joint GBRMPA protocol & 1 & 4 & 21{,}600 \\
+R-03 & A-125 / A-143 & RF interference at Bowen array $\rightarrow$ telemetry $<$98.5\% $\rightarrow$ heritage fail & 3 & 3 & 9 & Avionics Lead & Dual-path recorders; A-125 before hot fire; mobile backup & 1 & 2 & 15{,}000 \\
+R-04 & A-114 / A-143 & Exclusion without stop-work $\rightarrow$ Juru complaint $\rightarrow$ range withheld & 3 & 4 & 12 & Ilsa / Juru Officer & Embedded monitors with stop-work; cultural HP before A-132 & 1 & 2 & 12{,}000 \\
+R-05 & A-124 / A-132 & Inadequate purge before LOX $\rightarrow$ frozen/cracked valve $\rightarrow$ WDR abort $\sim$8~d & 3 & 3 & 9 & GSE Lead & LN2 pre-chill; spare valve kit; helium leak test HP-2 & 2 & 2 & 16{,}500 \\
+R-06 & A-123 / 1.2.2 & Abbot Point crosswind $>$20~kt at vertical mate $\rightarrow$ lift abort $\rightarrow$ crane standby & 4 & 2 & 8 & Hadi / Stack Conductor & Dawn-lift window; standby already inside 1.2.2 & 2 & 2 & 9{,}000 \\
+R-07 & A-124 / D\&C & D\&C GSE IFC lags propulsion ICD $\rightarrow$ pad mismatch $\rightarrow$ rework & 3 & 3 & 9 & GSE Lead / PM & ICD freeze gate; weekly integration; D\&C LDs & 1 & 2 & 21{,}000 \\
+R-08 & 1.2.3 / D\&C & Latent pad-civil defect $\rightarrow$ hold-down failure $\rightarrow$ hot-ops stop & 2 & 4 & 8 & D\&C mgr (A: PM) & NDT HP-1; defect liability remains with D\&C & 1 & 2 & 0$^{\ast}$ \\
+R-09 & A-143 & Stage-sep charge timing error $\rightarrow$ debris outside footprint $\rightarrow$ inquiry / halt & 2 & 5 & 10 & Launch Director & Dual-string sep inhibit; wind hold toward park & 1 & 4 & 18{,}000 \\
+R-10 & A-132 / 1.3.2 & Single 800~km LOX tanker delay $\rightarrow$ WDR cannot load $\rightarrow$ 2--5~d slip & 3 & 2 & 6 & Ilsa & 72~h tanker confirm; Townsville backup; RES on price & 2 & 1 & 6{,}900 \\
+R-11 & A-131 & Flight-computer vs pad EGSE skew $\rightarrow$ power-on abort & 3 & 2 & 6 & Avionics Specialist & ICD freeze; cleanroom EGSE dry run before stack & 1 & 2 & --- \\
+R-12 & A-143 & Payload LEO geometry valid only 10--12~Nov $\rightarrow$ board directs 5-day pull-in & 2 & 2 & 4 & Abdul / Sponsor & Pre-priced Option~C; draw \$21k from contingency if approved & 2 & 1 & --- \\
+R-13 & A-132 / A-133 & Peak 14 vs cap 12 $\rightarrow$ detank error $\rightarrow$ recycle / injury & 4 & 3 & 12 & Ilsa & A-125 moved to Sep; four surge techs in base; 10~h stagger & 2 & 2 & 15{,}000 \\
+R-14 & A-113 / A-143 & Townsville airspace / late NOTAM $\rightarrow$ 15~Nov slot refused & 3 & 4 & 12 & Abdul / Regulatory & File 60~d prior; weekly CASA liaison; Option~C backup & 2 & 2 & 13{,}500 \\
+R-15 & A-142 & Dugong in exclusion box $\rightarrow$ sweep extension & 2 & 3 & 6 & RSO & Marine-mammal protocol; A-142 holds 4~d vs $T$-0 & 1 & 2 & --- \\
+R-16 & A-141 & RSO vs Launch Director deadlock at LRR $\rightarrow$ missed 10~Nov gate & 2 & 3 & 6 & Abdul / Launch Director & Named DoA; escalate 24~h before A-141 $LF$ & 1 & 2 & --- \\
+R-17 & A-133 & Static-fire acoustic $>$135~dB at Bowen $\rightarrow$ complaint / hold & 3 & 3 & 9 & Ziyad / HSE & Water deluge; 1.5~km exclusion; community notice 14~d prior & 1 & 2 & --- \\
+R-18 & A-142 / A-143 & FTS/countdown abort at $T$-10 $\rightarrow$ recycle inside window & 2 & 4 & 8 & Hadi / Avionics & Two countdown rehearsals; abort-to-recycle procedure & 1 & 3 & --- \\
+\end{longtable}
+
+\vspace{0.3em}
+{\footnotesize $^{\ast}$R-08 is contract-transferred (EMV \$0 to Gilmour). R-11, R-12, R-15--R-18 are schedule/HSE or priced only if Option~C is invoked. EMV identities: R-01 $0.30\times90{,}000$; R-02 $0.12\times180{,}000$; R-03 $0.30\times50{,}000$; R-04 $0.30\times40{,}000$; R-05 $0.30\times55{,}000$; R-06 $0.50\times18{,}000$; R-07 $0.30\times70{,}000$; R-09 $0.12\times150{,}000$; R-10 $0.30\times23{,}000$; R-13 $0.50\times30{,}000$; R-14 $0.30\times45{,}000$. Sum \$175{,}500.}
+\end{landscape}
+
+\subsection{Top risks, contingency, float and delivery model}
+\label{sec:risk-response}
+
+Three rows dominate board attention because they sit on the launch-critical path and can stop $T$-0 or close the range. They are not a recycled cyclone or ``budget overrun'' list. R-01 is a residual pump-insulation defect on A-133: auto-abort, a 12--14~day recycle, about \$90k of consumables. Ziyad and the GSE Lead treat it with thermal-soak instrumentation, an on-pad LRU kit and a 48-hour recycle procedure, which drops the score from $(3,4)$ to $(1,3)$ and leaves \$27{,}000 in the EMV pool. R-09 is a stage-separation timing error at A-143: debris outside the predicted footprint, GBRMPA inquiry, range halt. The Launch Director owns a dual-string inhibit and a wind hold toward the park; residual remains high-impact $(1,4)$ because a statutory halt does not become cheaper when the probability falls. R-02 is the sibling footprint risk (trajectory energy toward the park boundary) and is treated on the same LRR protocol; both remain Extreme-to-High on impact. R-14 is Townsville military airspace or a late NOTAM refusing the 15~November slot. Abdul files sixty days prior and holds a weekly CASA liaison. Crashing A-123 does not treat R-14: permits already finish on 24~October with $TF=0$, so a faster stack still waits on A-113. Option~C is the schedule backup, not a rewrite of the baseline.
+
+Those eleven cost-bearing rows sum to \$175{,}500. Ilsa's RES allowance of \$49{,}500 covers in-scope LOX price variance, crane wind standby and unquantified pad anomalies. Together they are the \$225{,}000 in Table~\ref{tab:contingency}. Vehicle freight stays out of RES because it is out of scope. R-06 (Abbot Point crosswind at vertical mate) is a named lift-window risk owned by Hadi; its standby dollars already sit inside WBS~1.2.2, which is why the EMV is \$9{,}000 rather than a second crane line.
+
+Float, not money, is the treatment for several feeders. A-125's 39 days let Ilsa park RF in weeks 3--6 so R-13 never meets an occupancy of 14. A-124's three days and A-114's five days absorb GSE and heritage delay before A-132 without moving 15~November. R-08 is transferred: the D\&C package manager remains Responsible, Abdul remains Accountable, and defect liability stays with the contractor after HP-1 NDT. R-12 is accepted on probability and pre-priced on cost. If the payload window is only 10--12~November, or if R-14 fires, Abdul takes Option~C to the Board and Ilsa draws \$21{,}000 from contingency. That draw is not in the \$1{,}500{,}000 work baseline, and it does not move the M-7 diamond on Figure~\ref{fig:gantt_chart} until the Board says so.

@@ -1,0 +1,63 @@
+\section{Resource management}
+\label{sec:resource}
+
+Pad occupancy is a health-and-safety limit, not a roster convenience. The organic Bowen crew is eight certified technicians. The blast-zone, suit-air and access-control cap is twelve people. Eight is therefore the standing organisation; twelve is the occupancy ceiling that Figure~\ref{fig:resources} must never cross \citep{pmi2021,kerzner2017}.
+
+\subsection{Roles and responsibilities}
+\label{sec:resource-raci}
+
+Accountability is split across two layers, with exactly one Accountable owner per Level-3 package in Table~\ref{tab:raci}. The consultancy layer is Abdul Wahab Obeid (campaign PM and integration), Hadi Alkhub (planner and schedule), Ziyad Alahmari (risk, quality and HSE) and Ilsa Hashmi (cost, resources and the Juru commercial interface). The field layer is the Launch Director, Range Safety Officer, GSE Lead, Avionics Specialist, Juru Cultural Officer and the design-and-construct package manager. Consulted names are the people who must see the work product before the Accountable owner signs; they are not a second A.
+
+The pattern matches the network. Governance packages sit with the consultancy: Abdul on the PEP and on CASA/GBRMPA permits, Ilsa on EVM, the Juru Cultural Officer on heritage with Ilsa consulted. Pad logistics sit with the people who physically control the lift and the interfaces: Hadi is Accountable for stacking because the dawn-lift window is a schedule control (R-06); GSE and D\&C share cryogenic hardware; avionics owns RF and power-on. Hot operations (static fire, LRR, $T$-0) are Accountable to the Launch Director with the RSO consulted, except range exclusion itself, which the RSO owns. Closeout audit is Ziyad's, so quality is not marking its own homework against a field lead.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\caption{RACI for Level-3 packages. Exactly one Accountable owner per row. Field titles are as used on the pad; consultancy names are the Group~1 officers.}
+\label{tab:raci}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}p{3.15cm} >{\raggedright\arraybackslash}p{2.55cm} >{\raggedright\arraybackslash}p{2.35cm} X@{}}
+\toprule
+WBS & Package & A & R & C \\
+\midrule
+1.1.1 & PEP and integration & Abdul & Hadi & Ziyad, Ilsa \\
+1.1.2 & Governance and EVM & Ilsa & Hadi & Abdul \\
+1.1.3 & CASA / GBRMPA permits & Abdul & Hadi & Launch Director \\
+1.1.4 & Juru heritage & Juru Officer & Ilsa & Abdul, Ziyad \\
+1.2.1 & Receiving / cleanroom & GSE Lead & D\&C mgr & Hadi, Ilsa \\
+1.2.2 & Crane and stacking & Hadi & GSE Lead & Launch Director, RSO \\
+1.2.3 & Cryo GSE & D\&C mgr & GSE Lead & Ziyad \\
+1.2.4 & RF calibration & Avionics & Hadi & Launch Director \\
+1.3.1 & Avionics power-on & Avionics & GSE Lead & Hadi \\
+1.3.2 & WDR (cold) & GSE Lead & Juru Officer & Ziyad, LD, RSO \\
+1.3.3 & Static fire & Launch Director & GSE Lead & RSO, Ziyad, Avionics \\
+1.3.4 & Post-fire / LRU & Avionics & GSE Lead & Ziyad \\
+1.4.1 & LRR and RSO & Launch Director & RSO & Abdul, Ziyad \\
+1.4.2 & Range exclusion & RSO & Launch Director & Juru Officer \\
+1.4.3 & Launch ($T$-0) & Launch Director & RSO, Avionics & Abdul \\
+1.4.4 & Telemetry handover & Avionics & Hadi & Ilsa \\
+1.4.5 & Demob and audit & Ziyad & D\&C mgr & Ilsa, Abdul \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Capacity planning}
+\label{sec:resource-capacity}
+
+Figure~\ref{fig:resources} is the weekly demand implied by Table~\ref{tab:precedence} against those two headcount numbers. If RF calibration (A-125) remained stacked on Wet Dress Rehearsal and static fire, weeks 10--12 would peak at fourteen people: two above the HSE cap and six above the organic crew. That is R-13 in numeric form, not a generic ``over-allocation.''
+
+The baseline does two things, in that order. First, A-125 is placed in weeks 3--6 (29~August to 15~September) using its 39 days of total float. That move costs \$0 and does not change 15~November, because A-125 is not on the launch-critical path. Second, four surge technicians are hired for seven days inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$, already inside the \$1{,}500{,}000 work estimate \citep{fwo2020}. The mitigated series then peaks at twelve in weeks 11--12, on the cap and never above it. Organic eight remains the standing crew; the extra four are a planned pulse, not evidence that the cap was quietly raised. Staggered ten-hour shifts in those two weeks keep twelve people from occupying the blast zone at once even though the daily roster is twelve. Option~C, if invoked, shortens A-134 and A-141 and does not redraw Figure~\ref{fig:resources}: the surge technicians remain a 1.3.3 base cost, not a compression cost. Moving A-121 or A-124 would consume feeder float without lowering the week-11 peak, so they are not used as capacity tools.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{resource_histogram.pdf}
+\caption{Weekly pad demand versus capacity. Hashed crimson bars are the unmitigated series (peak 14 in weeks 10--12). Teal bars are the mitigated baseline (peak 12) after moving A-125 into weeks 3--6 and adding four surge technicians in 1.3.3. The navy dashed line is the organic crew of eight; the crimson dotted line is the HSE occupancy cap of twelve. Eight is not a hard pad limit.}
+\label{fig:resources}
+\end{figure}
+
+\subsection{Conflict resolution and fallback}
+\label{sec:resource-escalation}
+
+Resource conflicts escalate on the work, not on personalities. Tier~1 field leads have four hours to level, stagger or borrow from float without spending money. Tier~2 is the campaign PM: twelve hours to choose overtime, hire or resequence, with the cost consequence going to Ilsa so that Table~\ref{tab:wbs-cost} stays the book of record. Tier~3 is the Executive Board, with a 24-hour SLA, for any decision that consumes contingency or moves M-5 (30~October) or M-7 (15~November). Those gates are the same dates as Section~\ref{sec:schedule}; they are not a second calendar.
+
+Team-member fallback is separate and is the A1 defect closed here. If a member is non-responsive for more than 48 hours, the Lead Planner audits the artefacts within 12 hours, the PM issues a WBS-reassignment addendum, and the Buddycheck PAF is locked against Teams and version history so that contribution evidence cannot be rewritten after the fact. That procedure reallocates packages in Table~\ref{tab:raci}; it does not authorise a silent change to $T$-0 or to $BAC$.

@@ -1,0 +1,72 @@
+\subsection{Work breakdown structure}
+\label{sec:overview-wbs}
+
+The work breakdown structure in Figure~\ref{fig:wbs} is the 100\% rule applied to launch-site operations at Bowen Orbital Spaceport \citep{pmi2021}. Four Level-2 workstreams---campaign governance, pad logistics, pad testing, and flight/closeout---decompose into seventeen Level-3 packages. Every scheduled activity except A-100 maps to exactly one of those packages, and every dollar in Table~\ref{tab:wbs-cost} sits in exactly one of them. A-100 is annotated beside the tree rather than inside it: the vehicle receipt window is an external zero-dollar wait that starts when out-of-scope freight reaches the gate. It belongs on the network because it drives stacking (A-122), but it is not a cost account.
+
+Package 1.2.1 is one cost account with two schedule bars (A-121 site mobilisation and A-122 receiving inspection) because receiving cannot start until both the cleanroom and the vehicle exist. The remaining fifteen Level-3 codes are one-to-one with Table~\ref{tab:precedence}. Factory manufacture, engine research and development, and line-haul to the receiving gate are excluded; parking them as unidentified Level-3 boxes would violate the 100\% rule.
+
+Limited notice-to-proceed in the 7~August charter authorised field mobilisation from 10~August. The WBS is therefore live before Gate~1. What Gate~1 (A-111, 2~October) locks is the cost and schedule baseline, not the right to occupy the pad.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Stealth,
+  L1/.style={draw=navy, fill=navy, text=white, rounded corners=2pt,
+    inner xsep=7pt, inner ysep=6pt, font=\bfseries\small, align=center, text width=7.4cm},
+  L2/.style={draw=navy, fill=teal, text=white, rounded corners=2pt,
+    inner xsep=3pt, inner ysep=4pt, font=\bfseries\scriptsize, align=center,
+    text width=3.62cm, minimum height=1.18cm},
+  L3/.style={draw=navy!65, fill=white, rounded corners=1pt,
+    inner xsep=3pt, inner ysep=2.4pt, font=\scriptsize, align=left,
+    text width=3.62cm, minimum height=0.78cm},
+  EXT/.style={draw=crimson, dashed, thick, rounded corners=1pt, fill=white,
+    inner xsep=4pt, inner ysep=3.5pt, font=\scriptsize, align=left, text width=15.7cm}
+]
+\node[L1] (root) {1.0 Eris TestFlight2 Launch Campaign};
+
+\node[L2] (n11) at (-6.15,-1.85) {1.1 Campaign project\\management and governance};
+\node[L2] (n12) at (-2.05,-1.85) {1.2 Pad logistics,\\infrastructure and GSE};
+\node[L2] (n13) at ( 2.05,-1.85) {1.3 Pad testing,\\rehearsals and qualification};
+\node[L2] (n14) at ( 6.15,-1.85) {1.4 Flight readiness,\\launch and closeout};
+
+\foreach \p in {n11,n12,n13,n14}
+  \draw[navy, thick, ->] (root.south) -- ++(0,-0.32) -| (\p.north);
+
+\node[L3] (n111) at (-6.15,-3.15) {\textbf{1.1.1} PEP and integration};
+\node[L3] (n112) at (-6.15,-4.05) {\textbf{1.1.2} Governance, budget and EVM};
+\node[L3] (n113) at (-6.15,-4.95) {\textbf{1.1.3} Regulatory / GBRMPA / CASA};
+\node[L3] (n114) at (-6.15,-5.85) {\textbf{1.1.4} Juru cultural heritage};
+
+\node[L3] (n121) at (-2.05,-3.15) {\textbf{1.2.1} Receiving and cleanroom};
+\node[L3] (n122) at (-2.05,-4.05) {\textbf{1.2.2} Crane and 23\,m stacking};
+\node[L3] (n123) at (-2.05,-4.95) {\textbf{1.2.3} Cryogenic GSE};
+\node[L3] (n124) at (-2.05,-5.85) {\textbf{1.2.4} RF array calibration};
+
+\node[L3] (n131) at ( 2.05,-3.15) {\textbf{1.3.1} Avionics power-on};
+\node[L3] (n132) at ( 2.05,-4.05) {\textbf{1.3.2} WDR (cold LOX/LN2)};
+\node[L3] (n133) at ( 2.05,-4.95) {\textbf{1.3.3} 5-second static fire};
+\node[L3] (n134) at ( 2.05,-5.85) {\textbf{1.3.4} Post-fire diagnostics / LRU};
+
+\node[L3] (n141) at ( 6.15,-3.15) {\textbf{1.4.1} LRR and RSO clearance};
+\node[L3] (n142) at ( 6.15,-4.05) {\textbf{1.4.2} Range exclusion / countdown};
+\node[L3] (n143) at ( 6.15,-4.95) {\textbf{1.4.3} Launch execution ($T$-0)};
+\node[L3] (n144) at ( 6.15,-5.85) {\textbf{1.4.4} Telemetry handover};
+\node[L3] (n145) at ( 6.15,-6.75) {\textbf{1.4.5} Demobilisation and audit};
+
+\foreach \a/\b in {n11/n111,n111/n112,n112/n113,n113/n114,
+                   n12/n121,n121/n122,n122/n123,n123/n124,
+                   n13/n131,n131/n132,n132/n133,n133/n134,
+                   n14/n141,n141/n142,n142/n143,n143/n144,n144/n145}
+  \draw[navy!80, ->] (\a.south) -- (\b.north);
+
+\node[EXT] (a100) at (0,-8.05) {%
+  \textbf{EXT A-100 --- not a WBS cost account.} Vehicle receipt window (external \$0 wait).
+  Starts when out-of-scope freight reaches the gate; drives A-122 stacking; omitted from Table~\ref{tab:wbs-cost}.};
+
+\end{tikzpicture}%
+}
+\caption{Work breakdown structure for Eris TestFlight2 launch-site operations. Seventeen Level-3 packages are the cost accounts in Table~\ref{tab:wbs-cost}. A-100 is an external schedule bar, not a seventeenth-plus cost line.}
+\label{fig:wbs}
+\end{figure}

@@ -17,11 +17,17 @@
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{amsmath,amssymb}
+\usepackage{pdflscape}
 \usepackage{caption}
 \usepackage{float}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\definecolor{navy}{HTML}{0B2545}
+\definecolor{teal}{HTML}{2A9D8F}
+\definecolor{crimson}{HTML}{C0392B}
+\definecolor{amber}{HTML}{E76F51}
 \usepackage{fancyhdr}
+\usepackage[round,authoryear]{natbib}
 \usepackage{hyperref}
 
 \graphicspath{{figures/}}
@@ -46,6 +52,8 @@
 % Empty headings are otherwise glued together by LaTeX's \@nobreak
 % (which is what produced the ~600 pt overfull vbox on the first compile).
 \newcommand{\emptysec}{\par\mbox{}\par}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
 
 % =============================================================================
 \begin{document}
@@ -136,77 +144,19 @@ Ilsa Hashmi       & s5310047 & Software Engineering     & Stakeholder \& Resourc
 \label{sec:overview-objectives}
 \emptysec
 
-\subsection{Work breakdown structure}
-\label{sec:overview-wbs}
-\emptysec
+\input{sections/02_wbs}
 
 % -----------------------------------------------------------------------------
-\section{Schedule management}
-\label{sec:schedule}
-
-\subsection{Network logic and float analysis}
-\label{sec:schedule-network}
-\emptysec
-
-\subsection{Schedule baseline}
-\label{sec:schedule-baseline}
-\emptysec
-
-\subsection{Schedule compression}
-\label{sec:schedule-compression}
-\emptysec
+\input{sections/03_schedule}
 
 % -----------------------------------------------------------------------------
-\section{Cost management}
-\label{sec:cost}
-
-\subsection{Estimating basis and assumptions}
-\label{sec:cost-basis}
-\emptysec
-
-\subsection{WBS cost baseline}
-\label{sec:cost-wbs}
-\emptysec
-
-\subsection{Contingency}
-\label{sec:cost-contingency}
-\emptysec
-
-\subsection{Time-phased budget and cash flow}
-\label{sec:cost-cashflow}
-\emptysec
+\input{sections/04_cost}
 
 % -----------------------------------------------------------------------------
-\section{Resource management}
-\label{sec:resource}
-
-\subsection{Roles and responsibilities}
-\label{sec:resource-raci}
-\emptysec
-
-\subsection{Capacity planning}
-\label{sec:resource-capacity}
-\emptysec
-
-\subsection{Conflict resolution and fallback}
-\label{sec:resource-escalation}
-\emptysec
+\input{sections/05_resource}
 
 % -----------------------------------------------------------------------------
-\section{Risk management}
-\label{sec:risk}
-
-\subsection{Risk approach and scales}
-\label{sec:risk-approach}
-\emptysec
-
-\subsection{Integrated risk register}
-\label{sec:risk-register}
-\emptysec
-
-\subsection{Top risks, contingency, float and delivery model}
-\label{sec:risk-response}
-\emptysec
+\input{sections/06_risk}
 
 % -----------------------------------------------------------------------------
 \section{Delivery and control}
@@ -247,8 +197,28 @@ Ilsa Hashmi       & s5310047 & Software Engineering     & Stakeholder \& Resourc
 % -----------------------------------------------------------------------------
 \section*{References}
 \addcontentsline{toc}{section}{References}
-\noindent\textit{APA 7th references will be inserted during drafting.}
-\par
+\begin{thebibliography}{99}
+\bibitem[Kerzner(2017)]{kerzner2017}
+Kerzner, H. (2017). \textit{Project management: A systems approach to planning, scheduling, and controlling} (12th~ed.). John Wiley \& Sons.
+
+\bibitem[Project Management Institute(2021)]{pmi2021}
+Project Management Institute. (2021). \textit{A guide to the project management body of knowledge (PMBOK\textregistered\ guide)} (7th~ed.) and \textit{The standard for project management}. Project Management Institute.
+
+\bibitem[SAE International(2016)]{sae2016}
+SAE International. (2016). \textit{Quality management systems---Requirements for aviation, space, and defense organizations} (AS9100D). SAE International.
+
+\bibitem[Rawlinsons(2025)]{rawlinsons2025}
+Rawlinsons. (2025). \textit{Rawlinsons Australian construction handbook}. Rawlinsons Publishing.
+
+\bibitem[Fair Work Ombudsman(2020)]{fwo2020}
+Fair Work Ombudsman. (2020). \textit{Manufacturing and Associated Industries and Occupations Award 2020} (MA000010). Fair Work Commission.
+
+\bibitem[Civil Aviation Safety Authority(2024)]{casa2024}
+Civil Aviation Safety Authority. (2024). \textit{Cost recovery implementation statement: Aviation safety regulatory services}. Civil Aviation Safety Authority.
+
+\bibitem[International Organization for Standardization(2018)]{iso31000}
+International Organization for Standardization. (2018). \textit{Risk management---Guidelines} (ISO~31000:2018). International Organization for Standardization.
+\end{thebibliography}
 
 % -----------------------------------------------------------------------------
 \appendix

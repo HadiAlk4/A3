@@ -84,14 +84,25 @@ def plot_histogram(data) -> None:
     ax.text(16.35, cap + 0.18, "HSE pad cap  12", ha="right", va="bottom", fontsize=7.5, color=CRIMSON)
 
     ax.annotate(
-        "A-125 RF moved to weeks 3–6\nusing 39 d TF; +4 surge techs\nin 1.3.3 ($22,400 in base).",
-        xy=(11.2, 12.05),
-        xytext=(3.15, 13.55),
-        fontsize=7.8,
+        "A-125 RF hours in weeks 3–6\n(mitigated above unmitigated).",
+        xy=(4.2, 9.15),
+        xytext=(0.7, 13.35),
+        fontsize=7.4,
         color=NAVY,
         ha="left",
         arrowprops=dict(arrowstyle="-|>", color=NAVY, lw=0.9),
-        bbox=dict(boxstyle="round,pad=0.35", facecolor="white", edgecolor=GREY),
+        bbox=dict(boxstyle="round,pad=0.32", facecolor="white", edgecolor=GREY),
+        zorder=5,
+    )
+    ax.annotate(
+        "+4 surge techs in 1.3.3\n($22,400 in base).",
+        xy=(11.2, 12.05),
+        xytext=(6.85, 15.15),
+        fontsize=7.4,
+        color=NAVY,
+        ha="left",
+        arrowprops=dict(arrowstyle="-|>", color=NAVY, lw=0.9),
+        bbox=dict(boxstyle="round,pad=0.32", facecolor="white", edgecolor=GREY),
         zorder=5,
     )
     ax.text(11, 14.45, "Unmitigated peak 14", ha="center", fontsize=7.4, color=CRIMSON, fontweight="bold")

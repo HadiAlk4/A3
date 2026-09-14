@@ -160,8 +160,8 @@ def plot_scurve(data) -> None:
         Patch(facecolor=NAVY, edgecolor="none", label="Period PV"),
         Patch(facecolor=CRIMSON, edgecolor="none", label="October period PV (peak)"),
         Line2D([0], [0], color=TEAL, marker="o", linewidth=2.3, label="Cumulative PV"),
-        Line2D([0], [0], color=NAVY, linestyle="--", linewidth=1.25, label="Work PMB $1,500,000"),
-        Line2D([0], [0], color=CRIMSON, linestyle=":", linewidth=1.45, label="BAC $1,725,000"),
+        Line2D([0], [0], color=NAVY, linestyle="--", linewidth=1.25, label=f"Work PMB {money(base)}"),
+        Line2D([0], [0], color=CRIMSON, linestyle=":", linewidth=1.45, label=f"BAC {money(bac)}"),
     ]
     ax.legend(
         handles=handles,

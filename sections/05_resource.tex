@@ -22,7 +22,7 @@ WBS & Package & A & R & C \\
 \midrule
 1.1.1 & PEP and integration & Abdul & Hadi & Ziyad, Ilsa \\
 1.1.2 & Governance and EVM & Ilsa & Hadi & Abdul \\
-1.1.3 & CASA / GBRMPA permits & Abdul & Hadi & Launch Director \\
+1.1.3 & ASA / CASA / GBRMPA & Abdul & Hadi & Launch Director \\
 1.1.4 & Juru heritage & Juru Officer & Ilsa & Abdul, Ziyad \\
 1.2.1 & Receiving / cleanroom & GSE Lead & D\&C mgr & Hadi, Ilsa \\
 1.2.2 & Crane and stacking & Hadi & GSE Lead & Launch Director, RSO \\
@@ -31,8 +31,8 @@ WBS & Package & A & R & C \\
 1.3.1 & Avionics power-on & Avionics & GSE Lead & Hadi \\
 1.3.2 & WDR (cold) & GSE Lead & Juru Officer & Ziyad, LD, RSO \\
 1.3.3 & Static fire & Launch Director & GSE Lead & RSO, Ziyad, Avionics \\
-1.3.4 & Post-fire / LRU & Avionics & GSE Lead & Ziyad \\
-1.4.1 & LRR and RSO & Launch Director & RSO & Abdul, Ziyad \\
+1.3.4 & Post-fire / pre-kitted spare & Avionics & GSE Lead & Ziyad \\
+1.4.1 & LRR and RSO & Launch Director & RSO & Abdul, Ziyad, payload sponsor \\
 1.4.2 & Range exclusion & RSO & Launch Director & Juru Officer \\
 1.4.3 & Launch ($T$-0) & Launch Director & RSO, Avionics & Abdul \\
 1.4.4 & Telemetry handover & Avionics & Hadi & Ilsa \\
@@ -44,16 +44,18 @@ WBS & Package & A & R & C \\
 \subsection{Capacity planning}
 \label{sec:resource-capacity}
 
-Figure~\ref{fig:resources} is the weekly demand implied by Table~\ref{tab:precedence} against those two headcount numbers. If RF calibration (A-125) stayed on Wet Dress Rehearsal and static fire, weeks 10--12 would peak at fourteen people: two above the HSE cap and six above the organic crew. That is R-13 in numbers.
+Figure~\ref{fig:resources} and Table~\ref{tab:resource-build} are the weekly demand implied by Table~\ref{tab:precedence}, built from named pad heads rather than asserted bars. Organic/GSE occupancy is eight people in the October peak weeks. Two RF specialists (A-125) sit in weeks 3--6 on the mitigated series, which is why those four bars sit two people above the unmitigated series. If that RF crew stayed on Wet Dress Rehearsal and static fire, weeks 10--12 would add those two heads plus four overtime heads on top of organic eight, which is fourteen: two above the HSE cap. That is R-13 in numbers.
 
-The baseline does two things, in that order. First, A-125 is placed in weeks 3--6 (29~August to 15~September) using its 39 days of total float. Figure~\ref{fig:resources} shows that move: weeks 3--6 sit two people higher on the mitigated series than on the unmitigated series. The move costs \$0 and does not change 15~November, because A-125 is a feeder into A-133, not a launch-critical bar. Second, four surge technicians are hired for seven days inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$, already inside the \$1{,}500{,}000 work estimate \citep{fwo2020}. Those four close the gap from organic eight to the cap of twelve. The mitigated series then peaks at twelve in weeks 11--12, on the cap and never above it. Option~C, if invoked, shortens A-134 and A-142 and does not redraw Figure~\ref{fig:resources}.
+The baseline does two things, in that order. First, A-125 is placed in weeks 3--6 (29~August to 15~September) using its 39 days of total float. The move costs \$0 and does not change 15~November, because A-125 is a feeder into A-133, not a launch-critical bar. Second, four surge technicians are hired for seven days inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$, already inside the \$1{,}500{,}000 work estimate \citep{fwo2020}. Those four \emph{replace} the unmitigated overtime heads; they are not stacked on top of them. Mitigated weeks 11--12 are therefore $8+4=12$, on the cap and never above it. Week~10 has no surge (static fire has not started) and carries three stacking/WDR overlap heads, so the mitigated bar is 11. Option~C, if invoked, shortens A-134 and A-142 and does not redraw Figure~\ref{fig:resources}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\linewidth]{resource_histogram.pdf}
-\caption[Weekly pad demand versus capacity]{Weekly pad demand versus capacity. Hashed crimson bars are the unmitigated series (peak 14 in weeks 10--12) with A-125 still on WDR and static fire. Teal bars are the mitigated baseline (peak 12): A-125 sits in weeks 3--6, two people above the unmitigated series there, and four surge technicians join 1.3.3. The navy dashed line is the organic crew of eight; the crimson dotted line is the HSE occupancy cap of twelve. Eight is not a hard pad limit.}
+\caption[Weekly pad demand versus capacity]{Weekly pad demand versus capacity, from Table~\ref{tab:resource-build}. Hashed crimson bars are the unmitigated series (peak 14 in weeks 10--12): organic eight plus two RF plus four overtime. Teal bars are the mitigated baseline (peak 12): RF in weeks 3--6, and four surge technicians replacing overtime in 1.3.3. The navy dashed line is the organic crew of eight; the crimson dotted line is the HSE occupancy cap of twelve. Eight is not a hard pad limit.}
 \label{fig:resources}
 \end{figure}
+
+\input{sections/generated/s5_resource_build}
 
 \subsection{Conflict resolution and fallback}
 \label{sec:resource-escalation}

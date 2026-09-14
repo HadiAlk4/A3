@@ -1,7 +1,7 @@
 \section{Schedule management}
 \label{sec:schedule}
 
-The campaign schedule converts the WBS into a time-phased baseline for board approval. Dates are derived from a finish-to-start activity-on-node network on a seven-day pad calendar from 10~August to 1~December~2026. Approved $T$-0 remains 15~November~2026. A five-day pull-in to 10~November is a contingent response if R-14 is realised (ASA flight authorisation or a CASA NOTAM refuses the 15~November slot). It is not the baseline.
+The campaign schedule converts the WBS into a time-phased baseline for board approval. Dates are derived from a finish-to-start activity-on-node network on a seven-day pad calendar from 10~August to 1~December~2026: LOX load, static fire and $T$-0 do not pause for weekends. Approved $T$-0 remains 15~November~2026, inside the charter's Q1~2027 outer window. A five-day pull-in to 10~November is a contingent response if R-14 is realised (ASA flight authorisation or a CASA NOTAM refuses the 15~November slot). It is not the baseline.
 
 \subsection{Network logic and float analysis}
 \label{sec:schedule-network}
@@ -28,16 +28,16 @@ FF_{i} = \min_{k \in S_{i}}(ES_{k}) - EF_{i} - 1,
 \end{equation}
 taking $FF_{i} = TF_{i}$ when $S_{i}$ is empty. Launch-critical means $TF_{i} = 0$ on a path that sets $T$-0 or closeout. Table~\ref{tab:precedence} is the full pass and matches the locked register.
 
-The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external gate receipt; freight out of scope), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. RF calibration (A-125) is a finish-to-start predecessor of A-133, so the array is live before hot fire; it is not launch-critical. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
+The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external freight driver; not consultancy-controlled), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. RF calibration (A-125) is a finish-to-start predecessor of A-133, so the array is live before hot fire; it is not launch-critical. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
 
-Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132 \emph{and} flight permits (A-113)---the regulatory merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \citep{sae2016}.
+Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132, flight permits (A-113) \emph{and} RF calibration (A-125)---the regulatory and range-instrument merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \citep{sae2016}.
 
 Feeder float is not interchangeable. A-131 has one day into A-132; A-124 has three. A-125 has 39 days and is parked in August--September so it does not sit on the October pad peak; moving it does not change 15~November. A-121 has $TF = 3$ but $FF = 0$, so delay is absorbed before $T$-0 only by consuming A-124's float. Total float protects $T$-0; free float protects the successor. Figure~\ref{fig:network_logic} draws the links.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{network_logic.pdf}
-\caption[Activity-on-node network]{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical.}
+\caption[Activity-on-node network]{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-125 is the labelled south-routed feeder into the same merge; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical. A-100 is an external driver.}
 \label{fig:network_logic}
 \end{figure}
 
@@ -59,10 +59,10 @@ ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
 \endhead
 \bottomrule
 \endfoot
-A-100 & EXT & Vehicle receipt window & 35 & --- & 10 Aug & 13 Sep & 10 Aug & 13 Sep & 0 & 0 & Y \\
+A-100 & EXT & Vehicle receipt (external driver) & 35 & --- & 10 Aug & 13 Sep & 10 Aug & 13 Sep & 0 & 0 & Y \\
 A-111 & 1.1.1 & PEP and integration baseline & 54 & --- & 10 Aug & 2 Oct & 10 Aug & 2 Oct & 0* & 0 & Gate \\
 A-112 & 1.1.2 & EVM control stand-up & 7 & A-111 & 3 Oct & 9 Oct & 25 Nov & 1 Dec & 53 & 53 & N \\
-A-113 & 1.1.3 & CASA / GBRMPA / airspace & 76 & --- & 10 Aug & 24 Oct & 10 Aug & 24 Oct & 0 & 0 & Y \\
+A-113 & 1.1.3 & ASA / CASA / GBRMPA permits & 76 & --- & 10 Aug & 24 Oct & 10 Aug & 24 Oct & 0 & 0 & Y \\
 A-114 & 1.1.4 & Juru monitor mobilisation & 62 & --- & 10 Aug & 10 Oct & 15 Aug & 15 Oct & 5 & 5 & N \\
 A-121 & 1.2.1a & Site mobilisation and cleanroom & 19 & --- & 10 Aug & 28 Aug & 13 Aug & 31 Aug & 3 & 0 & N \\
 A-122 & 1.2.1b & Receiving and unpacking & 8 & A-100, A-121 & 14 Sep & 21 Sep & 14 Sep & 21 Sep & 0 & 0 & Y \\
@@ -72,7 +72,7 @@ A-125 & 1.2.4 & RF telemetry calibration & 18 & A-121 & 29 Aug & 15 Sep & 7 Oct 
 A-131 & 1.3.1 & Avionics power-on sweeps & 23 & A-122 & 22 Sep & 14 Oct & 23 Sep & 15 Oct & 1 & 1 & N \\
 A-132 & 1.3.2 & Wet Dress Rehearsal (cold) & 9 & A-114, A-123, A-124, A-131 & 16 Oct & 24 Oct & 16 Oct & 24 Oct & 0 & 0 & Y \\
 A-133 & 1.3.3 & 5-second static fire & 6 & A-132, A-113, A-125 & 25 Oct & 30 Oct & 25 Oct & 30 Oct & 0 & 0 & Y \\
-A-134 & 1.3.4 & Post-fire diagnostics and LRU & 6 & A-133 & 31 Oct & 5 Nov & 31 Oct & 5 Nov & 0 & 0 & Y \\
+A-134 & 1.3.4 & Post-fire / pre-kitted spare & 6 & A-133 & 31 Oct & 5 Nov & 31 Oct & 5 Nov & 0 & 0 & Y \\
 A-141 & 1.4.1 & LRR and RSO clearance & 5 & A-134 & 6 Nov & 10 Nov & 6 Nov & 10 Nov & 0 & 0 & Y \\
 A-142 & 1.4.2 & Range exclusion and countdown & 4 & A-141 & 11 Nov & 14 Nov & 11 Nov & 14 Nov & 0 & 0 & Y \\
 A-143 & 1.4.3 & Launch execution ($T$-0) & 1 & A-142 & 15 Nov & 15 Nov & 15 Nov & 15 Nov & 0 & 0 & Y \\
@@ -114,7 +114,7 @@ Table~\ref{tab:compression} and Figure~\ref{fig:compression_curve} compare three
 \centering
 \small
 \setlength{\tabcolsep}{3.5pt}
-\caption[Schedule compression evaluation]{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$218{,}700 reserve, not an addition to the \$1{,}500{,}000 base.}
+\caption[Schedule compression evaluation]{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$218{,}630 reserve, not an addition to the \$1{,}500{,}000 base.}
 \label{tab:compression}
 \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X c r r >{\raggedright\arraybackslash}X l@{}}
 \toprule
@@ -122,7 +122,7 @@ Option & Activities modified & Days & Added cost & Slope & Secondary risks & Ver
 \midrule
 A Pure fast-track & A-134 $\to$ A-141 SS+1 (LRR overlaps diagnostics) & 5 & \$0 & \$0/d & LRR before diagnostic close-out; LRU rework; AS9100D hold-point failure & Rejected \\
 B Pure crash & A-134 crashed 6~$\to$~1~d & 5 & \$40{,}000 & \$8{,}000/d & Fatigue; skipped thermal/electrical screens; recycle into A-141 & Rejected \\
-C Hybrid (if R-14 fires) & A-134 6~$\to$~3~d (\$9{,}000); A-141 kept at 5~d; A-142 4~$\to$~2~d (\$12{,}000) & 5 & \textbf{\$21{,}000} & \textbf{\$4{,}200/d} & Shorter marine sweep (R-15); A-141 hold-point duration kept & Contingent \\
+C Hybrid (if R-14 fires) & A-134 6~$\to$~3~d (\$9{,}000); A-141 kept at 5~d; A-142 4~$\to$~2~d (\$12{,}000) & 5 & \textbf{\$21{,}000} & \textbf{\$4{,}200/d} & R-15 residual is the 2~d sweep; A-141 hold-point duration kept & Contingent \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -131,7 +131,7 @@ Option~A buys five days at zero direct cost by starting A-141 one day after A-13
 
 Option~B compresses A-134 from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour diagnostic war room on a vehicle that has just fired is the work most likely to skip thermal and electrical screens. Option~B is rejected.
 
-Option~C splits the five days without shortening HP-4. Three days come off A-134 ($\$9{,}000$). Two days come off A-142 ($\$12{,}000$). Launch Readiness Review stays five days, finish-to-start after diagnostics. The weighted slope is $\$21{,}000/5 = \$4{,}200$ per day. If invoked, the dates become A-134 31~October--2~November, A-141 3--7~November, A-142 8--9~November, and A-143 on \textbf{10~November}. The marine-mammal buffer in A-142 shrinks (R-15). The \$21{,}000 is drawn from the \$218{,}700 contingency only if R-14 is realised. It is not loaded into the \$1{,}500{,}000 base, and Figure~\ref{fig:gantt_chart} is not redrawn. Feeder floats do not tighten: A-131 stays at $TF = 1$, A-124 at $TF = 3$.
+Option~C splits the five days without shortening HP-4. Three days come off A-134 ($\$9{,}000$). Two days come off A-142 ($\$12{,}000$). Launch Readiness Review stays five days, finish-to-start after diagnostics. The weighted slope is $\$21{,}000/5 = \$4{,}200$ per day. If invoked, the dates become A-134 31~October--2~November, A-141 3--7~November, A-142 8--9~November, and A-143 on \textbf{10~November}. The marine-mammal buffer in A-142 shrinks from four days to two: that shorter sweep is the residual on R-15, which is why Option~C is contingent rather than the baseline. The \$21{,}000 is drawn from the \$218{,}630 contingency only if R-14 is realised. It is not loaded into the \$1{,}500{,}000 base, and Figure~\ref{fig:gantt_chart} is not redrawn. Feeder floats do not tighten: A-131 stays at $TF = 1$, A-124 at $TF = 3$.
 
 \begin{figure}[H]
 \centering

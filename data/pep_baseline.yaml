@@ -7,9 +7,9 @@ project:
   finish: 2026-12-01
   base_estimate: 1500000
   emv_sum: 175500
-  res_allowance: 43200
-  contingency: 218700
-  bac: 1718700
+  res_allowance: 43130
+  contingency: 218630
+  bac: 1718630
   contingency_pct: 14.58
   organic_crew: 8
   hse_pad_cap: 12
@@ -20,9 +20,24 @@ project:
   pv_at_m4: 865578
 
 res_items:
-  - {name: "LOX/LN2 remote-delivery price variance (18% of the $68,500 gases line in 1.3.2)", amount: 12400}
+  - {name: "LOX/LN2 remote-delivery price variance (18% of the $68,500 gases line in 1.3.2 = $12,330)", amount: 12330}
   - {name: "Crane wind standby beyond R-06 EMV (4 extra days x $4,200)", amount: 16800}
-  - {name: "In-scope pad/GSE consumable anomalies", amount: 14000}
+  - {name: "GN2/N2 purge cylinders and fittings", amount: 8000}
+  - {name: "Cryogenic hose, seal and oxygen-clean kit", amount: 6000}
+
+# MA000010 C10 ordinary (ppc 1 July 2026) x stated on-cost. Does not change the $1.5M lines.
+labour:
+  award: MA000010
+  c10_ordinary: 29.45
+  engineer_pm: 150
+  technician: 95
+  specialist: 165
+  surge: 100
+  engineer_multiplier: 5.09
+  technician_multiplier: 3.23
+  crane_wet_day: 4200
+  crane_lift_days: 8
+  crane_standby_days: 16
 
 # Cost I bands for the 1-5 matrix. I = max(I_S band, I_C band).
 impact_cost_bands:
@@ -45,10 +60,10 @@ milestones:
 # A-111 is gate_constrained, not launch-critical.
 # A-125 feeds A-133 (RF before hot fire). LF 24 Oct is derived, not imposed.
 activities:
-  - {id: A-100, wbs: EXT, name: Vehicle receipt window (external, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-100, wbs: EXT, name: Vehicle receipt window (external driver, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: true, gate_constrained: false}
   - {id: A-111, wbs: 1.1.1, name: PEP and integration baseline, d: 54, predecessors: [], es: 2026-08-10, ef: 2026-10-02, ls: 2026-08-10, lf: 2026-10-02, tf: 0, critical: false, gate_constrained: true}
   - {id: A-112, wbs: 1.1.2, name: EVM and control-system stand-up, d: 7, predecessors: [A-111], es: 2026-10-03, ef: 2026-10-09, ls: 2026-11-25, lf: 2026-12-01, tf: 53, critical: false, gate_constrained: false}
-  - {id: A-113, wbs: 1.1.3, name: CASA / GBRMPA / airspace permits, d: 76, predecessors: [], es: 2026-08-10, ef: 2026-10-24, ls: 2026-08-10, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-113, wbs: 1.1.3, name: ASA / CASA / GBRMPA permits, d: 76, predecessors: [], es: 2026-08-10, ef: 2026-10-24, ls: 2026-08-10, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
   - {id: A-114, wbs: 1.1.4, name: Juru monitor mobilisation, d: 62, predecessors: [], es: 2026-08-10, ef: 2026-10-10, ls: 2026-08-15, lf: 2026-10-15, tf: 5, critical: false, gate_constrained: false}
   - {id: A-121, wbs: 1.2.1a, name: Site mobilisation and cleanroom, d: 19, predecessors: [], es: 2026-08-10, ef: 2026-08-28, ls: 2026-08-13, lf: 2026-08-31, tf: 3, critical: false, gate_constrained: false}
   - {id: A-122, wbs: 1.2.1b, name: Receiving inspection and unpacking, d: 8, predecessors: [A-100, A-121], es: 2026-09-14, ef: 2026-09-21, ls: 2026-09-14, lf: 2026-09-21, tf: 0, critical: true, gate_constrained: false}
@@ -58,7 +73,7 @@ activities:
   - {id: A-131, wbs: 1.3.1, name: Avionics power-on sweeps, d: 23, predecessors: [A-122], es: 2026-09-22, ef: 2026-10-14, ls: 2026-09-23, lf: 2026-10-15, tf: 1, critical: false, gate_constrained: false}
   - {id: A-132, wbs: 1.3.2, name: Wet Dress Rehearsal (cold), d: 9, predecessors: [A-114, A-123, A-124, A-131], es: 2026-10-16, ef: 2026-10-24, ls: 2026-10-16, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
   - {id: A-133, wbs: 1.3.3, name: 5-second static fire, d: 6, predecessors: [A-132, A-113, A-125], es: 2026-10-25, ef: 2026-10-30, ls: 2026-10-25, lf: 2026-10-30, tf: 0, critical: true, gate_constrained: false}
-  - {id: A-134, wbs: 1.3.4, name: Post-fire diagnostics and LRU, d: 6, predecessors: [A-133], es: 2026-10-31, ef: 2026-11-05, ls: 2026-10-31, lf: 2026-11-05, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-134, wbs: 1.3.4, name: Post-fire diagnostics / pre-kitted spare, d: 6, predecessors: [A-133], es: 2026-10-31, ef: 2026-11-05, ls: 2026-10-31, lf: 2026-11-05, tf: 0, critical: true, gate_constrained: false}
   - {id: A-141, wbs: 1.4.1, name: LRR and RSO clearance, d: 5, predecessors: [A-134], es: 2026-11-06, ef: 2026-11-10, ls: 2026-11-06, lf: 2026-11-10, tf: 0, critical: true, gate_constrained: false}
   - {id: A-142, wbs: 1.4.2, name: Range exclusion and countdown, d: 4, predecessors: [A-141], es: 2026-11-11, ef: 2026-11-14, ls: 2026-11-11, lf: 2026-11-14, tf: 0, critical: true, gate_constrained: false}
   - {id: A-143, wbs: 1.4.3, name: Launch execution (T-0), d: 1, predecessors: [A-142], es: 2026-11-15, ef: 2026-11-15, ls: 2026-11-15, lf: 2026-11-15, tf: 0, critical: true, gate_constrained: false}
@@ -107,18 +122,30 @@ compression:
     - {id: A-142, es: 2026-11-08, ef: 2026-11-09}
     - {id: A-143, es: 2026-11-10, ef: 2026-11-10}
 
+resource_build:
+  # Week 1 starts 2026-08-10. Weekly unique pad heads.
+  # organic_gse: on-pad technicians excluding A-125 RF, overtime, and surge.
+  organic_gse: [6, 7, 7, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 10, 5, 4]
+  rf_heads: 2
+  rf_mitigated_weeks: [3, 4, 5, 6]
+  rf_unmitigated_weeks: [10, 11, 12]
+  overtime_heads: 4
+  overtime_unmit_weeks: [10, 11, 12]
+  surge_heads: 4
+  surge_weeks: [11, 12]
+  week10_stack_overlap: 3
 resource_weeks:
-  # week 1 starts 2026-08-10
-  # Mitigated (baseline): A-125 in weeks 3-6; +4 surge in weeks 11-12.
-  # Unmitigated what-if: A-125 stays on WDR/static fire (weeks 10-12); no surge.
+  # Derived from resource_build (see scripts/check_yaml.py).
+  # Mitigated: RF in weeks 3-6; week-10 stacking/WDR overlap +3; surge replaces OT in weeks 11-12.
+  # Unmitigated: RF remains on WDR/static fire (weeks 10-12) plus 4 overtime heads.
   demand_mitigated: [6, 7, 9, 8, 8, 10, 8, 8, 8, 11, 12, 12, 8, 10, 5, 4]
   demand_unmitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 14, 14, 14, 8, 10, 5, 4]
 
 evm_m4:
   pv: 865578
   planned_label: "HP-1 signed (A-123 100%), HP-2 signed, A-113 elapsed-day percent-complete"
-  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561856, ieac_bac: 1790313, action: "Green --- weekly dashboard"}
-  late_stack: {ev: 800178, ac: 870000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1630676, ieac_bac: 1868152, action: "Amber --- 48~h exception report"}
+  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561856, ieac_bac: 1790240, action: "Green --- weekly dashboard"}
+  late_stack: {ev: 647578, ac: 870000, cpi: 0.74, spi: 0.75, band: Red, eac_work: 2021922, ieac_bac: 2322473, action: "Red --- 48~h exception report; contingency freeze"}
 
 # In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
 # A-113 is elapsed-day percent-complete, not 0/100.
@@ -131,7 +158,7 @@ evm:
   measurement_0_100: [A-132, A-133, A-141, A-143]
   measurement_percent: [A-113]
   measurement_milestone: [A-123, A-124]
-  a123_unsigned_hp1_pct: 0.70
+  a123_unsigned_hp1_pct: 0.00
   pm_doa_aud: 20000
   pm_doa_hours: 48
 
@@ -159,7 +186,7 @@ hold_points:
   - {id: HP-1, name: Pad tie-down weld NDT, activity: A-123, risk: R-08, release: "D&C mgr / Ziyad"}
   - {id: HP-2, name: GSE helium leak test, activity: A-124, risk: R-05, release: "GSE Lead / Ziyad"}
   - {id: HP-3, name: Pre-static-fire ignition interlock, activity: A-133, risk: R-01, release: "GSE Lead / Launch Director / Ziyad"}
-  - {id: HP-4, name: LRR sign-off, activity: A-141, risk: R-16, release: "Launch Director / Abdul / Ziyad"}
+  - {id: HP-4, name: LRR sign-off (payload sponsor witnesses), activity: A-141, risk: R-16, release: "Launch Director / Abdul / Ziyad / payload sponsor"}
 
 hse:
   blast_zone_km: 1.5
@@ -177,7 +204,7 @@ risks:
   - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 18000, i_dollar: 150000, p_pct: 0.12}
   - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 6900, i_dollar: 23000, p_pct: 0.30}
   - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
-  - {id: R-12, p: 2, i: 5, p_res: 1, i_res: 5, emv: 0, i_dollar: 0, p_pct: 0.12}
+  - {id: R-12, p: 2, i: 5, p_res: 2, i_res: 5, emv: 0, i_dollar: 0, p_pct: 0.12}
   - {id: R-13, p: 4, i: 3, p_res: 2, i_res: 2, emv: 15000, i_dollar: 30000, p_pct: 0.50}
   - {id: R-14, p: 3, i: 4, p_res: 2, i_res: 2, emv: 13500, i_dollar: 45000, p_pct: 0.30}
   - {id: R-15, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
@@ -237,13 +264,13 @@ charter_refinements:
   - key: stakeholders
     element: Regulator and payload
     a1: "ASA High/Low Keep Satisfied, file 60 days prior. Payload sponsor Med/High Keep Informed, witness LRR."
-    a3: "ASA remains Keep Satisfied. CASA issues the airspace NOTAM (R-14). Payload sponsor still witnesses LRR. No 10--12~Nov geometry is used."
+    a3: "ASA remains Keep Satisfied. CASA issues the airspace NOTAM (R-14). Payload sponsor still witnesses LRR on A-141 (HP-4). No 10--12~Nov geometry is used."
     why: "A1 named ASA, not Townsville, as the high-power regulator. The PEP keeps that filing rule and uses CASA as the airspace instrument."
   - key: success
     element: Success criteria
     a1: "Q1 2027 window; no funds beyond contingency; 98.5\\% telemetry in 5 days; zero LTI/GBRMPA/Juru; defects to R\\&D."
-    a3: "T-0 15~Nov with a 2-day slip trigger; $AC \\le BAC$; 98.5\\% telemetry by 20~Nov; four-engine 5~s static fire; zero LTI/GBRMPA/Juru; design defects return to R\\&D."
-    why: "A1 success tests stay. The PEP adds numbered cost and a 2-day in-flight trigger. Dougherty (2026) supports a late-2026 attempt inside the A1 Q1 2027 outer window."
+    a3: "T-0 15~Nov inside A1's Q1 2027 window (2-day in-flight trigger); $AC \\le BAC$; 98.5\\% telemetry in 5 days; LRR first submission; four-engine 5~s fire; zero LTI/GBRMPA/Juru; defects to R\\&D. LEO is Gilmour's test, not the consultancy's."
+    why: "A1 tests stay. The PEP numbers cost and tightens in-flight control inside Q1 2027. LEO is not this team's finish line."
 
 executive:
   top_risks: [R-01, R-12, R-14]

@@ -17,9 +17,9 @@ Every date, dollar, WBS code, and activity ID in the report must match this tabl
 | Parameter | Locked value | Where it must appear |
 | :--- | :--- | :--- |
 | Campaign base estimate (distributed work) | **$1,500,000 AUD** | Sec 1, 2, 4 (Table 4.1), 7 (PV / work PMB) |
-| Contingency reserve | **$225,000 AUD** (EMV $175,500 + RES $49,500) | Sec 1, 4 (Table 4.2), 6, 7 |
-| Authorised baseline ($BAC$) | **$1,725,000 AUD** | Sec 1, 4, 7 |
-| Finish-line cost rule | **Final $AC \le \$1{,}725{,}000$** (contingency may be consumed; nothing beyond $BAC$) | Sec 1, 2 (Objective 2), 7 |
+| Contingency reserve | **$218,630 AUD** (EMV $175,500 + RES $43,130) | Sec 1, 4 (Table 4.2), 6, 7 |
+| Authorised baseline ($BAC$) | **$1,718,630 AUD** | Sec 1, 4, 7 |
+| Finish-line cost rule | **Final $AC \le \$1{,}718{,}630$** (contingency may be consumed; nothing beyond $BAC$) | Sec 1, 2 (Objective 2), 7 |
 | In-flight EVM bands | Green $0.95\le CPI,SPI \le 1.05$; Amber $0.90$–$<0.95$; Red $<0.90$ **plus** T-0 slip $>2$ days | Sec 7 only (do not write "$SV > -5$ days"; $SV$ is currency) |
 | M-2 PEP / Gate 1 lock | **2 October 2026** | Sec 2, 3 (A-111 imposed finish) |
 | M-4 Pad stacking complete | **15 October 2026** | Sec 1, 2, 3 (A-123 $EF$), 7 (HP / EVM example) |
@@ -31,7 +31,7 @@ Every date, dollar, WBS code, and activity ID in the report must match this tabl
 
 **Calendar convention (must be used in Table 3.1, Gantt, and network):** seven-day launch-site calendar; dates are inclusive; $EF = ES + D - 1$; FS+0 successor $ES =$ predecessor $EF + 1$.
 
-**Compression $21,000$ is not in the $1.5M$ base.** Baseline $T$-0 remains 15 November. Option C is a pre-priced what-if, drawn from contingency only if R-12 or R-14 is realised.
+**Compression $21,000$ is not in the $1.5M$ base.** Baseline $T$-0 remains 15 November. Option C is a pre-priced what-if, drawn from contingency only if R-14 is realised. A-141 stays 5 days.
 
 **Surge labour $22,400$ is in the base** (WBS 1.3.3). It is the planned resource response, not a contingency draw.
 
@@ -57,7 +57,7 @@ Scope remains launch-site operations at Bowen. Factory manufacture, engine R&D, 
   * **1.1 Campaign project management and governance**
     * 1.1.1 Project execution planning and integration
     * 1.1.2 Governance, budgeting and EVM control
-    * 1.1.3 Regulatory, GBRMPA and CASA airspace permitting
+    * 1.1.3 Regulatory, ASA, GBRMPA and CASA airspace permitting
     * 1.1.4 Juru cultural heritage and community stewardship
   * **1.2 Pad logistics, infrastructure and GSE**
     * 1.2.1 Receiving inspection and cleanroom unpacking
@@ -68,7 +68,7 @@ Scope remains launch-site operations at Bowen. Factory manufacture, engine R&D, 
     * 1.3.1 Avionics power-on system sweeps
     * 1.3.2 Integrated cryogenic Wet Dress Rehearsal (LOX load and detank; no hot fire)
     * 1.3.3 5-second hybrid-motor static fire
-    * 1.3.4 Post-fire diagnostics and on-pad LRU swaps
+    * 1.3.4 Post-fire diagnostics / pre-kitted spare swap
   * **1.4 Flight readiness, launch and closeout**
     * 1.4.1 Launch Readiness Review and Range Safety Officer clearance
     * 1.4.2 Range exclusion, marine warning sweeps and countdown
@@ -76,7 +76,7 @@ Scope remains launch-site operations at Bowen. Factory manufacture, engine R&D, 
     * 1.4.4 Telemetry decryption and engineering handover
     * 1.4.5 Site decommissioning and closeout audit
 
-Seventeen cost accounts. Schedule has **18 bars** (17 WBS packages + A-100).
+Seventeen cost accounts. Schedule has **19 bars** (17 WBS packages, with 1.2.1 split into A-121/A-122, plus A-100).
 
 **Limited notice-to-proceed:** A1 charter (7 Aug 2026) authorises mobilisation from 10 Aug. Full cost/schedule baseline locks at Gate 1 (A-111, 2 Oct). Field work before 2 Oct is not a logic error; it is charter-authorised mobilisation.
 

@@ -1,7 +1,7 @@
 \section{Risk management}
 \label{sec:risk}
 
-Campaign risk is owned by Ziyad Alahmari (Risk and Quality Lead) and is scored on this pad, not as generic weather or budget-overrun rows. Eighteen cause--event--effect statements in Table~\ref{tab:risk-register} size the \$218{,}700 contingency already reported in Table~\ref{tab:contingency}, name the float that absorbs non-critical delay, and fix the owners who treat each item.
+Campaign risk is owned by Ziyad Alahmari (Risk and Quality Lead) and is scored on this pad, not as generic weather or budget-overrun rows. Eighteen cause--event--effect statements in Table~\ref{tab:risk-register} size the \$218{,}630 contingency already reported in Table~\ref{tab:contingency}, name the float that absorbs non-critical delay, and fix the owners who treat each item.
 
 \subsection{Risk approach and scales}
 \label{sec:risk-approach}
@@ -49,10 +49,10 @@ R-08 & 1.2.3 / D\&C & Latent pad-civil defect $\rightarrow$ hold-down failure $\
 R-09 & A-143 & Stage-sep charge timing error $\rightarrow$ debris outside footprint $\rightarrow$ inquiry / halt & 2 & 5 & 10 & Launch Director & Dual-string sep inhibit; wind hold toward park & 1 & 4 & 18{,}000 \\
 R-10 & A-132 / 1.3.2 & Single 800~km LOX tanker delay $\rightarrow$ WDR cannot load $\rightarrow$ 2--5~d slip & 3 & 2 & 6 & Ilsa & 72~h tanker confirm; second-tanker backup; RES on price & 2 & 1 & 6{,}900 \\
 R-11 & A-131 & Flight-computer vs pad EGSE skew $\rightarrow$ power-on abort & 3 & 2 & 6 & Avionics Specialist & ICD freeze; cleanroom EGSE dry run before stack & 1 & 2 & --- \\
-R-12 & A-143 & Two-motor pump fault after $T$-0 $\rightarrow$ thrust loss as at T+14~s $\rightarrow$ heritage fail & 2 & 5 & 10 & Launch Director & HP-3 static-fire screen; no on-pad redesign; defects to R\&D & 1 & 5 & --- \\
+R-12 & A-143 & Two-motor pump fault after $T$-0 $\rightarrow$ thrust loss as at T+14~s $\rightarrow$ heritage fail & 2 & 5 & 10 & Launch Director & HP-3 screens ground abort; in-flight mode accepted (P stays 2); no on-pad redesign & 2 & 5 & --- \\
 R-13 & A-132 / A-133 & Peak 14 vs cap 12 $\rightarrow$ detank error $\rightarrow$ recycle / injury & 4 & 3 & 12 & Ilsa & A-125 moved to Sep; four surge techs in base; 10~h stagger & 2 & 2 & 15{,}000 \\
 R-14 & A-113 / A-143 & Late ASA filing or CASA NOTAM $\rightarrow$ 15~Nov slot refused & 3 & 4 & 12 & Abdul / Regulatory & File 60~d prior (A1 Keep Satisfied); weekly ASA/CASA liaison; Option~C backup & 2 & 2 & 13{,}500 \\
-R-15 & A-142 & Dugong in exclusion box $\rightarrow$ sweep extension & 2 & 3 & 6 & RSO & Marine-mammal protocol; A-142 holds 4~d vs $T$-0 & 1 & 2 & --- \\
+R-15 & A-142 & Dugong in exclusion box $\rightarrow$ sweep extension & 2 & 3 & 6 & RSO & Marine-mammal protocol; A-142 holds 4~d on the baseline. If Option~C fires, residual is the 2~d sweep & 1 & 2 & --- \\
 R-16 & A-141 & RSO vs Launch Director deadlock at LRR $\rightarrow$ missed 10~Nov gate & 2 & 3 & 6 & Abdul / Launch Director & Named DoA; escalate 24~h before A-141 $LF$ & 1 & 2 & --- \\
 R-17 & A-133 & Static-fire acoustic $>$135~dB at Bowen $\rightarrow$ complaint / hold & 3 & 3 & 9 & Ziyad / HSE & Water deluge; 1.5~km exclusion; community notice 14~d prior & 1 & 2 & --- \\
 R-18 & A-142 / A-143 & FTS/countdown abort at $T$-10 $\rightarrow$ recycle inside window & 2 & 4 & 8 & Hadi / Avionics & Two countdown rehearsals; abort-to-recycle procedure & 1 & 3 & --- \\
@@ -69,12 +69,12 @@ Three rows dominate board attention because they sit on the launch-critical path
 
 R-01 is a residual pump-insulation defect on A-133: auto-abort, a 12--14~day recycle, about \$90k of consumables. Ziyad and the GSE Lead treat it with thermal-soak instrumentation, a pre-kitted LRU spare and a 48-hour swap. Design defects still return to R\&D. The score falls from $(3,4)$ to $(1,4)$: probability drops, but residual impact stays 4 because a recycle is still 12--14~days. EMV remains \$27{,}000.
 
-R-12 is the TestFlight~1 in-flight mode: thrust loss in two first-stage hybrid motors after $T$-0, as at T+14~s, ending the heritage objective. The Launch Director owns HP-3 as the static-fire screen. There is no on-pad redesign and no site-ops dollar draw (EMV \$0). Residual impact stays 5 because an in-flight loss still closes heritage.
+R-12 is the TestFlight~1 in-flight mode: thrust loss in two first-stage hybrid motors after $T$-0, as at T+14~s, ending the heritage objective. The Launch Director owns HP-3 as the static-fire screen for a ground abort. HP-3 does not treat an event after $T$-0, so residual probability stays $P'=2$. Residual impact stays 5 because an in-flight loss still closes heritage. There is no on-pad redesign and no site-ops dollar draw (EMV \$0).
 
 R-14 is an ASA flight-authorisation or CASA NOTAM refusing the 15~November slot. Abdul files sixty days prior, as the charter scored ASA Keep Satisfied, and holds a weekly ASA/CASA liaison. Crashing A-123 does not treat R-14: permits already finish on 24~October with $TF=0$. Option~C is the schedule backup if this row fires. It is not justified by an invented 10--12~November payload geometry.
 
 R-09 (stage-separation timing) and R-02 (footprint toward the park) remain high-impact register rows on the same LRR protocol. They are not the three board headlines.
 
-Those eleven cost-bearing rows sum to \$175{,}500. Ilsa's itemised RES allowance of \$43{,}200 covers in-scope LOX price variance, crane wind standby and pad/GSE consumable anomalies. Together they are the \$218{,}700 in Table~\ref{tab:contingency} (14.58\% of base, not a 15\% markup). Vehicle freight stays out of RES. R-06 standby dollars already sit inside WBS~1.2.2, which is why that EMV is \$9{,}000 rather than a second crane line.
+Those eleven cost-bearing rows sum to \$175{,}500. Ilsa's itemised RES allowance of \$43{,}130 covers in-scope LOX price variance, crane wind standby, GN2/N2 purge stock and a cryogenic hose/seal kit. Together they are the \$218{,}630 in Table~\ref{tab:contingency} (14.58\% of base, not a 15\% markup). Vehicle freight stays out of RES. R-06 standby dollars already sit inside WBS~1.2.2, which is why that EMV is \$9{,}000 rather than a second crane line.
 
-Float, not money, is the treatment for several feeders. A-125's 39 days let Ilsa park RF in weeks 3--6 so R-13 never meets an occupancy of 14. A-124's three days and A-114's five days absorb GSE and heritage delay before A-132 without moving 15~November. R-08 is transferred after HP-1 NDT. If R-14 fires, Abdul takes Option~C to the Board and Ilsa draws \$21{,}000 from contingency. That draw is not in the \$1{,}500{,}000 work baseline, and it does not move the M-7 diamond on Figure~\ref{fig:gantt_chart} until the Board says so.
+Float, not money, is the treatment for several feeders. A-125's 39 days let Ilsa park RF in weeks 3--6 so R-13 never meets an occupancy of 14. A-124's three days and A-114's five days absorb GSE and heritage delay before A-132 without moving 15~November. R-08 is transferred after HP-1 NDT. If R-14 fires, Abdul takes Option~C to the Board and Ilsa draws \$21{,}000 from contingency. That draw is not in the \$1{,}500{,}000 work baseline, it does not move the M-7 diamond on Figure~\ref{fig:gantt_chart} until the Board says so, and the residual on R-15 becomes the two-day marine sweep.

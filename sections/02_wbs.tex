@@ -3,7 +3,7 @@
 
 The work breakdown structure in Figure~\ref{fig:wbs} is the 100\% rule applied to launch-site operations at Bowen Orbital Spaceport \citep{pmi2021}. Four Level-2 workstreams---campaign governance, pad logistics, pad testing, and flight/closeout---decompose into seventeen Level-3 packages. Every scheduled activity except A-100 maps to exactly one of those packages, and every dollar in Table~\ref{tab:wbs-cost} sits in exactly one of them. A-100 is annotated beside the tree rather than inside it: the vehicle receipt window is an external zero-dollar wait that starts when out-of-scope freight reaches the gate. It belongs on the network because it drives stacking (A-122), but it is not a cost account.
 
-Package 1.2.1 is one cost account with two schedule bars (A-121 site mobilisation and A-122 receiving inspection) because receiving cannot start until both the cleanroom and the vehicle exist. The remaining fifteen Level-3 codes are one-to-one with Table~\ref{tab:precedence}. Factory manufacture, engine research and development, and line-haul to the receiving gate are excluded.
+Package 1.2.1 is one cost account with two schedule bars (A-121 site mobilisation and A-122 receiving inspection) because receiving cannot start until both the cleanroom and the vehicle exist. The remaining sixteen Level-3 codes are one-to-one with Table~\ref{tab:precedence}. Factory manufacture, engine research and development, and line-haul to the receiving gate are excluded.
 
 The 7~August charter does not contain a notice to proceed for field work. Permitting (A-113) and Juru mobilisation (A-114) start on 10~August because those clocks have to run before hot fire. Physical pad occupancy before Gate~1 (A-111, 2~October) is a PEP choice, not a charter clause. What Gate~1 locks is the cost and schedule baseline.
 
@@ -36,7 +36,7 @@ The 7~August charter does not contain a notice to proceed for field work. Permit
 
 \node[L3] (n111) at (-6.15,-3.15) {\textbf{1.1.1} PEP and integration};
 \node[L3] (n112) at (-6.15,-4.05) {\textbf{1.1.2} Governance, budget and EVM};
-\node[L3] (n113) at (-6.15,-4.95) {\textbf{1.1.3} Regulatory / GBRMPA / CASA};
+\node[L3] (n113) at (-6.15,-4.95) {\textbf{1.1.3} ASA / CASA / GBRMPA};
 \node[L3] (n114) at (-6.15,-5.85) {\textbf{1.1.4} Juru cultural heritage};
 
 \node[L3] (n121) at (-2.05,-3.15) {\textbf{1.2.1} Receiving and cleanroom};
@@ -47,7 +47,7 @@ The 7~August charter does not contain a notice to proceed for field work. Permit
 \node[L3] (n131) at ( 2.05,-3.15) {\textbf{1.3.1} Avionics power-on};
 \node[L3] (n132) at ( 2.05,-4.05) {\textbf{1.3.2} WDR (cold LOX/LN2)};
 \node[L3] (n133) at ( 2.05,-4.95) {\textbf{1.3.3} 5-second static fire};
-\node[L3] (n134) at ( 2.05,-5.85) {\textbf{1.3.4} Post-fire diagnostics / LRU};
+\node[L3] (n134) at ( 2.05,-5.85) {\textbf{1.3.4} Post-fire / pre-kitted spare};
 
 \node[L3] (n141) at ( 6.15,-3.15) {\textbf{1.4.1} LRR and RSO clearance};
 \node[L3] (n142) at ( 6.15,-4.05) {\textbf{1.4.2} Range exclusion / countdown};
@@ -62,8 +62,7 @@ The 7~August charter does not contain a notice to proceed for field work. Permit
   \draw[navy!80, ->] (\a.south) -- (\b.north);
 
 \node[EXT] (a100) at (0,-8.05) {%
-  \textbf{EXT A-100 --- not a WBS cost account.} Vehicle receipt window (external \$0 wait).
-  Starts when out-of-scope freight reaches the gate; drives A-122 stacking; omitted from Table~\ref{tab:wbs-cost}.};
+  \textbf{EXT A-100 --- not a WBS cost account.} External \$0 freight driver into A-122; omitted from Table~\ref{tab:wbs-cost}.};
 
 \end{tikzpicture}%
 }

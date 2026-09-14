@@ -119,6 +119,9 @@ def render(data) -> dict[str, str]:
 \\newcommand{{\\PEPlateSPI}}{{{late["spi"]:.2f}}}
 \\newcommand{{\\PEPlateEac}}{{{aud(late["eac_work"])}\\xspace}}
 \\newcommand{{\\PEPlateEacnum}}{{{aud_plain(late["eac_work"])}}}
+\\newcommand{{\\PEPlateIeac}}{{{aud(late["ieac_bac"])}\\xspace}}
+\\newcommand{{\\PEPlateIeacnum}}{{{aud_plain(late["ieac_bac"])}}}
+\\newcommand{{\\PEPlateBand}}{{{late["band"]}}}
 \\newcommand{{\\PEPmFourGap}}{{{aud(m4_gap)}\\xspace}}
 \\newcommand{{\\PEPpmBox}}{{%
 \\textbf{{Campaign PM}}\\\\[-0.05em]\\textbf{{\\mbox{{\\PEPpmName}}}}\\\\[0.12em]

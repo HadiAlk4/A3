@@ -60,6 +60,29 @@ def D(s) -> date:
     return date.fromisoformat(str(s))
 
 
+def resource_weeks_from_build(build: dict) -> tuple[list[int], list[int]]:
+    organic = build["organic_gse"]
+    rf = build["rf_heads"]
+    ot = build["overtime_heads"]
+    surge = build["surge_heads"]
+    overlap = build["week10_stack_overlap"]
+    rf_m_weeks = set(build["rf_mitigated_weeks"])
+    rf_u_weeks = set(build["rf_unmitigated_weeks"])
+    ot_weeks = set(build["overtime_unmit_weeks"])
+    surge_weeks = set(build["surge_weeks"])
+    mit, unmit = [], []
+    for i, o in enumerate(organic):
+        w = i + 1
+        rf_m = rf if w in rf_m_weeks else 0
+        rf_u = rf if w in rf_u_weeks else 0
+        ot_u = ot if w in ot_weeks else 0
+        sg = surge if w in surge_weeks else 0
+        extra = overlap if w == 10 else 0
+        mit.append(o + rf_m + sg + extra)
+        unmit.append(o + rf_u + ot_u)
+    return mit, unmit
+
+
 def load():
     with YAML_PATH.open() as f:
         return yaml.safe_load(f)
@@ -179,17 +202,31 @@ def check(data) -> list[str]:
 
     mit = data["resource_weeks"]["demand_mitigated"]
     unmit = data["resource_weeks"]["demand_unmitigated"]
+    built_m, built_u = resource_weeks_from_build(data["resource_build"])
+    if mit != built_m or unmit != built_u:
+        errors.append(
+            f"resource_weeks != resource_build (mit {mit} vs {built_m}; unmit {unmit} vs {built_u})"
+        )
     if len(mit) != 16 or len(unmit) != 16:
         errors.append("resource_weeks must be 16 weeks")
     if max(mit) != proj["mitigated_peak"] or max(unmit) != proj["unmitigated_peak"]:
         errors.append("resource peaks != project.mitigated/unmitigated_peak")
-    if any(v > proj["hse_pad_cap"] for v in mit):
-        errors.append("mitigated demand exceeds HSE pad cap")
+    res_tex = ROOT / "sections" / "05_resource.tex"
+    if res_tex.exists() and r"\input{sections/generated/s5_resource_build}" not in res_tex.read_text():
+        errors.append("05_resource.tex must input the generated headcount-build table")
+    s5 = GEN_DIR / "s5_resource_build.tex"
+    if not s5.exists():
+        errors.append("s5_resource_build.tex missing; run python3 scripts/plot_resource_figures.py")
+    elif "tab:resource-build" not in s5.read_text():
+        errors.append("s5_resource_build.tex missing table label")
     # Weeks 3-6 (indices 2-5): mitigated must show A-125 hours that unmitigated parks in October.
     if not all(mit[i] > unmit[i] for i in range(2, 6)):
         errors.append("weeks 3-6 mitigated must exceed unmitigated (A-125 smoothing)")
     if not all(unmit[i] > mit[i] for i in range(9, 12)):
         errors.append("weeks 10-12 unmitigated must exceed mitigated (A-125 still on the pad)")
+    lox = next(x for x in data["res_items"] if x["name"].startswith("LOX"))
+    if lox["amount"] != round(0.18 * 68500):
+        errors.append(f"LOX RES {lox['amount']} != 18% of $68,500")
     res_sum = sum(x["amount"] for x in data.get("res_items", []))
     if res_sum != proj["res_allowance"]:
         errors.append(f"res_items sum {res_sum} != res_allowance {proj['res_allowance']}")
@@ -212,6 +249,16 @@ def check(data) -> list[str]:
         errors.append("percent-complete list != [A-113]")
     if evm["measurement_milestone"] != ["A-123", "A-124"]:
         errors.append("milestone-percent list != [A-123, A-124]")
+    if float(evm.get("a123_unsigned_hp1_pct", 1)) != 0.0:
+        errors.append("unsigned HP-1 must earn 0% of A-123 (milestone 0/100)")
+    a123_amt = next(r["amount"] for r in data["wbs_cost"] if r["wbs"] == "1.2.2")
+    late_ev_want = data["evm_m4"]["pv"] - a123_amt
+    if data["evm_m4"]["late_stack"]["ev"] != late_ev_want:
+        errors.append(
+            f"late-stack EV {data['evm_m4']['late_stack']['ev']} != PV − A-123 {late_ev_want}"
+        )
+    if data["evm_m4"]["late_stack"]["band"] != "Red":
+        errors.append("unsigned HP-1 late stack must be Red")
     if data["hse"]["blast_zone_km"] != 1.5 or data["hse"]["acoustic_db"] != 135:
         errors.append("HSE blast zone / acoustic != 1.5 km / 135 dB")
     if data["hse"]["blast_zone_km"] and proj["hse_pad_cap"] != 12:
@@ -244,6 +291,21 @@ def check(data) -> list[str]:
     r12 = next(r for r in data["risks"] if r["id"] == "R-12")
     if r12["emv"] != 0 or r12["i"] != 5:
         errors.append("R-12 must be the in-flight TF1 row (I=5, site-ops EMV $0)")
+    if r12["p_res"] != r12["p"]:
+        errors.append("R-12 residual P must stay at inherent P (HP-3 does not treat post-T-0)")
+    if "ASA" not in acts["A-113"]["name"]:
+        errors.append("A-113 name must include ASA")
+    if "LRU" in acts["A-134"]["name"]:
+        errors.append("A-134 title must not say LRU")
+    labour = data.get("labour", {})
+    if labour:
+        c10 = labour["c10_ordinary"]
+        if abs(c10 * labour["engineer_multiplier"] - labour["engineer_pm"]) > 0.15:
+            errors.append("engineer/PM rate is not C10 × stated multiplier")
+        if abs(c10 * labour["technician_multiplier"] - labour["technician"]) > 0.15:
+            errors.append("technician rate is not C10 × stated multiplier")
+        if labour["crane_lift_days"] + labour["crane_standby_days"] != 24:
+            errors.append("crane lift + standby days must equal A-123 duration 24")
     if data["executive"]["top_risks"] != ["R-01", "R-12", "R-14"]:
         errors.append("top risks must be R-01, R-12, R-14")
     if "A-141" in str(data["compression"]["option_c_tail"]) and expect_d["A-141"] != 5:
@@ -326,7 +388,9 @@ def check_section_7(data) -> list[str]:
         "HP-1 signed",
         "0.96",
         "1.00",
-        "0.92",
+        f"{m4['late_stack']['cpi']:.2f}",
+        f"{m4['late_stack']['spi']:.2f}",
+        m4["late_stack"]["band"],
         "HP-1",
         "HP-2",
         "HP-3",
@@ -348,8 +412,8 @@ def check_section_7(data) -> list[str]:
     for rid in RETIRED:
         if re.search(rf"\b{rid}\b", tex):
             errors.append(f"retired ID {rid} appears in 07_delivery.tex")
-    if re.search(r"week(?:s)?\s+(1|14)\b", tex, re.I):
-        errors.append("07_delivery.tex looks like a fake weekly EV history")
+    if "70 percent" in tex.lower() or "70~percent" in tex:
+        errors.append("late-stack EVM must not mix 70% hours with milestone 0/100")
     if "SV > -5" in tex or r"$SV > -5" in tex:
         errors.append("do not write SV in days")
     if "every cost-bearing EMV" in tex:

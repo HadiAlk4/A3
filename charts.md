@@ -108,8 +108,8 @@ TikZ figures live in `figures/tikz/` (or inline in `A3.tex`) and must read the s
 * **Section:** 4.3
 * **Proves:** Peak burn is October; distributed PV ends at **$1,500,000**, not $1,725,000.
 * **Data:** Table 4.3 monthly period and cumulative. Secondary bars = period PV; primary line = cumulative PV.
-* **Reference lines:** horizontal navy at $1,500,000$ (work PMB); horizontal crimson at $1,725,000$ ($BAC$ / authorisation). Shade August–September vs October peak.
-* **Callout:** “Contingency $225,000 is undistributed — not December cash.”
+* **Reference lines:** horizontal navy at $1,500,000$ (work PMB); horizontal crimson at $1,718,630$ ($BAC$ / authorisation). Shade August–September vs October peak.
+* **Callout:** “Contingency $218,630$ is undistributed — not December cash.”
 * **Do not:** Force the S-curve to $1,725,000$. Do not include the $21,000$ Option C cost in PV.
 
 ---
@@ -157,8 +157,8 @@ TikZ figures live in `figures/tikz/` (or inline in `A3.tex`) and must read the s
 * **Section:** 7.5
 * **Proves:** How CPI/SPI **will** be read at the first physical gate; this is a framework, not a progress report.
 * **Layout (two panels):**
-  * **Upper:** Three dots or a tiny grouped bar at the single date **15 Oct 2026 (M-4)** for PV $825,000, EV $810,000, AC $840,000 (on-plan illustration). Optional second group “late stack” EV $760,000 / AC $830,000. X-axis is **status date**, not 14 fake weeks.
-  * **Lower:** Horizontal Green / Amber / Red bands at 1.05–0.95 / 0.95–0.90 / <0.90. Mark CPI 0.96 and SPI 0.98 (green) and the amber pair 0.92 / 0.92.
+  * **Upper:** Three dots or a tiny grouped bar at the single date **15 Oct 2026 (M-4)** for PV $865,578, EV $865,578, AC $901,000 (on-plan illustration). Optional second group “late stack” EV $647,578 / AC $870,000 (A-123 milestone 0/100). X-axis is **status date**, not 14 fake weeks.
+  * **Lower:** Horizontal Green / Amber / Red bands at 1.05–0.95 / 0.95–0.90 / <0.90. Mark CPI 0.96 and SPI 1.00 (green) and the red pair 0.74 / 0.75.
 * **Caption must include the words “illustrative status at M-4; campaign not yet executed.”**
 * **Do not:** Draw smooth PV/EV/AC curves from week 1 to 14. That implies the work already happened.
 

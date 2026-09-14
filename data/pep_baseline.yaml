@@ -7,21 +7,35 @@ project:
   finish: 2026-12-01
   base_estimate: 1500000
   emv_sum: 175500
-  res_allowance: 49500
-  contingency: 225000
-  bac: 1725000
+  res_allowance: 43200
+  contingency: 218700
+  bac: 1718700
+  contingency_pct: 14.58
   organic_crew: 8
   hse_pad_cap: 12
   unmitigated_peak: 14
   mitigated_peak: 12
   surge_hire_cost: 22400
   option_c_cost: 21000
-  pv_at_m4: 825000
+  pv_at_m4: 865578
+
+res_items:
+  - {name: "LOX/LN2 remote-delivery price variance (18% of the $68,500 gases line in 1.3.2)", amount: 12400}
+  - {name: "Crane wind standby beyond R-06 EMV (4 extra days x $4,200)", amount: 16800}
+  - {name: "In-scope pad/GSE consumable anomalies", amount: 14000}
+
+# Cost I bands for the 1-5 matrix. I = max(I_S band, I_C band).
+impact_cost_bands:
+  1: "< $15,000"
+  2: "$15,000–$39,999"
+  3: "$40,000–$79,999"
+  4: "$80,000–$149,999"
+  5: "$150,000 or more"
 
 milestones:
   M2: {date: 2026-10-02, name: PEP Gate 1 lock}
   M4: {date: 2026-10-15, name: Pad stacking complete}
-  M5: {date: 2026-10-30, name: WDR and 5-second static fire}
+  M5: {date: 2026-10-30, name: 5-second static fire}
   M6: {date: 2026-11-10, name: Launch Readiness Review}
   M7: {date: 2026-11-15, name: Launch window opening T-0}
   M8: {date: 2026-11-20, name: Telemetry handover}
@@ -29,6 +43,7 @@ milestones:
 
 # critical: true means launch/closeout TF = 0 (crimson).
 # A-111 is gate_constrained, not launch-critical.
+# A-125 feeds A-133 (RF before hot fire). LF 24 Oct is derived, not imposed.
 activities:
   - {id: A-100, wbs: EXT, name: Vehicle receipt window (external, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: true, gate_constrained: false}
   - {id: A-111, wbs: 1.1.1, name: PEP and integration baseline, d: 54, predecessors: [], es: 2026-08-10, ef: 2026-10-02, ls: 2026-08-10, lf: 2026-10-02, tf: 0, critical: false, gate_constrained: true}
@@ -42,7 +57,7 @@ activities:
   - {id: A-125, wbs: 1.2.4, name: RF telemetry array calibration, d: 18, predecessors: [A-121], es: 2026-08-29, ef: 2026-09-15, ls: 2026-10-07, lf: 2026-10-24, tf: 39, critical: false, gate_constrained: false}
   - {id: A-131, wbs: 1.3.1, name: Avionics power-on sweeps, d: 23, predecessors: [A-122], es: 2026-09-22, ef: 2026-10-14, ls: 2026-09-23, lf: 2026-10-15, tf: 1, critical: false, gate_constrained: false}
   - {id: A-132, wbs: 1.3.2, name: Wet Dress Rehearsal (cold), d: 9, predecessors: [A-114, A-123, A-124, A-131], es: 2026-10-16, ef: 2026-10-24, ls: 2026-10-16, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
-  - {id: A-133, wbs: 1.3.3, name: 5-second static fire, d: 6, predecessors: [A-132, A-113], es: 2026-10-25, ef: 2026-10-30, ls: 2026-10-25, lf: 2026-10-30, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-133, wbs: 1.3.3, name: 5-second static fire, d: 6, predecessors: [A-132, A-113, A-125], es: 2026-10-25, ef: 2026-10-30, ls: 2026-10-25, lf: 2026-10-30, tf: 0, critical: true, gate_constrained: false}
   - {id: A-134, wbs: 1.3.4, name: Post-fire diagnostics and LRU, d: 6, predecessors: [A-133], es: 2026-10-31, ef: 2026-11-05, ls: 2026-10-31, lf: 2026-11-05, tf: 0, critical: true, gate_constrained: false}
   - {id: A-141, wbs: 1.4.1, name: LRR and RSO clearance, d: 5, predecessors: [A-134], es: 2026-11-06, ef: 2026-11-10, ls: 2026-11-06, lf: 2026-11-10, tf: 0, critical: true, gate_constrained: false}
   - {id: A-142, wbs: 1.4.2, name: Range exclusion and countdown, d: 4, predecessors: [A-141], es: 2026-11-11, ef: 2026-11-14, ls: 2026-11-11, lf: 2026-11-14, tf: 0, critical: true, gate_constrained: false}
@@ -69,12 +84,13 @@ wbs_cost:
   - {wbs: 1.4.4, amount: 24000}
   - {wbs: 1.4.5, amount: 66000}
 
+# Uniform daily burn of each activity; remainder on last days. Sum = $1,500,000.
 monthly_pv:
-  - {month: 2026-08, period: 218000, cumulative: 218000}
-  - {month: 2026-09, period: 284000, cumulative: 502000}
-  - {month: 2026-10, period: 657000, cumulative: 1159000}
-  - {month: 2026-11, period: 315000, cumulative: 1474000}
-  - {month: 2026-12, period: 26000, cumulative: 1500000}
+  - {month: 2026-08, period: 155951, cumulative: 155951}
+  - {month: 2026-09, period: 407188, cumulative: 563139}
+  - {month: 2026-10, period: 628861, cumulative: 1192000}
+  - {month: 2026-11, period: 302000, cumulative: 1494000}
+  - {month: 2026-12, period: 6000, cumulative: 1500000}
 
 compression:
   days_saved: 5
@@ -84,32 +100,38 @@ compression:
     - {id: A, name: Pure fast-track, cost: 0, slope_per_day: 0, verdict: Rejected, risk: High}
     - {id: B, name: Pure crash, cost: 40000, slope_per_day: 8000, verdict: Rejected, risk: High}
     - {id: C, name: Hybrid (contingent), cost: 21000, slope_per_day: 4200, verdict: Contingent, risk: Medium}
+  # LRR duration kept at 5 days. Five days come from A-134 and A-142, not HP-4.
   option_c_tail:
     - {id: A-134, es: 2026-10-31, ef: 2026-11-02}
-    - {id: A-141, es: 2026-11-03, ef: 2026-11-05}
-    - {id: A-142, es: 2026-11-06, ef: 2026-11-09}
+    - {id: A-141, es: 2026-11-03, ef: 2026-11-07}
+    - {id: A-142, es: 2026-11-08, ef: 2026-11-09}
     - {id: A-143, es: 2026-11-10, ef: 2026-11-10}
 
 resource_weeks:
   # week 1 starts 2026-08-10
-  demand_mitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 11, 12, 12, 8, 10, 5, 4]
+  # Mitigated (baseline): A-125 in weeks 3-6; +4 surge in weeks 11-12.
+  # Unmitigated what-if: A-125 stays on WDR/static fire (weeks 10-12); no surge.
+  demand_mitigated: [6, 7, 9, 8, 8, 10, 8, 8, 8, 11, 12, 12, 8, 10, 5, 4]
   demand_unmitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 14, 14, 14, 8, 10, 5, 4]
 
 evm_m4:
-  pv: 825000
-  planned_label: "Planned (stacking 0/100 complete, GSE HP-2 complete)"
-  on_plan: {ev: 810000, ac: 840000, cpi: 0.96, spi: 0.98, band: Green, eac_work: 1558750, ieac_bac: 1796875, action: "Green --- weekly dashboard"}
-  late_stack: {ev: 760000, ac: 830000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1634348, ieac_bac: 1875000, action: "Amber --- 48~h exception report"}
+  pv: 865578
+  planned_label: "HP-1 signed (A-123 100%), HP-2 signed, A-113 elapsed-day percent-complete"
+  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561856, ieac_bac: 1790313, action: "Green --- weekly dashboard"}
+  late_stack: {ev: 800178, ac: 870000, cpi: 0.92, spi: 0.92, band: Amber, eac_work: 1630676, ieac_bac: 1868152, action: "Amber --- 48~h exception report"}
 
 # In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
+# A-113 is elapsed-day percent-complete, not 0/100.
 evm:
   green_lo: 0.95
   green_hi: 1.05
   amber_lo: 0.90
   red_lt: 0.90
   t0_slip_trigger_days: 2
-  measurement_0_100: [A-113, A-132, A-133, A-141, A-143]
+  measurement_0_100: [A-132, A-133, A-141, A-143]
+  measurement_percent: [A-113]
   measurement_milestone: [A-123, A-124]
+  a123_unsigned_hp1_pct: 0.70
   pm_doa_aud: 20000
   pm_doa_hours: 48
 
@@ -144,7 +166,7 @@ hse:
   acoustic_db: 135
 
 risks:
-  - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 3, emv: 27000, i_dollar: 90000, p_pct: 0.30}
+  - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 4, emv: 27000, i_dollar: 90000, p_pct: 0.30}
   - {id: R-02, p: 2, i: 5, p_res: 1, i_res: 4, emv: 21600, i_dollar: 180000, p_pct: 0.12}
   - {id: R-03, p: 3, i: 3, p_res: 1, i_res: 2, emv: 15000, i_dollar: 50000, p_pct: 0.30}
   - {id: R-04, p: 3, i: 4, p_res: 1, i_res: 2, emv: 12000, i_dollar: 40000, p_pct: 0.30}
@@ -155,7 +177,7 @@ risks:
   - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 18000, i_dollar: 150000, p_pct: 0.12}
   - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 6900, i_dollar: 23000, p_pct: 0.30}
   - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
-  - {id: R-12, p: 2, i: 2, p_res: 2, i_res: 1, emv: 0, i_dollar: 21000, p_pct: 0.12}
+  - {id: R-12, p: 2, i: 5, p_res: 1, i_res: 5, emv: 0, i_dollar: 0, p_pct: 0.12}
   - {id: R-13, p: 4, i: 3, p_res: 2, i_res: 2, emv: 15000, i_dollar: 30000, p_pct: 0.50}
   - {id: R-14, p: 3, i: 4, p_res: 2, i_res: 2, emv: 13500, i_dollar: 45000, p_pct: 0.30}
   - {id: R-15, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
@@ -169,8 +191,6 @@ contribution:
   - {name: Ziyad Alahmari, id: s5375826, pct: 25.0, hours: 42, deliverables: "Risk register; quality and HSE"}
   - {name: Ilsa Hashmi, id: s5310047, pct: 25.0, hours: 42, deliverables: "Cost; resources; capacity; EVM framework"}
 
-# Qualitative A1 wording for Table 2.1. The A3 column is generated from
-# milestones, activities, costs and resource caps so it cannot drift.
 charter:
   dated: 2026-08-07
   mobilisation: 2026-08-10
@@ -214,11 +234,20 @@ charter_refinements:
     element: Resource peak
     a1: "Roles listed; no demand vs capacity."
     why: "A1 could not show where the plan exceeds capacity."
+  - key: stakeholders
+    element: Regulator and payload
+    a1: "ASA High/Low Keep Satisfied, file 60 days prior. Payload sponsor Med/High Keep Informed, witness LRR."
+    a3: "ASA remains Keep Satisfied. CASA issues the airspace NOTAM (R-14). Payload sponsor still witnesses LRR. No 10--12~Nov geometry is used."
+    why: "A1 named ASA, not Townsville, as the high-power regulator. The PEP keeps that filing rule and uses CASA as the airspace instrument."
+  - key: success
+    element: Success criteria
+    a1: "Q1 2027 window; no funds beyond contingency; 98.5\\% telemetry in 5 days; zero LTI/GBRMPA/Juru; defects to R\\&D."
+    a3: "T-0 15~Nov with a 2-day slip trigger; $AC \\le BAC$; 98.5\\% telemetry by 20~Nov; four-engine 5~s static fire; zero LTI/GBRMPA/Juru; design defects return to R\\&D."
+    why: "A1 success tests stay. The PEP adds numbered cost and a 2-day in-flight trigger. Dougherty (2026) supports a late-2026 attempt inside the A1 Q1 2027 outer window."
 
-# Board-facing sentences for Section 1. Consequences must match Table 6.1.
 executive:
-  top_risks: [R-01, R-09, R-14]
+  top_risks: [R-01, R-12, R-14]
   risks:
     R-01: "R-01 is a residual pump-insulation defect: static-fire auto-abort on A-133 and a 12--14~day critical-path recycle."
-    R-09: "R-09 is a stage-separation timing error: debris outside the predicted footprint, a GBRMPA inquiry and range halt."
-    R-14: "R-14 is Townsville military airspace or a late CASA NOTAM refusing the 15~November slot."
+    R-12: "R-12 is the TestFlight~1 in-flight mode: thrust loss in two first-stage hybrid motors after $T$-0, as at T+14~s, ending the heritage objective."
+    R-14: "R-14 is an ASA flight-authorisation or CASA NOTAM refusing the 15~November slot."

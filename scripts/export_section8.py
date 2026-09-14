@@ -73,7 +73,7 @@ def reconcile_table(data: dict) -> str:
             f"Contingency & {aud(proj['contingency'])} $=$ "
             f"EMV {aud(proj['emv_sum'])} $+$ RES {aud(proj['res_allowance'])} & "
             f"Table~\\ref{{tab:contingency}}; Table~\\ref{{tab:risk-register}} "
-            f"dollar column; 15.00\\% is the \\emph{{result}} \\\\"
+            f"dollar column; {proj['contingency_pct']:.2f}\\% of base, not a 15\\% markup \\\\"
         ),
         (
             f"Authorised $BAC$ & {aud(proj['bac'])} & "
@@ -113,7 +113,7 @@ def reconcile_table(data: dict) -> str:
             f"In the {aud(proj['base_estimate'])} base, not a contingency draw \\\\"
         ),
         (
-            f"Option~C & {aud(proj['option_c_cost'])} from contingency if R-12/R-14 & "
+            f"Option~C & {aud(proj['option_c_cost'])} from contingency if R-14 fires & "
             f"Not in Table~\\ref{{tab:cashflow}}; Board draw under the "
             f"Sec.~\\ref{{sec:delivery-governance}} DoA \\\\"
         ),

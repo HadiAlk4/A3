@@ -25,10 +25,7 @@ MAIN_TEX = ROOT / "A3.tex"
 EXEC_TEX = ROOT / "sections" / "01_exec.tex"
 GEN_DIR = ROOT / "sections" / "generated"
 
-# A-125 has no FS successor; LF is imposed as the day before A-133 ES (before hot fire).
-A125_LF_CONSTRAINT = "A-133"
-# R-12 EMV is held at 0 so Option C $21k is not double-counted in the $175,500.
-ZERO_EMV_WITH_IMPACT = {"R-12"}
+# A-125 feeds A-133 so RF is complete before hot fire. LF is derived from that FS link.
 RETIRED = {f"A-{n}" for n in range(101, 111)}
 MILESTONE_OWNERS = {
     "M2": "A-111",
@@ -117,13 +114,7 @@ def check(data) -> list[str]:
             if lf != ef:
                 errors.append(f"{a['id']} Gate 1 MFO: LF should equal EF")
         elif not succ[a["id"]]:
-            if a["id"] == "A-125":
-                want_lf = D(acts[A125_LF_CONSTRAINT]["es"]) - timedelta(days=1)
-                if lf != want_lf:
-                    errors.append(
-                        f"A-125 LF {lf} != day before {A125_LF_CONSTRAINT} ES {want_lf}"
-                    )
-            elif lf != finish:
+            if lf != finish:
                 errors.append(f"{a['id']} no successor: LF {lf} != finish {finish}")
         else:
             want_lf = min(D(acts[s]["ls"]) for s in succ[a["id"]]) - timedelta(days=1)
@@ -148,7 +139,7 @@ def check(data) -> list[str]:
         errors.append("Option C slope != 4200")
 
     tail = {t["id"]: t for t in data["compression"]["option_c_tail"]}
-    expect_d = {"A-134": 3, "A-141": 3, "A-142": 4, "A-143": 1}
+    expect_d = {"A-134": 3, "A-141": 5, "A-142": 2, "A-143": 1}
     chain = ["A-134", "A-141", "A-142", "A-143"]
     for iid, new_d in expect_d.items():
         es, ef = D(tail[iid]["es"]), D(tail[iid]["ef"])
@@ -159,6 +150,8 @@ def check(data) -> list[str]:
             errors.append(f"Option C {a}→{b} is not FS+0")
     if D(tail["A-143"]["ef"]) != D(data["compression"]["option_c_t0"]):
         errors.append("Option C A-143 EF != option_c_t0")
+    if "A-125" not in acts["A-133"]["predecessors"]:
+        errors.append("A-133 predecessors must include A-125 (RF before hot fire)")
 
     proj = data["project"]
     base = sum(r["amount"] for r in data["wbs_cost"])
@@ -181,10 +174,6 @@ def check(data) -> list[str]:
         errors.append(f"risk EMV {emv} != emv_sum {proj['emv_sum']}")
     for r in data["risks"]:
         calc = r["p_pct"] * r["i_dollar"]
-        if r["id"] in ZERO_EMV_WITH_IMPACT:
-            if r["emv"] != 0:
-                errors.append(f"{r['id']} EMV must be 0 (Option C not double-counted)")
-            continue
         if abs(r["emv"] - calc) > 0.51:
             errors.append(f"{r['id']} EMV {r['emv']} != {r['p_pct']}×{r['i_dollar']}")
 
@@ -196,6 +185,19 @@ def check(data) -> list[str]:
         errors.append("resource peaks != project.mitigated/unmitigated_peak")
     if any(v > proj["hse_pad_cap"] for v in mit):
         errors.append("mitigated demand exceeds HSE pad cap")
+    # Weeks 3-6 (indices 2-5): mitigated must show A-125 hours that unmitigated parks in October.
+    if not all(mit[i] > unmit[i] for i in range(2, 6)):
+        errors.append("weeks 3-6 mitigated must exceed unmitigated (A-125 smoothing)")
+    if not all(unmit[i] > mit[i] for i in range(9, 12)):
+        errors.append("weeks 10-12 unmitigated must exceed mitigated (A-125 still on the pad)")
+    res_sum = sum(x["amount"] for x in data.get("res_items", []))
+    if res_sum != proj["res_allowance"]:
+        errors.append(f"res_items sum {res_sum} != res_allowance {proj['res_allowance']}")
+    pct = round(100.0 * proj["contingency"] / proj["base_estimate"], 2)
+    if abs(pct - proj.get("contingency_pct", pct)) > 0.011:
+        errors.append(f"contingency_pct {proj.get('contingency_pct')} != {pct}")
+    if abs(pct - 15.0) < 0.011:
+        errors.append("contingency must not be a 15.00% plug")
     if data["evm_m4"]["pv"] != proj["pv_at_m4"]:
         errors.append("evm_m4.pv != project.pv_at_m4")
 
@@ -204,8 +206,10 @@ def check(data) -> list[str]:
         errors.append("PM DoA must be $20,000 and 48 hours")
     if evm["t0_slip_trigger_days"] != 2:
         errors.append("T-0 slip trigger must be 2 days")
-    if evm["measurement_0_100"] != ["A-113", "A-132", "A-133", "A-141", "A-143"]:
-        errors.append("0/100 list != [A-113, A-132, A-133, A-141, A-143]")
+    if evm["measurement_0_100"] != ["A-132", "A-133", "A-141", "A-143"]:
+        errors.append("0/100 list != [A-132, A-133, A-141, A-143]")
+    if evm.get("measurement_percent") != ["A-113"]:
+        errors.append("percent-complete list != [A-113]")
     if evm["measurement_milestone"] != ["A-123", "A-124"]:
         errors.append("milestone-percent list != [A-123, A-124]")
     if data["hse"]["blast_zone_km"] != 1.5 or data["hse"]["acoustic_db"] != 135:
@@ -233,8 +237,17 @@ def check(data) -> list[str]:
     for hp in data["hold_points"]:
         if "Ziyad" not in hp.get("release", ""):
             errors.append(f"{hp['id']} release must include Ziyad")
-    if "stacking 0/100 complete, GSE HP-2 complete" not in data["evm_m4"]["planned_label"]:
-        errors.append("evm_m4.planned_label must keep locked stacking 0/100 + HP-2 wording")
+    if "HP-1 signed" not in data["evm_m4"]["planned_label"]:
+        errors.append("evm_m4.planned_label must say HP-1 signed")
+    if "A-113" not in data["evm_m4"]["planned_label"]:
+        errors.append("evm_m4.planned_label must mention A-113 percent-complete")
+    r12 = next(r for r in data["risks"] if r["id"] == "R-12")
+    if r12["emv"] != 0 or r12["i"] != 5:
+        errors.append("R-12 must be the in-flight TF1 row (I=5, site-ops EMV $0)")
+    if data["executive"]["top_risks"] != ["R-01", "R-12", "R-14"]:
+        errors.append("top risks must be R-01, R-12, R-14")
+    if "A-141" in str(data["compression"]["option_c_tail"]) and expect_d["A-141"] != 5:
+        errors.append("Option C must keep A-141 at 5 days")
 
     pct = sum(c["pct"] for c in data["contribution"])
     if abs(pct - 100.0) > 1e-6:
@@ -310,9 +323,9 @@ def check_section_7(data) -> list[str]:
         _aud(proj["option_c_cost"]),
         "campaign not yet executed",
         m4["planned_label"],
-        "stacking 0/100 complete, GSE HP-2 complete",
+        "HP-1 signed",
         "0.96",
-        "0.98",
+        "1.00",
         "0.92",
         "HP-1",
         "HP-2",
@@ -341,8 +354,8 @@ def check_section_7(data) -> list[str]:
         errors.append("do not write SV in days")
     if "every cost-bearing EMV" in tex:
         errors.append("DoA comparison must not call dollar impacts EMVs")
-    if "HP-1 / HP-2 complete" in tex:
-        errors.append("planned M-4 row must not mark HP-1 complete")
+    if "remaining A-113 permit hours" in tex and "0/100" in tex.split("remaining A-113")[0][-400:]:
+        errors.append("do not explain the M-4 EV-PV gap as 0/100 on A-113")
     unesc = tex.replace("\\&", "&")
     for hp in data["hold_points"]:
         if hp["release"] not in unesc:
@@ -375,9 +388,9 @@ def check_section_2(data) -> list[str]:
     blob = tex + "\n" + wbs + "\n" + gen
     errors: list[str] = []
     required = [
-        r"Deliver launch-site operations within the \$1{,}500{,}000 AUD base estimate",
-        r"authorised \$225{,}000 AUD contingency",
-        r"\$1{,}725{,}000",
+        rf"Deliver launch-site operations within the \${_aud(data['project']['base_estimate'])} AUD base estimate",
+        rf"authorised \${_aud(data['project']['contingency'])} AUD contingency",
+        rf"\${_aud(data['project']['bac'])}",
         "15~October~2026",
         "20~November",
         "Manage Closely",
@@ -389,12 +402,16 @@ def check_section_2(data) -> list[str]:
         "dougherty2026",
         "gilmour2025",
         "asa2025",
+        "smith2025",
         "gbrmpa2019",
         "pmi2021",
         "kerzner2017",
         r"five-second",
         "gates static fire",
         r"organic crew eight",
+        "98.5",
+        "four first-stage",
+        "notice to proceed",
     ]
     for needle in required:
         if needle not in blob:
@@ -527,8 +544,8 @@ def check_section_1(data: dict) -> list[str]:
         _aud(proj["res_allowance"]),
         _aud(proj["bac"]),
         _aud(proj["option_c_cost"]),
-        r"15.00\%",
         "15~October~2026",
+        "24~October",
         "30~October~2026",
         "10~November~2026",
         "15~November~2026",
@@ -600,8 +617,8 @@ def main() -> int:
     print("      Table 2.1 A3 cells generated from YAML")
     print("      Table 8.1 / contribution hours generated from YAML")
     print("      Section 7 DoA / EVM / hold-point numbers match YAML")
-    print("      A-125 LF is imposed before A-133 (not project finish)")
-    print("      R-12 EMV is 0 by design (Option C not double-counted)")
+    print("      A-125 is an FS predecessor of A-133")
+    print("      R-12 is the in-flight TF1 row (EMV $0)")
     return 0
 
 

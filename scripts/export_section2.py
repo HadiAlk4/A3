@@ -59,7 +59,10 @@ def tex_escape(s: str) -> str:
     )
 
 
-def a3_cell(key: str, data: dict) -> str:
+def a3_cell(row: dict, data: dict) -> str:
+    if row.get("a3"):
+        return row["a3"]
+    key = row["key"]
     proj = data["project"]
     acts = {a["id"]: a for a in data["activities"]}
     miles = data["milestones"]
@@ -121,7 +124,7 @@ def change_table(data: dict) -> str:
         rows.append(
             f"\\textbf{{{tex_escape(row['element'])}}} & "
             f"{row['a1']} & "
-            f"{a3_cell(row['key'], data)} & "
+            f"{a3_cell(row, data)} & "
             f"{row['why']} \\\\"
         )
     colspec = (
@@ -186,7 +189,18 @@ def identities(data) -> list[str]:
     if proj["organic_crew"] != 8 or proj["hse_pad_cap"] != 12:
         errors.append("Table 2.1 resource row expects crew 8 / cap 12")
     keys = [r["key"] for r in data["charter_refinements"]]
-    expect = ["m4", "m8", "cost", "permits", "juru", "testing", "risk", "resource"]
+    expect = [
+        "m4",
+        "m8",
+        "cost",
+        "permits",
+        "juru",
+        "testing",
+        "risk",
+        "resource",
+        "stakeholders",
+        "success",
+    ]
     if keys != expect:
         errors.append(f"charter_refinements keys {keys} != {expect}")
     return errors

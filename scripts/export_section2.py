@@ -106,12 +106,13 @@ def a3_cell(row: dict, data: dict) -> str:
     if key == "risk":
         n = len(data["risks"])
         return (
-            f"\\textbf{{{n} campaign-specific risks}}, Cause$\\to$Event$\\to$Effect, "
+            f"\\textbf{{{n} campaign-specific risks}}, Cause / Event / Effect columns, "
             f"EMV {aud(proj['emv_sum'])} + RES {aud(proj['res_allowance'])}."
         )
     if key == "resource":
         return (
-            f"Organic crew \\textbf{{{proj['organic_crew']}}}, "
+            f"Organic crew \\textbf{{{proj['organic_crew']}}} named heads "
+            f"({', '.join(data['resource_model']['organic_names'])}), "
             f"pad HSE cap \\textbf{{{proj['hse_pad_cap']}}}, "
             f"unmitigated peak \\textbf{{{proj['unmitigated_peak']}}}, "
             f"mitigated peak \\textbf{{{proj['mitigated_peak']}}}."
@@ -212,6 +213,7 @@ def identities(data) -> list[str]:
         "objectives",
         "lrr",
         "week8",
+        "payload",
     ]
     if keys != expect:
         errors.append(f"charter_refinements keys {keys} != {expect}")

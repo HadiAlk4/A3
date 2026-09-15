@@ -6,11 +6,11 @@ project:
   start: 2026-08-10
   finish: 2026-12-01
   base_estimate: 1500000
-  emv_sum: 37920
+  emv_sum: 35760
   res_allowance: 43130
-  contingency: 81050
-  bac: 1581050
-  contingency_pct: 5.40
+  contingency: 78890
+  bac: 1578890
+  contingency_pct: 5.26
   organic_crew: 8
   hse_pad_cap: 12
   unmitigated_peak: 14
@@ -18,14 +18,31 @@ project:
   surge_hire_cost: 22400
   option_c_cost: 21000
   pv_at_m4: 865578
+  pv_at_gate1: 602301
 
 res_items:
   - {name: "LOX/LN2 remote-delivery price variance (18% of the $68,500 gases line in 1.3.2 = $12,330)", amount: 12330}
-  - {name: "Crane wind standby beyond R-06 EMV (4 extra days x $4,200)", amount: 16800}
-  - {name: "GN2/N2 purge cylinders and fittings", amount: 8000}
-  - {name: "Cryogenic hose, seal and oxygen-clean kit", amount: 6000}
+  - {name: "Crane weather (only weather $): 4 extra wet days x $4,200", amount: 16800}
+  - {name: "GN2/N2 purge: 40 G-size cylinders x $200", amount: 8000}
+  - {name: "Cryogenic kit: 3 x 3 m LOX hoses x $1,400 + oxygen-clean seal kit $1,800", amount: 6000}
 
-# MA000010 C10 ordinary (ppc 1 July 2026). Charge-out is the stacked product below.
+# Multiply-outs that must hit the locked WBS / RES / Option C dollars.
+cost_build:
+  wbs_113_asa: 42000
+  wbs_113_casa: 28000
+  wbs_113_gbrmpa: 18000
+  gn2_cylinders: 40
+  gn2_unit_aud: 200
+  cryo_hoses: 3
+  cryo_hose_aud: 1400
+  cryo_seal_kit_aud: 1800
+  option_c_specialists: 2
+  option_c_technicians: 2
+  option_c_hours_per_day: 8
+  option_c_days: 5
+
+# MA000010 C10 ordinary from AWR 2026 (ppc 1 July 2026). Charge-out is
+# statutory on-cost x utilisation x overhead. No consultancy fee.
 # Does not change the $1.5M lines.
 labour:
   award: MA000010
@@ -43,20 +60,17 @@ labour:
   wc_professional_pct: 0.018
   wc_pad_pct: 0.045
   payroll_tax_qld_pct: 0.0475
-  engineer_utilisation: 0.70
-  engineer_overhead: 2.20
-  engineer_fee: 1.1758
+  engineer_utilisation: 0.72
+  engineer_overhead: 2.66
   technician_utilisation: 0.85
-  technician_overhead: 1.65
-  technician_fee: 1.1825
-  specialist_utilisation: 0.65
-  specialist_overhead: 2.40
-  specialist_fee: 1.1009
+  technician_overhead: 1.95
+  specialist_utilisation: 0.60
+  specialist_overhead: 2.44
   surge_overtime_factor: 1.50
-  surge_overhead: 1.3692
+  surge_overhead: 1.37
   crane_wet_day: 4200
   crane_lift_days: 8
-  crane_standby_days: 16
+  crane_nonlift_days: 16
 
 # Cost I bands for the 1-5 matrix. I = max(I_S band, I_C band).
 impact_cost_bands:
@@ -75,11 +89,13 @@ milestones:
   M8: {date: 2026-11-20, name: Telemetry handover}
   M9: {date: 2026-12-01, name: Closeout}
 
-# critical: true means launch/closeout TF = 0 (crimson).
+# critical: true means launch/closeout TF = 0 (crimson Gilmour bar).
+# A-100 is an external $0 freight driver: TF = 0 because it pins A-122, but it
+# is not consultancy-controlled and is not launch-critical.
 # A-111 is gate_constrained, not launch-critical.
 # A-125 feeds A-133 (RF before hot fire). LF 24 Oct is derived, not imposed.
 activities:
-  - {id: A-100, wbs: EXT, name: Vehicle receipt window (external driver, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: true, gate_constrained: false}
+  - {id: A-100, wbs: EXT, name: Vehicle receipt window (external driver, $0), d: 35, predecessors: [], es: 2026-08-10, ef: 2026-09-13, ls: 2026-08-10, lf: 2026-09-13, tf: 0, critical: false, gate_constrained: false, external_driver: true}
   - {id: A-111, wbs: 1.1.1, name: PEP and integration baseline, d: 54, predecessors: [], es: 2026-08-10, ef: 2026-10-02, ls: 2026-08-10, lf: 2026-10-02, tf: 0, critical: false, gate_constrained: true}
   - {id: A-112, wbs: 1.1.2, name: EVM and control-system stand-up, d: 7, predecessors: [A-111], es: 2026-10-03, ef: 2026-10-09, ls: 2026-11-25, lf: 2026-12-01, tf: 53, critical: false, gate_constrained: false}
   - {id: A-113, wbs: 1.1.3, name: ASA / CASA / GBRMPA permits, d: 76, predecessors: [], es: 2026-08-10, ef: 2026-10-24, ls: 2026-08-10, lf: 2026-10-24, tf: 0, critical: true, gate_constrained: false}
@@ -134,21 +150,24 @@ compression:
     - {id: A, name: Pure fast-track, cost: 0, slope_per_day: 0, verdict: Rejected, risk: High}
     - {id: B, name: Pure crash, cost: 40000, slope_per_day: 8000, verdict: Rejected, risk: High}
     - {id: C, name: Hybrid (contingent), cost: 21000, slope_per_day: 4200, verdict: Contingent, risk: Medium}
-  # LRR duration kept at 5 days. Five days come from A-134 and A-142, not HP-4.
+  # Five days come only from A-134 (6→1). A-141 stays 5 d; A-142 stays 4 d.
   option_c_tail:
-    - {id: A-134, es: 2026-10-31, ef: 2026-11-02}
-    - {id: A-141, es: 2026-11-03, ef: 2026-11-07}
-    - {id: A-142, es: 2026-11-08, ef: 2026-11-09}
+    - {id: A-134, es: 2026-10-31, ef: 2026-10-31}
+    - {id: A-141, es: 2026-11-01, ef: 2026-11-05}
+    - {id: A-142, es: 2026-11-06, ef: 2026-11-09}
     - {id: A-143, es: 2026-11-10, ef: 2026-11-10}
 
 # Simultaneous occupancy: unique named heads on pad that day (HSE cap is simultaneous).
-# A-125 mitigated = ES--EF; unmitigated = LS--LF. Surge 24--30 Oct only. OT 16--30 Oct only.
+# A-125 mitigated = ES--EF; unmitigated = LS--LF.
+# Surge 25--31 Oct only (static fire + first diagnostics day; not 24 Oct WDR).
+# OT 16--30 Oct only.
 resource_model:
+  organic_names: [GSE1, GSE2, GSE3, GSE4, STK1, STK2, LD, RSO]
   rf: [RF1, RF2]
   surge: [SG1, SG2, SG3, SG4]
   overtime: [OT1, OT2, OT3, OT4]
-  surge_start: 2026-10-24
-  surge_end: 2026-10-30
+  surge_start: 2026-10-25
+  surge_end: 2026-10-31
   overtime_start: 2026-10-16
   overtime_end: 2026-10-30
   crews:
@@ -180,8 +199,8 @@ resource_weeks:
 evm_m4:
   pv: 865578
   planned_label: "HP-1 signed (A-123 100%), HP-2 signed, A-113 elapsed-day percent-complete"
-  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561384, ieac_bac: 1645751, action: "Green --- weekly dashboard"}
-  late_stack: {ev: 647578, ac: 870000, cpi: 0.74, spi: 0.75, band: Red, eac_work: 2015201, ieac_bac: 2124089, action: "Red --- 48~h exception report; contingency freeze"}
+  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561384, ieac_bac: 1643503, action: "Green --- weekly dashboard"}
+  late_stack: {ev: 647578, ac: 870000, cpi: 0.74, spi: 0.75, band: Red, eac_work: 2015201, ieac_bac: 2121187, action: "Red --- 48~h exception report; contingency freeze"}
 
 # In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
 # A-113 is elapsed-day percent-complete, not 0/100.
@@ -236,9 +255,9 @@ risks:
   - {id: R-03, p: 3, i: 3, p_res: 1, i_res: 2, emv: 1500, i_dollar: 50000, p_pct: 0.30, p_res_pct: 0.03}
   - {id: R-04, p: 3, i: 4, p_res: 1, i_res: 2, emv: 1200, i_dollar: 40000, p_pct: 0.30, p_res_pct: 0.03}
   - {id: R-05, p: 3, i: 3, p_res: 2, i_res: 2, emv: 6600, i_dollar: 55000, p_pct: 0.30, p_res_pct: 0.12}
-  - {id: R-06, p: 4, i: 2, p_res: 2, i_res: 2, emv: 2160, i_dollar: 18000, p_pct: 0.50, p_res_pct: 0.12}
+  - {id: R-06, p: 4, i: 2, p_res: 2, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.50, p_res_pct: 0.12}
   - {id: R-07, p: 3, i: 3, p_res: 1, i_res: 2, emv: 2100, i_dollar: 70000, p_pct: 0.30, p_res_pct: 0.03}
-  - {id: R-08, p: 2, i: 4, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-08, p: 2, i: 4, p_res: 1, i_res: 4, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
   - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 4500, i_dollar: 150000, p_pct: 0.12, p_res_pct: 0.03}
   - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 2760, i_dollar: 23000, p_pct: 0.30, p_res_pct: 0.12}
   - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30, p_res_pct: 0.03}
@@ -302,8 +321,8 @@ charter_refinements:
   - key: stakeholders
     element: Regulator and payload
     a1: "ASA High/Low Keep Satisfied, file 60 days prior. Payload sponsor Med/High Keep Informed, witness LRR."
-    a3: "ASA remains Keep Satisfied. CASA issues the airspace NOTAM (R-14). Payload sponsor still witnesses LRR on A-141 (HP-4). No 10--12~Nov geometry is used."
-    why: "A1 named ASA, not Townsville, as the high-power regulator. The PEP keeps that filing rule and uses CASA as the airspace instrument."
+    a3: "ASA remains Keep Satisfied and is filed 60~days prior on A-113. CASA issues the NOTAM as the instrument of A1 M-3 civil aviation airspace arrangements, not as a substitute for ASA. Payload sponsor still witnesses LRR on A-141 (HP-4). No 10--12~Nov geometry is used."
+    why: "A1 named ASA, not Townsville, as the high-power regulator. The PEP keeps that filing rule and uses CASA only as the airspace instrument."
   - key: success
     element: Success criteria
     a1: "Q1 2027 window; no funds beyond contingency; 98.5\\% telemetry in 5 days; zero LTI/GBRMPA/Juru; defects to R\\&D."
@@ -312,8 +331,8 @@ charter_refinements:
   - key: objectives
     element: Objectives 4 and 5
     a1: "Objective 4: pass LRR by 10 Nov. Objective 5: November 2026 window and 98.5\\% telemetry."
-    a3: "Objective 4 is $T$-0 on 15~Nov (M-7) inside Q1 2027, with a 2-day in-flight trigger. Objective 5 is 98.5\\% handover on 20~Nov (M-8) and closeout on 1~Dec. LRR remains M-6 / first-submission success, not a numbered objective."
-    why: "The numbered objectives now match the gates this consultancy controls. LRR is still HP-4; it is no longer counted twice as both Obj~4 and M-6."
+    a3: "Objective 4 is LRR by 10~Nov (M-6 / HP-4, first submission). Objective 5 is the November window ($T$-0 15~Nov) plus 98.5\\% handover on 20~Nov. Closeout on 1~Dec is a success test, not a numbered objective."
+    why: "A3 keeps A1's numbered Obj~4 as LRR rather than remapping it onto $T$-0."
   - key: lrr
     element: LRR attendees
     a1: "M-6: Launch Director, Range Safety Officer and Juru Land Liaisons review. Payload sponsor witnesses LRR."
@@ -324,6 +343,11 @@ charter_refinements:
     a1: "Team will review this charter in the Week 8 workshop and revise roles if necessary."
     a3: "Week 8 workshop reopened the charter. No roles, DoA or contribution split were renegotiated."
     why: "The brief asked teams to record renegotiations. There were none; omitting the row would look as if the review was skipped."
+  - key: payload
+    element: Payload scope
+    a1: "Payload sponsor Med/High Keep Informed, witness LRR. No payload WBS."
+    a3: "Payload operations remain A1 out of scope. No WBS package is added. Keep Informed; HP-4 witness only."
+    why: "Inventing payload work would collide with A1. The PEP keeps the charter's information and witness rule and does not grow the WBS."
 
 executive:
   top_risks: [R-01, R-12, R-14]

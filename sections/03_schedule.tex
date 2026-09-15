@@ -28,7 +28,7 @@ FF_{i} = \min_{k \in S_{i}}(ES_{k}) - EF_{i} - 1,
 \end{equation}
 taking $FF_{i} = TF_{i}$ when $S_{i}$ is empty. Launch-critical means $TF_{i} = 0$ on a path that sets $T$-0 or closeout. Table~\ref{tab:precedence} is the full pass and matches the locked register.
 
-The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external freight driver; not consultancy-controlled), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. RF calibration (A-125) is a finish-to-start predecessor of A-133, so the array is live before hot fire; it is not launch-critical. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
+The forward pass produces two $TF = 0$ chains that remain independent until hot fire. The vehicle path is A-100 (external \$0 freight driver; not a Gilmour launch-critical bar), then A-122, A-123, A-132 and A-133. The permit path is A-113 into A-133. RF calibration (A-125) is a finish-to-start predecessor of A-133, so the array is live before hot fire; it is not launch-critical. After A-133 the tail A-134--A-145 is a single critical chain. A-111 finishes on 2~October by an imposed Must-Finish-On (Gate~1) and is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
 
 Path convergence is two staged merges. Wet Dress Rehearsal (A-132) cannot start until stacking (A-123), cryogenic GSE (A-124), avionics power-on (A-131) and Juru monitors (A-114) are complete---the technical merge. Static fire (A-133) then waits on A-132, flight permits (A-113) \emph{and} RF calibration (A-125)---the regulatory and range-instrument merge. Launch Readiness Review (A-141) waits on post-fire diagnostics (A-134), not on A-133. Signing a flight-clearance gate on incomplete hot-fire data would break the hold-point logic required of an AS9100D system \citep{sae2016}.
 
@@ -37,7 +37,7 @@ Feeder float is not interchangeable. A-131 has one day into A-132; A-124 has thr
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{network_logic.pdf}
-\caption[Activity-on-node network]{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-125 is the labelled south-routed feeder into the same merge; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical. A-100 is an external driver.}
+\caption[Activity-on-node network]{Activity-on-node network for the Bowen campaign. Node bands are $ES$ / ID / $EF$, $LS$ / duration / $LF$, and $TF$. Crimson arrows are launch-critical finish-to-start links. The vehicle path and the A-113 permit path merge at A-133; A-125 is the labelled south-routed feeder into the same merge; A-141 waits on A-134, not on A-133. A-111 is Gate-1 constrained and is not launch-critical. A-100 is a grey dashed external \$0 driver, not a crimson Gilmour bar.}
 \label{fig:network_logic}
 \end{figure}
 
@@ -46,7 +46,7 @@ Feeder float is not interchangeable. A-131 has one day into A-132; A-124 has thr
 \setlength{\tabcolsep}{4.2pt}
 \renewcommand{\arraystretch}{1.15}
 \begin{longtable}{@{}l l l r l c c c c r r c@{}}
-\caption[Activity precedence and float register]{Master campaign activity precedence and float register. Dates are inclusive. $FF = \min(ES_{\text{succ}}) - EF - 1$ days, or $FF = TF$ if there is no successor. A-111 $TF = 0$ is an imposed Gate~1 finish, not launch-critical.}
+\caption[Activity precedence and float register]{Master campaign activity precedence and float register. Dates are inclusive. $FF = \min(ES_{\text{succ}}) - EF - 1$ days, or $FF = TF$ if there is no successor. A-111 $TF = 0$ is an imposed Gate~1 finish, not launch-critical. A-100 $TF = 0$ is an external freight pin (CP $=$ Ext), not a Gilmour launch-critical bar.}
 \label{tab:precedence}\\
 \toprule
 ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
@@ -59,7 +59,7 @@ ID & WBS & Activity & $D$ & Pred. & ES & EF & LS & LF & TF & FF & CP \\
 \endhead
 \bottomrule
 \endfoot
-A-100 & EXT & Vehicle receipt (external driver) & 35 & --- & 10 Aug & 13 Sep & 10 Aug & 13 Sep & 0 & 0 & Y \\
+A-100 & EXT & Vehicle receipt (external driver) & 35 & --- & 10 Aug & 13 Sep & 10 Aug & 13 Sep & 0 & 0 & Ext \\
 A-111 & 1.1.1 & PEP and integration baseline & 54 & --- & 10 Aug & 2 Oct & 10 Aug & 2 Oct & 0* & 0 & Gate \\
 A-112 & 1.1.2 & EVM control stand-up & 7 & A-111 & 3 Oct & 9 Oct & 25 Nov & 1 Dec & 53 & 53 & N \\
 A-113 & 1.1.3 & ASA / CASA / GBRMPA permits & 76 & --- & 10 Aug & 24 Oct & 10 Aug & 24 Oct & 0 & 0 & Y \\
@@ -93,7 +93,7 @@ Three gates sit on the baseline. Gate~1 is the PEP lock at A-111 on 2~October. G
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\linewidth]{gantt_chart.pdf}
-\caption[Baseline Gantt chart]{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
+\caption[Baseline Gantt chart]{Baseline Gantt from 10~August to 1~December~2026, plotted from the same $ES$/$EF$ values as Table~\ref{tab:precedence}. Crimson bars are launch-critical. The hatched grey bar is A-100, an external \$0 freight driver. Teal whiskers show total float to $LF$. Vertical markers are M-2 (navy, Gate~1) and M-4 through M-9. Option~C is not drawn on this baseline.}
 \label{fig:gantt_chart}
 \end{figure}
 
@@ -114,7 +114,7 @@ Table~\ref{tab:compression} and Figure~\ref{fig:compression_curve} compare three
 \centering
 \small
 \setlength{\tabcolsep}{3.5pt}
-\caption[Schedule compression evaluation]{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$81{,}050 reserve, not an addition to the \$1{,}500{,}000 base.}
+\caption[Schedule compression evaluation]{Schedule compression evaluation. All three options save five days on $T$-0 if they work as drawn. Baseline $T$-0 remains 15~November; Option~C is a contingent draw on the \$78{,}890 reserve, not an addition to the \$1{,}500{,}000 base.}
 \label{tab:compression}
 \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X c r r >{\raggedright\arraybackslash}X l@{}}
 \toprule
@@ -122,7 +122,7 @@ Option & Activities modified & Days & Added cost & Slope & Secondary risks & Ver
 \midrule
 A Pure fast-track & A-134 $\to$ A-141 SS+1 (LRR overlaps diagnostics) & 5 & \$0 & \$0/d & LRR before diagnostic close-out; LRU rework; AS9100D hold-point failure & Rejected \\
 B Pure crash & A-134 crashed 6~$\to$~1~d & 5 & \$40{,}000 & \$8{,}000/d & Fatigue; skipped thermal/electrical screens; recycle into A-141 & Rejected \\
-C Hybrid (if R-14 fires) & A-134 6~$\to$~3~d (\$9{,}000); A-141 kept at 5~d; A-142 4~$\to$~2~d (\$12{,}000) & 5 & \textbf{\$21{,}000} & \textbf{\$4{,}200/d} & R-15 residual is the 2~d sweep; A-141 hold-point duration kept & Contingent \\
+C Hybrid (if R-14 fires) & A-134 6~$\to$~1~d extra labour (\$21{,}000); A-141 kept at 5~d; A-142 kept at 4~d & 5 & \textbf{\$21{,}000} & \textbf{\$4{,}200/d} & Screens kept; R-15 4~d marine hold intact & Contingent \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -131,11 +131,11 @@ Option~A buys five days at zero direct cost by starting A-141 one day after A-13
 
 Option~B compresses A-134 from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour diagnostic war room on a vehicle that has just fired is the work most likely to skip thermal and electrical screens. Option~B is rejected.
 
-Option~C splits the five days without shortening HP-4. Three days come off A-134 ($\$9{,}000$). Two days come off A-142 ($\$12{,}000$). Launch Readiness Review stays five days, finish-to-start after diagnostics. The weighted slope is $\$21{,}000/5 = \$4{,}200$ per day. If invoked, the dates become A-134 31~October--2~November, A-141 3--7~November, A-142 8--9~November, and A-143 on \textbf{10~November}. The marine-mammal buffer in A-142 shrinks from four days to two: that shorter sweep is the residual on R-15, which is why Option~C is contingent rather than the baseline. The \$21{,}000 is drawn from the \$81{,}050 contingency only if R-14 is realised. It is not loaded into the \$1{,}500{,}000 base, and Figure~\ref{fig:gantt_chart} is not redrawn. Feeder floats do not tighten: A-131 stays at $TF = 1$, A-124 at $TF = 3$.
+Option~C takes the five days only from A-134. Extra labour keeps the thermal and electrical screens that Option~B would skip: two specialists and two technicians for five days ($2\times\$165 + 2\times\$95 = \$520$/h $\times$ 8~h $=$ \$4{,}160/d, published as the same \$4{,}200/d unit used on the crawler) for \$21{,}000. The slope is $\$21{,}000/5 = \$4{,}200$ per day. Launch Readiness Review stays five days. A-142 stays four days, so R-15's marine hold is not consumed. If invoked, the dates become A-134 31~October only, A-141 1--5~November, A-142 6--9~November, and A-143 on \textbf{10~November}. The \$21{,}000 is drawn from the \$78{,}890 contingency only if R-14 is realised. It is not loaded into the \$1{,}500{,}000 base, and Figure~\ref{fig:gantt_chart} is not redrawn. Feeder floats do not tighten: A-131 stays at $TF = 1$, A-124 at $TF = 3$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\linewidth]{compression_tradeoff.pdf}
-\caption[Compression cost and risk trade-off]{Compression trade-off for a five-day pull-in of $T$-0. Left: direct added cost. Right: residual schedule and quality risk after treatment. Option~C is the only CPM-valid pull-in that keeps A-141 at five days and pays \$4{,}200 per day rather than \$8{,}000.}
+\caption[Compression cost and risk trade-off]{Compression trade-off for a five-day pull-in of $T$-0. Left: direct added cost. Right: residual schedule and quality risk after treatment. Option~C is the only CPM-valid pull-in that keeps A-141 at five days, A-142 at four days, and pays \$4{,}200 per day rather than \$8{,}000.}
 \label{fig:compression_curve}
 \end{figure}

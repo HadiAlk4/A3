@@ -595,6 +595,15 @@ def check_section_2(data) -> list[str]:
         "Payload sponsor remains a witness",
         "residual EMV",
         "Payload operations remain",
+        "stability loss",
+        "Next Spaceflight",
+        "weekly integration logs",
+        "QLD Regional Press",
+        "10 seconds before simulated",
+        "Stakeholder",
+        "40/30/30",
+        "Charter has no NTP",
+        "Gate~1 PV",
     ):
         if needle not in gen:
             errors.append(f"s2_change_table.tex missing locked A3 cell: {needle}")

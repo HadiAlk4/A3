@@ -348,6 +348,46 @@ charter_refinements:
     a1: "Payload sponsor Med/High Keep Informed, witness LRR. No payload WBS."
     a3: "Payload operations remain A1 out of scope. No WBS package is added. Keep Informed; HP-4 witness only."
     why: "Inventing payload work would collide with A1. The PEP keeps the charter's information and witness rule and does not grow the WBS."
+  - key: tf1
+    element: TestFlight 1 termination
+    a1: "Terminated at T+14~s due to stability loss (Smith 2025). Post-flight analysis: thrust loss in two first-stage hybrid motors from electrical and thermal pump faults."
+    a3: "Cleared the tower and ended at T+14~s after thrust loss in two first-stage hybrid motors, from electrical and thermal pump faults. Smith (2025) remains the cite. Stability loss is not restated."
+    why: "R-01 and R-12 are sized from the pump-fault finding already in A1. The PEP does not carry a second termination cause."
+  - key: window_source
+    element: Q1 2027 window source
+    a1: "Second Eris test flight by Q1 2027, cited to Next Spaceflight (2026)."
+    a3: "Late-2026 follow-on, inside the charter's Q1 2027 outer window, cited to Dougherty (2026). Next Spaceflight is not in the PEP bibliography."
+    why: "The outer window is unchanged. The PEP uses the Space Connect late-2026 confirmation already on the reference list."
+  - key: payload_logs
+    element: Payload weekly logs
+    a1: "Keep Informed tactic: weekly integration logs and witness LRR."
+    a3: "Keep Informed; HP-4 witness on A-141. Weekly integration logs are not a PEP control."
+    why: "Payload operations remain out of scope. A weekly integration log would imply work this consultancy does not hold."
+  - key: community_media
+    element: Community and media stakeholders
+    a1: "Bowen Community Keep Informed: clearance maps 14 days prior. QLD Regional Press Monitor: post-launch press releases."
+    a3: "Community notice 14 days prior (R-17). No named media stakeholder. Clearance maps are not a PEP artefact."
+    why: "The 14-day community notice A1 required stays as an HSE control. A Monitor-only press party is not a pad control."
+  - key: wdr_t10
+    element: WDR T-10 acceptance
+    a1: "M-5 acceptance: countdown to 10 seconds before simulated lift-off, plus a 5-second static fire with zero critical anomalies."
+    a3: "A-132 is cold WDR (16--24~Oct). A-133 is the five-second static fire (25--30~Oct). The T-10 simulated-lift-off criterion is not restated."
+    why: "Cold WDR is LOX load and countdown rehearsal without ignition. T-10 simulated lift-off is not a separate success test in this PEP."
+  - key: ilsa_role
+    element: Ilsa Hashmi project role
+    a1: "Project role Stakeholder \\& Resource Lead. A3 column already Cost, Resource, Capacity Planning."
+    a3: "Cover: Cost, Resource \\& EVM Lead. Organogram: Cost and Resource Lead. Stakeholder Lead is not used."
+    why: "A1's A3 column already pointed at cost and resource. EVM is the A3 add. The Stakeholder Lead title is not on the PEP cover or organogram."
+  - key: scoring_screen
+    element: 40/30/30 decision screen
+    a1: "Major team decisions: Strategic Fit 40\\%, Technical Feasibility 30\\%, Schedule Constraint 30\\%. Weights only; no scores."
+    a3: "Same weights. Scored only for this PEP's EPC vs D\\&C site-ops choice (2.6 vs 4.4). A1 did not score the options."
+    why: "The charter supplied weights for internal decisions. The PEP reuses those weights on the delivery-model choice it has to make."
+  - key: mobilisation
+    element: Field spend before Gate 1
+    a1: "M-1 charter 7 Aug. M-2 / Gate 1 PEP lock 2 Oct. Phase 3 execution follows M-2."
+    a3: "Charter has no NTP. Permitting (A-113) and Juru (A-114) start 10~Aug. Pad occupancy before Gate 1 is a PEP choice. Gate~1 PV \\$602{,}301."
+    why: "Permit and heritage clocks cannot wait until 2 Oct and still finish before hot fire. Remaining spend still locks at Gate 1."
 
 executive:
   top_risks: [R-01, R-12, R-14]

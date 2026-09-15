@@ -86,12 +86,12 @@ def plot_evm(data) -> None:
             raise SystemExit(f"{label} CPI {case['cpi']} != round(EV/AC,2)={round(cpi, 2)}")
         if round(spi + 1e-12, 2) != case["spi"]:
             raise SystemExit(f"{label} SPI {case['spi']} != round(EV/PV,2)={round(spi, 2)}")
-        eac = case["ac"] + (proj["base_estimate"] - case["ev"]) / case["cpi"]
-        if abs(eac - case["eac_work"]) > 0.51:
-            raise SystemExit(f"{label} eac_work {case['eac_work']} != {eac:.1f}")
-        ieac = proj["bac"] / case["cpi"]
-        if abs(ieac - case["ieac_bac"]) > 0.51:
-            raise SystemExit(f"{label} ieac_bac {case['ieac_bac']} != {ieac:.1f}")
+        eac = round(proj["base_estimate"] * case["ac"] / case["ev"])
+        if case["eac_work"] != eac:
+            raise SystemExit(f"{label} eac_work {case['eac_work']} != AC×BAC_work/EV {eac}")
+        ieac = round(proj["bac"] * case["ac"] / case["ev"])
+        if case["ieac_bac"] != ieac:
+            raise SystemExit(f"{label} ieac_bac {case['ieac_bac']} != AC×BAC/EV {ieac}")
 
     fig, (ax_bar, ax_band) = plt.subplots(
         2, 1, figsize=(10.4, 7.15), gridspec_kw={"height_ratios": [1.15, 0.95]}

@@ -138,7 +138,7 @@ def render(data) -> dict[str, str]:
             f"{hp['id']} & {hp['activity']} ({day_mon(act['ef'])}) & {hp['risk']} & "
             f"{tex_escape(hp['name'])} & {tex_escape(hp['release'])} \\\\"
         )
-    hold_colspec = r"@{}l l l l X@{}"
+    hold_colspec = r"@{}l l l >{\raggedright\arraybackslash}p{3.55cm} >{\raggedright\arraybackslash}X@{}"
     hold_tex = (
         "\\begin{table}[H]\n"
         "\\centering\n"

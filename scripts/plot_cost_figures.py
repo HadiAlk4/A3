@@ -148,7 +148,7 @@ def plot_scurve(data) -> None:
 
     ax.set_xticks(x, labels)
     ax.set_xlim(-0.55, 4.55)
-    ax.set_ylim(0, 1950000)
+    ax.set_ylim(0, 1800000)
     ax.set_ylabel("AUD")
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _p: f"${v/1_000_000:.1f}M"))
     ax.grid(axis="y", color=GREY, linewidth=0.7, zorder=1)

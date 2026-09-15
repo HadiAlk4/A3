@@ -14,6 +14,8 @@ from pathlib import Path
 
 import yaml
 
+from resource_occupancy import demand_series, surge_days
+
 ROOT = Path(__file__).resolve().parents[1]
 YAML_PATH = ROOT / "data" / "pep_baseline.yaml"
 TEX_PATH = ROOT / "sections" / "03_schedule.tex"
@@ -60,27 +62,23 @@ def D(s) -> date:
     return date.fromisoformat(str(s))
 
 
-def resource_weeks_from_build(build: dict) -> tuple[list[int], list[int]]:
-    organic = build["organic_gse"]
-    rf = build["rf_heads"]
-    ot = build["overtime_heads"]
-    surge = build["surge_heads"]
-    overlap = build["week10_stack_overlap"]
-    rf_m_weeks = set(build["rf_mitigated_weeks"])
-    rf_u_weeks = set(build["rf_unmitigated_weeks"])
-    ot_weeks = set(build["overtime_unmit_weeks"])
-    surge_weeks = set(build["surge_weeks"])
-    mit, unmit = [], []
-    for i, o in enumerate(organic):
-        w = i + 1
-        rf_m = rf if w in rf_m_weeks else 0
-        rf_u = rf if w in rf_u_weeks else 0
-        ot_u = ot if w in ot_weeks else 0
-        sg = surge if w in surge_weeks else 0
-        extra = overlap if w == 10 else 0
-        mit.append(o + rf_m + sg + extra)
-        unmit.append(o + rf_u + ot_u)
-    return mit, unmit
+P_BAND_PCT = {1: 0.03, 2: 0.12, 3: 0.30, 4: 0.50, 5: 0.70}
+
+
+def employment_oncost(labour: dict, *, pad: bool) -> float:
+    leave_load = labour["leave_loading_on_al"] * labour["annual_leave_pct"]
+    wc = labour["wc_pad_pct"] if pad else labour["wc_professional_pct"]
+    return (
+        1.0
+        + labour["super_pct"]
+        + labour["annual_leave_pct"]
+        + labour["personal_leave_pct"]
+        + labour["public_holiday_pct"]
+        + labour["lsl_pct"]
+        + leave_load
+        + wc
+        + labour["payroll_tax_qld_pct"]
+    )
 
 
 def load():
@@ -196,21 +194,30 @@ def check(data) -> list[str]:
     if emv != proj["emv_sum"]:
         errors.append(f"risk EMV {emv} != emv_sum {proj['emv_sum']}")
     for r in data["risks"]:
-        calc = r["p_pct"] * r["i_dollar"]
+        band = P_BAND_PCT[r["p_res"]]
+        if abs(r.get("p_res_pct", -1) - band) > 1e-9:
+            errors.append(f"{r['id']} p_res_pct {r.get('p_res_pct')} != band {band}")
+        calc = r["p_res_pct"] * r["i_dollar"]
         if abs(r["emv"] - calc) > 0.51:
-            errors.append(f"{r['id']} EMV {r['emv']} != {r['p_pct']}×{r['i_dollar']}")
+            errors.append(f"{r['id']} residual EMV {r['emv']} != {r['p_res_pct']}×{r['i_dollar']}")
 
     mit = data["resource_weeks"]["demand_mitigated"]
     unmit = data["resource_weeks"]["demand_unmitigated"]
-    built_m, built_u = resource_weeks_from_build(data["resource_build"])
+    built_m, built_u = demand_series(data)
     if mit != built_m or unmit != built_u:
         errors.append(
-            f"resource_weeks != resource_build (mit {mit} vs {built_m}; unmit {unmit} vs {built_u})"
+            f"resource_weeks != occupancy model (mit {mit} vs {built_m}; unmit {unmit} vs {built_u})"
         )
-    if len(mit) != 16 or len(unmit) != 16:
-        errors.append("resource_weeks must be 16 weeks")
+    if len(mit) != 17 or len(unmit) != 17:
+        errors.append("resource_weeks must be 17 weeks (through 1 Dec)")
     if max(mit) != proj["mitigated_peak"] or max(unmit) != proj["unmitigated_peak"]:
         errors.append("resource peaks != project.mitigated/unmitigated_peak")
+    if any(v > proj["hse_pad_cap"] for v in mit):
+        errors.append("mitigated occupancy exceeds HSE pad cap")
+    if max(unmit) <= proj["hse_pad_cap"]:
+        errors.append("unmitigated peak must exceed the HSE pad cap")
+    if surge_days(data["resource_model"]) != 7:
+        errors.append("surge window must be 7 inclusive days")
     res_tex = ROOT / "sections" / "05_resource.tex"
     if res_tex.exists() and r"\input{sections/generated/s5_resource_build}" not in res_tex.read_text():
         errors.append("05_resource.tex must input the generated headcount-build table")
@@ -219,11 +226,11 @@ def check(data) -> list[str]:
         errors.append("s5_resource_build.tex missing; run python3 scripts/plot_resource_figures.py")
     elif "tab:resource-build" not in s5.read_text():
         errors.append("s5_resource_build.tex missing table label")
-    # Weeks 3-6 (indices 2-5): mitigated must show A-125 hours that unmitigated parks in October.
+    # Weeks 3-6: mitigated A-125 at ES--EF. Weeks 9-11: unmitigated A-125 at LS--LF.
     if not all(mit[i] > unmit[i] for i in range(2, 6)):
-        errors.append("weeks 3-6 mitigated must exceed unmitigated (A-125 smoothing)")
-    if not all(unmit[i] > mit[i] for i in range(9, 12)):
-        errors.append("weeks 10-12 unmitigated must exceed mitigated (A-125 still on the pad)")
+        errors.append("weeks 3-6 mitigated must exceed unmitigated (A-125 at ES--EF)")
+    if not all(unmit[i] > mit[i] for i in range(8, 11)):
+        errors.append("weeks 9-11 unmitigated must exceed mitigated (A-125 late bar)")
     lox = next(x for x in data["res_items"] if x["name"].startswith("LOX"))
     if lox["amount"] != round(0.18 * 68500):
         errors.append(f"LOX RES {lox['amount']} != 18% of $68,500")
@@ -271,12 +278,12 @@ def check(data) -> list[str]:
             errors.append(f"{key} CPI {case['cpi']} != round(EV/AC,2)={round(cpi, 2)}")
         if round(spi + 1e-12, 2) != case["spi"]:
             errors.append(f"{key} SPI {case['spi']} != round(EV/PV,2)={round(spi, 2)}")
-        eac = case["ac"] + (proj["base_estimate"] - case["ev"]) / case["cpi"]
-        if abs(eac - case["eac_work"]) > 0.51:
-            errors.append(f"{key} eac_work {case['eac_work']} != {eac:.1f}")
-        ieac = proj["bac"] / case["cpi"]
-        if abs(ieac - case["ieac_bac"]) > 0.51:
-            errors.append(f"{key} ieac_bac {case['ieac_bac']} != {ieac:.1f}")
+        eac = round(proj["base_estimate"] * case["ac"] / case["ev"])
+        if case["eac_work"] != eac:
+            errors.append(f"{key} eac_work {case['eac_work']} != AC×BAC_work/EV {eac}")
+        ieac = round(proj["bac"] * case["ac"] / case["ev"])
+        if case["ieac_bac"] != ieac:
+            errors.append(f"{key} ieac_bac {case['ieac_bac']} != AC×BAC/EV {ieac}")
 
     hp_ids = [h["id"] for h in data["hold_points"]]
     if hp_ids != ["HP-1", "HP-2", "HP-3", "HP-4"]:
@@ -284,6 +291,12 @@ def check(data) -> list[str]:
     for hp in data["hold_points"]:
         if "Ziyad" not in hp.get("release", ""):
             errors.append(f"{hp['id']} release must include Ziyad")
+    hp4 = next(h for h in data["hold_points"] if h["id"] == "HP-4")
+    for name in ("RSO", "Juru"):
+        if name not in hp4["release"]:
+            errors.append(f"HP-4 release must include {name}")
+    if "payload" in hp4["release"].lower():
+        errors.append("HP-4 release must not make the payload sponsor a signatory")
     if "HP-1 signed" not in data["evm_m4"]["planned_label"]:
         errors.append("evm_m4.planned_label must say HP-1 signed")
     if "A-113" not in data["evm_m4"]["planned_label"]:
@@ -300,10 +313,44 @@ def check(data) -> list[str]:
     labour = data.get("labour", {})
     if labour:
         c10 = labour["c10_ordinary"]
-        if abs(c10 * labour["engineer_multiplier"] - labour["engineer_pm"]) > 0.15:
-            errors.append("engineer/PM rate is not C10 × stated multiplier")
-        if abs(c10 * labour["technician_multiplier"] - labour["technician"]) > 0.15:
-            errors.append("technician rate is not C10 × stated multiplier")
+        emp_pro = employment_oncost(labour, pad=False)
+        emp_pad = employment_oncost(labour, pad=True)
+        eng = (
+            c10
+            * emp_pro
+            / labour["engineer_utilisation"]
+            * labour["engineer_overhead"]
+            * labour["engineer_fee"]
+        )
+        tech = (
+            c10
+            * emp_pad
+            / labour["technician_utilisation"]
+            * labour["technician_overhead"]
+            * labour["technician_fee"]
+        )
+        spec = (
+            c10
+            * emp_pro
+            / labour["specialist_utilisation"]
+            * labour["specialist_overhead"]
+            * labour["specialist_fee"]
+        )
+        surge = (
+            c10
+            * labour["surge_overtime_factor"]
+            * emp_pad
+            / labour["technician_utilisation"]
+            * labour["surge_overhead"]
+        )
+        if abs(eng - labour["engineer_pm"]) > 0.15:
+            errors.append(f"engineer/PM stack {eng:.2f} != {labour['engineer_pm']}")
+        if abs(tech - labour["technician"]) > 0.15:
+            errors.append(f"technician stack {tech:.2f} != {labour['technician']}")
+        if abs(spec - labour["specialist"]) > 0.15:
+            errors.append(f"specialist stack {spec:.2f} != {labour['specialist']}")
+        if abs(surge - labour["surge"]) > 0.15:
+            errors.append(f"surge stack {surge:.2f} != {labour['surge']}")
         if labour["crane_lift_days"] + labour["crane_standby_days"] != 24:
             errors.append("crane lift + standby days must equal A-123 duration 24")
     if data["executive"]["top_risks"] != ["R-01", "R-12", "R-14"]:
@@ -476,6 +523,9 @@ def check_section_2(data) -> list[str]:
         "98.5",
         "four first-stage",
         "notice to proceed",
+        "Week~8",
+        "Objectives~4",
+        "LRR attendees",
     ]
     for needle in required:
         if needle not in blob:
@@ -497,6 +547,10 @@ def check_section_2(data) -> list[str]:
         "25~Oct",
         "18 campaign-specific risks",
         "Embedded monitors with stop-work authority",
+        "Objective 4 is",
+        "Week 8 workshop",
+        "Payload sponsor remains a witness",
+        "residual EMV",
     ):
         if needle not in gen:
             errors.append(f"s2_change_table.tex missing locked A3 cell: {needle}")
@@ -635,8 +689,58 @@ def check_section_1(data: dict) -> list[str]:
     return errors
 
 
+def check_section_4(data: dict) -> list[str]:
+    path = ROOT / "sections" / "04_cost.tex"
+    if not path.exists():
+        return ["sections/04_cost.tex missing"]
+    tex = path.read_text()
+    errors: list[str] = []
+    proj = data["project"]
+    for needle in (
+        _aud(proj["base_estimate"]),
+        _aud(proj["contingency"]),
+        _aud(proj["emv_sum"]),
+        _aud(proj["res_allowance"]),
+        _aud(proj["bac"]),
+        "residual",
+        "1.378",
+        "1.405",
+    ):
+        if needle not in tex:
+            errors.append(f"Section 4 missing locked string: {needle}")
+    if "5.09" in tex or "3.23" in tex:
+        errors.append("Section 4: reverse-engineered 5.09/3.23 labour multiplier still present")
+    if "175{,}500" in tex or "218{,}630" in tex or "1{,}718{,}630" in tex:
+        errors.append("Section 4 still quotes inherent-EMV contingency totals")
+    return errors
+
+
+def check_section_6(data: dict) -> list[str]:
+    path = ROOT / "sections" / "06_risk.tex"
+    if not path.exists():
+        return ["sections/06_risk.tex missing"]
+    tex = path.read_text()
+    errors: list[str] = []
+    proj = data["project"]
+    for needle in (
+        _aud(proj["contingency"]),
+        _aud(proj["emv_sum"]),
+        _aud(proj["res_allowance"]),
+        "0.03\\times90{,}000",
+        "2{,}700",
+        "2{,}160",
+    ):
+        if needle not in tex:
+            errors.append(f"Section 6 missing locked string: {needle}")
+    if "EMV remains \\$27,000" in tex or "EMV remains $27,000" in tex:
+        errors.append("Section 6 still quotes inherent EMV for R-01 as the pool")
+    if "175{,}500" in tex:
+        errors.append("Section 6 still quotes inherent EMV $175,500")
+    return errors
+
+
 def check_all_tex(data: dict) -> list[str]:
-    """Whole-plan scan: no retired WBS ids, no SV-in-days."""
+    """Whole-plan scan: no retired WBS ids, no SV-in-days, no stale money."""
     del data
     errors: list[str] = []
     blobs = [p.read_text() for p in sorted((ROOT / "sections").rglob("*.tex"))]
@@ -648,6 +752,9 @@ def check_all_tex(data: dict) -> list[str]:
             errors.append(f"retired WBS id {wid} still appears in the plan")
     if "SV > -5" in all_tex:
         errors.append("SV threshold still written as days")
+    for stale in ("175{,}500", "218{,}630", "1{,}718{,}630", "14.58", "5.09", "3.23"):
+        if stale in all_tex:
+            errors.append(f"stale identity {stale} still appears in the plan")
     return errors
 
 
@@ -666,6 +773,8 @@ def main() -> int:
         + export_section8.check(data)
         + check_section_1(data)
         + check_section_2(data)
+        + check_section_4(data)
+        + check_section_6(data)
         + check_section_7(data)
         + check_section_8(data)
         + check_all_tex(data)

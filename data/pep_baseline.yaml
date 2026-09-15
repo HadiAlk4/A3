@@ -6,11 +6,11 @@ project:
   start: 2026-08-10
   finish: 2026-12-01
   base_estimate: 1500000
-  emv_sum: 175500
+  emv_sum: 37920
   res_allowance: 43130
-  contingency: 218630
-  bac: 1718630
-  contingency_pct: 14.58
+  contingency: 81050
+  bac: 1581050
+  contingency_pct: 5.40
   organic_crew: 8
   hse_pad_cap: 12
   unmitigated_peak: 14
@@ -25,7 +25,8 @@ res_items:
   - {name: "GN2/N2 purge cylinders and fittings", amount: 8000}
   - {name: "Cryogenic hose, seal and oxygen-clean kit", amount: 6000}
 
-# MA000010 C10 ordinary (ppc 1 July 2026) x stated on-cost. Does not change the $1.5M lines.
+# MA000010 C10 ordinary (ppc 1 July 2026). Charge-out is the stacked product below.
+# Does not change the $1.5M lines.
 labour:
   award: MA000010
   c10_ordinary: 29.45
@@ -33,8 +34,26 @@ labour:
   technician: 95
   specialist: 165
   surge: 100
-  engineer_multiplier: 5.09
-  technician_multiplier: 3.23
+  super_pct: 0.12
+  annual_leave_pct: 0.0769
+  personal_leave_pct: 0.0385
+  public_holiday_pct: 0.0423
+  lsl_pct: 0.0217
+  leave_loading_on_al: 0.175
+  wc_professional_pct: 0.018
+  wc_pad_pct: 0.045
+  payroll_tax_qld_pct: 0.0475
+  engineer_utilisation: 0.70
+  engineer_overhead: 2.20
+  engineer_fee: 1.1758
+  technician_utilisation: 0.85
+  technician_overhead: 1.65
+  technician_fee: 1.1825
+  specialist_utilisation: 0.65
+  specialist_overhead: 2.40
+  specialist_fee: 1.1009
+  surge_overtime_factor: 1.50
+  surge_overhead: 1.3692
   crane_wet_day: 4200
   crane_lift_days: 8
   crane_standby_days: 16
@@ -122,30 +141,47 @@ compression:
     - {id: A-142, es: 2026-11-08, ef: 2026-11-09}
     - {id: A-143, es: 2026-11-10, ef: 2026-11-10}
 
-resource_build:
-  # Week 1 starts 2026-08-10. Weekly unique pad heads.
-  # organic_gse: on-pad technicians excluding A-125 RF, overtime, and surge.
-  organic_gse: [6, 7, 7, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 10, 5, 4]
-  rf_heads: 2
-  rf_mitigated_weeks: [3, 4, 5, 6]
-  rf_unmitigated_weeks: [10, 11, 12]
-  overtime_heads: 4
-  overtime_unmit_weeks: [10, 11, 12]
-  surge_heads: 4
-  surge_weeks: [11, 12]
-  week10_stack_overlap: 3
+# Simultaneous occupancy: unique named heads on pad that day (HSE cap is simultaneous).
+# A-125 mitigated = ES--EF; unmitigated = LS--LF. Surge 24--30 Oct only. OT 16--30 Oct only.
+resource_model:
+  rf: [RF1, RF2]
+  surge: [SG1, SG2, SG3, SG4]
+  overtime: [OT1, OT2, OT3, OT4]
+  surge_start: 2026-10-24
+  surge_end: 2026-10-30
+  overtime_start: 2026-10-16
+  overtime_end: 2026-10-30
+  crews:
+    - {id: A-100, crew: []}
+    - {id: A-111, crew: []}
+    - {id: A-112, crew: []}
+    - {id: A-113, crew: []}
+    - {id: A-114, crew: [JU1, JU2]}
+    - {id: A-121, crew: [GSE1, GSE2, GSE3, GSE4]}
+    - {id: A-122, crew: [GSE1, GSE2, STK1, STK2]}
+    - {id: A-123, crew: [GSE1, GSE2, STK1, STK2, LD, RSO]}
+    - {id: A-124, crew: [GSE1, GSE2, GSE3, GSE4]}
+    - {id: A-125, crew: [RF1, RF2]}
+    - {id: A-131, crew: [AVIO, GSE3, GSE4]}
+    - {id: A-132, crew: [GSE1, GSE2, GSE3, GSE4, AVIO, STK1, LD, JU1]}
+    - {id: A-133, crew: [GSE1, GSE2, GSE3, GSE4, AVIO, LD, RSO, STK2]}
+    - {id: A-134, crew: [AVIO, GSE1, GSE2, STK1]}
+    - {id: A-141, crew: [LD, RSO, JU1, JU2, AVIO]}
+    - {id: A-142, crew: [RSO, LD, JU1]}
+    - {id: A-143, crew: [GSE1, GSE2, GSE3, GSE4, AVIO, LD, RSO, STK1]}
+    - {id: A-144, crew: [AVIO, GSE3, GSE4]}
+    - {id: A-145, crew: [GSE1, GSE2, GSE3, STK1]}
 resource_weeks:
-  # Derived from resource_build (see scripts/check_yaml.py).
-  # Mitigated: RF in weeks 3-6; week-10 stacking/WDR overlap +3; surge replaces OT in weeks 11-12.
-  # Unmitigated: RF remains on WDR/static fire (weeks 10-12) plus 4 overtime heads.
-  demand_mitigated: [6, 7, 9, 8, 8, 10, 8, 8, 8, 11, 12, 12, 8, 10, 5, 4]
-  demand_unmitigated: [6, 7, 7, 6, 6, 8, 8, 8, 8, 14, 14, 14, 8, 10, 5, 4]
+  # Derived from resource_model (scripts/resource_occupancy.py). 17 weeks through 1 Dec.
+  # Weekly value = max simultaneous unique heads that week.
+  demand_mitigated: [6, 6, 8, 8, 8, 10, 11, 11, 11, 9, 12, 12, 5, 8, 4, 4, 4]
+  demand_unmitigated: [6, 6, 6, 6, 6, 8, 11, 11, 13, 14, 14, 12, 5, 8, 4, 4, 4]
 
 evm_m4:
   pv: 865578
   planned_label: "HP-1 signed (A-123 100%), HP-2 signed, A-113 elapsed-day percent-complete"
-  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561856, ieac_bac: 1790240, action: "Green --- weekly dashboard"}
-  late_stack: {ev: 647578, ac: 870000, cpi: 0.74, spi: 0.75, band: Red, eac_work: 2021922, ieac_bac: 2322473, action: "Red --- 48~h exception report; contingency freeze"}
+  on_plan: {ev: 865578, ac: 901000, cpi: 0.96, spi: 1.00, band: Green, eac_work: 1561384, ieac_bac: 1645751, action: "Green --- weekly dashboard"}
+  late_stack: {ev: 647578, ac: 870000, cpi: 0.74, spi: 0.75, band: Red, eac_work: 2015201, ieac_bac: 2124089, action: "Red --- 48~h exception report; contingency freeze"}
 
 # In-flight control (Section 7). Finish-line rule remains AC <= BAC; these bands are not SV in days.
 # A-113 is elapsed-day percent-complete, not 0/100.
@@ -186,31 +222,33 @@ hold_points:
   - {id: HP-1, name: Pad tie-down weld NDT, activity: A-123, risk: R-08, release: "D&C mgr / Ziyad"}
   - {id: HP-2, name: GSE helium leak test, activity: A-124, risk: R-05, release: "GSE Lead / Ziyad"}
   - {id: HP-3, name: Pre-static-fire ignition interlock, activity: A-133, risk: R-01, release: "GSE Lead / Launch Director / Ziyad"}
-  - {id: HP-4, name: LRR sign-off (payload sponsor witnesses), activity: A-141, risk: R-16, release: "Launch Director / Abdul / Ziyad / payload sponsor"}
+  - {id: HP-4, name: LRR sign-off (payload sponsor witnesses), activity: A-141, risk: R-16, release: "Launch Director / RSO / Juru Officer / Abdul / Ziyad"}
 
 hse:
   blast_zone_km: 1.5
   acoustic_db: 135
 
+# EMV = residual P-band % × I$. P=1→3%, P=2→12%, P=3→30%, P=4→50%, P=5→70%.
+# p_pct is inherent (register P column); p_res_pct is residual (the contingency pool).
 risks:
-  - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 4, emv: 27000, i_dollar: 90000, p_pct: 0.30}
-  - {id: R-02, p: 2, i: 5, p_res: 1, i_res: 4, emv: 21600, i_dollar: 180000, p_pct: 0.12}
-  - {id: R-03, p: 3, i: 3, p_res: 1, i_res: 2, emv: 15000, i_dollar: 50000, p_pct: 0.30}
-  - {id: R-04, p: 3, i: 4, p_res: 1, i_res: 2, emv: 12000, i_dollar: 40000, p_pct: 0.30}
-  - {id: R-05, p: 3, i: 3, p_res: 2, i_res: 2, emv: 16500, i_dollar: 55000, p_pct: 0.30}
-  - {id: R-06, p: 4, i: 2, p_res: 2, i_res: 2, emv: 9000, i_dollar: 18000, p_pct: 0.50}
-  - {id: R-07, p: 3, i: 3, p_res: 1, i_res: 2, emv: 21000, i_dollar: 70000, p_pct: 0.30}
-  - {id: R-08, p: 2, i: 4, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
-  - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 18000, i_dollar: 150000, p_pct: 0.12}
-  - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 6900, i_dollar: 23000, p_pct: 0.30}
-  - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
-  - {id: R-12, p: 2, i: 5, p_res: 2, i_res: 5, emv: 0, i_dollar: 0, p_pct: 0.12}
-  - {id: R-13, p: 4, i: 3, p_res: 2, i_res: 2, emv: 15000, i_dollar: 30000, p_pct: 0.50}
-  - {id: R-14, p: 3, i: 4, p_res: 2, i_res: 2, emv: 13500, i_dollar: 45000, p_pct: 0.30}
-  - {id: R-15, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
-  - {id: R-16, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12}
-  - {id: R-17, p: 3, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30}
-  - {id: R-18, p: 2, i: 4, p_res: 1, i_res: 3, emv: 0, i_dollar: 0, p_pct: 0.12}
+  - {id: R-01, p: 3, i: 4, p_res: 1, i_res: 4, emv: 2700, i_dollar: 90000, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-02, p: 2, i: 5, p_res: 1, i_res: 4, emv: 5400, i_dollar: 180000, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-03, p: 3, i: 3, p_res: 1, i_res: 2, emv: 1500, i_dollar: 50000, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-04, p: 3, i: 4, p_res: 1, i_res: 2, emv: 1200, i_dollar: 40000, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-05, p: 3, i: 3, p_res: 2, i_res: 2, emv: 6600, i_dollar: 55000, p_pct: 0.30, p_res_pct: 0.12}
+  - {id: R-06, p: 4, i: 2, p_res: 2, i_res: 2, emv: 2160, i_dollar: 18000, p_pct: 0.50, p_res_pct: 0.12}
+  - {id: R-07, p: 3, i: 3, p_res: 1, i_res: 2, emv: 2100, i_dollar: 70000, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-08, p: 2, i: 4, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-09, p: 2, i: 5, p_res: 1, i_res: 4, emv: 4500, i_dollar: 150000, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-10, p: 3, i: 2, p_res: 2, i_res: 1, emv: 2760, i_dollar: 23000, p_pct: 0.30, p_res_pct: 0.12}
+  - {id: R-11, p: 3, i: 2, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-12, p: 2, i: 5, p_res: 2, i_res: 5, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.12}
+  - {id: R-13, p: 4, i: 3, p_res: 2, i_res: 2, emv: 3600, i_dollar: 30000, p_pct: 0.50, p_res_pct: 0.12}
+  - {id: R-14, p: 3, i: 4, p_res: 2, i_res: 2, emv: 5400, i_dollar: 45000, p_pct: 0.30, p_res_pct: 0.12}
+  - {id: R-15, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-16, p: 2, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
+  - {id: R-17, p: 3, i: 3, p_res: 1, i_res: 2, emv: 0, i_dollar: 0, p_pct: 0.30, p_res_pct: 0.03}
+  - {id: R-18, p: 2, i: 4, p_res: 1, i_res: 3, emv: 0, i_dollar: 0, p_pct: 0.12, p_res_pct: 0.03}
 
 contribution:
   - {name: Abdul Wahab Obeid, id: s5303839, pct: 25.0, hours: 42, deliverables: "Executive summary; integration; governance; delivery model; final QA"}
@@ -271,6 +309,21 @@ charter_refinements:
     a1: "Q1 2027 window; no funds beyond contingency; 98.5\\% telemetry in 5 days; zero LTI/GBRMPA/Juru; defects to R\\&D."
     a3: "T-0 15~Nov inside A1's Q1 2027 window (2-day in-flight trigger); $AC \\le BAC$; 98.5\\% telemetry in 5 days; LRR first submission; four-engine 5~s fire; zero LTI/GBRMPA/Juru; defects to R\\&D. LEO is Gilmour's test, not the consultancy's."
     why: "A1 tests stay. The PEP numbers cost and tightens in-flight control inside Q1 2027. LEO is not this team's finish line."
+  - key: objectives
+    element: Objectives 4 and 5
+    a1: "Objective 4: pass LRR by 10 Nov. Objective 5: November 2026 window and 98.5\\% telemetry."
+    a3: "Objective 4 is $T$-0 on 15~Nov (M-7) inside Q1 2027, with a 2-day in-flight trigger. Objective 5 is 98.5\\% handover on 20~Nov (M-8) and closeout on 1~Dec. LRR remains M-6 / first-submission success, not a numbered objective."
+    why: "The numbered objectives now match the gates this consultancy controls. LRR is still HP-4; it is no longer counted twice as both Obj~4 and M-6."
+  - key: lrr
+    element: LRR attendees
+    a1: "M-6: Launch Director, Range Safety Officer and Juru Land Liaisons review. Payload sponsor witnesses LRR."
+    a3: "HP-4 release is Launch Director, RSO, Juru Officer, Abdul and Ziyad. Payload sponsor remains a witness, not a signatory."
+    why: "A1 named the review board. The PEP keeps those three on the hold and does not promote the payload sponsor from witness to signatory."
+  - key: week8
+    element: Week 8 charter review
+    a1: "Team will review this charter in the Week 8 workshop and revise roles if necessary."
+    a3: "Week 8 workshop reopened the charter. No roles, DoA or contribution split were renegotiated."
+    why: "The brief asked teams to record renegotiations. There were none; omitting the row would look as if the review was skipped."
 
 executive:
   top_risks: [R-01, R-12, R-14]

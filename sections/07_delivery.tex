@@ -9,7 +9,7 @@ This section converts the baselines in Sections~\ref{sec:schedule}--\ref{sec:ris
 
 Governance is the organisation that will actually stop work, not a generic pyramid \citep{pmi2021,kerzner2017}. The Gilmour Executive Board is the sponsor. Abdul Wahab Obeid is Campaign Project Manager and directs the three consultancy leads in Table~\ref{tab:raci}. Field titles on Figure~\ref{fig:governance} match that table: Launch Director, Range Safety Officer, GSE Lead, Avionics Specialist, Juru Cultural Officer and the design-and-construct package manager.
 
-Delegation is numeric. Abdul may approve a variance of at most \PEPdoaAud \emph{and} at most \PEPdoaHours~hours, and only if M-5 (\PEPmFiveLong, A-133) and M-7 (\PEPmSevenLong, A-143) do not move. Anything else---a contingency draw, Option~C's \PEPoptionC, a hold-point waiver, a $T$-0 change---goes to the Board within 24~hours \citep{kerzner2017}. R-16 (RSO versus Launch Director deadlock) escalates 24~hours before A-141's late finish of \PEPmSixShort, not inside the review room. The \PEPdoaAud ceiling is below the dollar \emph{impact} of the hot-fire rows that would recycle the pad (R-01 \PEPrOiImpact; R-07 \PEPrViiImpact). Those rows' EMVs are \PEPrOiEmv and \PEPrViiEmv; a genuine recycle cannot be buried in PM discretion.
+Delegation is numeric. Abdul may approve a variance of at most \PEPdoaAud \emph{and} at most \PEPdoaHours~hours, and only if M-5 (\PEPmFiveLong, A-133) and M-7 (\PEPmSevenLong, A-143) do not move. Anything else---a contingency draw, Option~C's \PEPoptionC, a hold-point waiver, a $T$-0 change---goes to the Board within 24~hours \citep{kerzner2017}. R-16 (RSO versus Launch Director deadlock) escalates 24~hours before A-141's late finish of \PEPmSixShort, not inside the review room. The \PEPdoaAud ceiling is below the dollar \emph{impact} of the hot-fire rows that would recycle the pad (R-01 \PEPrOiImpact; R-07 \PEPrViiImpact). Residual EMVs on those rows are \PEPrOiEmv and \PEPrViiEmv because treatments already sit in the work baseline; a genuine recycle still cannot be buried in PM discretion.
 
 Cadence matches the physical work. Field leads hold a daily pad standup. After Gate~1 (A-111, \PEPmTwoShort) Ilsa publishes a weekly EVM dashboard from A-112. Abdul takes a fortnightly pack to the sponsor. Daily standup does not rewrite Table~\ref{tab:precedence}. A-112 has 53~days of float so the control system does not compete with stacking for pad occupancy.
 
@@ -73,7 +73,7 @@ Turnkey EPC was considered and rejected. After TestFlight~1, handing the propuls
 \subsection{Quality}
 \label{sec:delivery-quality}
 
-Quality is specified against AS9100D and ISO~9001:2015 \citep{sae2016,iso9001}. Four hold points, each tied to a register row, are listed in Table~\ref{tab:holdpoints}. HP-1 is pad tie-down weld NDT on A-123 (R-08). HP-2 is the GSE helium leak test on A-124 (R-05). HP-3 is the pre-static-fire ignition interlock on A-133 (R-01). HP-4 is LRR sign-off on A-141, witnessed by the payload sponsor. Work does not proceed past a hold without Ziyad's release or a Board waiver, and a Board waiver is outside Abdul's DoA.
+Quality is specified against AS9100D and ISO~9001:2015 \citep{sae2016,iso9001}. Four hold points, each tied to a register row, are listed in Table~\ref{tab:holdpoints}. HP-1 is pad tie-down weld NDT on A-123 (R-08). HP-2 is the GSE helium leak test on A-124 (R-05). HP-3 is the pre-static-fire ignition interlock on A-133 (R-01). HP-4 is LRR sign-off on A-141: Launch Director, RSO and Juru Officer review with Abdul and Ziyad; the payload sponsor witnesses and does not sign. Work does not proceed past a hold without Ziyad's release or a Board waiver, and a Board waiver is outside Abdul's DoA.
 
 \input{sections/generated/s7_holdpoints_table}
 
@@ -101,7 +101,7 @@ In-flight estimate at completion on the work baseline is
 EAC = AC + (BAC_{\text{work}} - EV)/CPI,
 \label{eq:eac}
 \end{equation}
-with $BAC_{\text{work}} = \PEPbase$. The same CPI is applied to the authorisation ceiling as $BAC/CPI$, reported against \PEPbac \citep{pmi2019evm}. Finish-line rule: final $AC \le \PEPbac$. A Green CPI of \PEPonPlanCPI\ in October is allowed; finishing above $BAC$ is not.
+with $BAC_{\text{work}} = \PEPbase$. The same CPI is applied to the authorisation ceiling as $BAC \times AC / EV$, reported against \PEPbac \citep{pmi2019evm}. Finish-line rule: final $AC \le \PEPbac$. A Green CPI of \PEPonPlanCPI\ in October is allowed; finishing above $BAC$ is not.
 
 Thresholds that trigger action, used only in this section, are:
 
@@ -113,11 +113,15 @@ Thresholds that trigger action, used only in this section, are:
 
 The only dashboard numbers permitted in this PEP are the two illustrative readings at M-4 (\PEPmFourLong~2026) in Table~\ref{tab:evm-m4} and Figure~\ref{fig:evm}. Planned value at that date is \PEPpvmFour. The planned label is HP-1 signed (A-123 100\%), HP-2 signed, A-113 elapsed-day percent-complete. On-plan books EV equal to PV (\PEPonPlanEV) and AC \PEPonPlanAC, so $CPI = \PEPonPlanEVnum/\PEPonPlanACnum = \PEPonPlanCPI$ and $SPI = \PEPonPlanEVnum/\PEPpvmFournum = \PEPonPlanSPI$---Green. Even so,
 \[
-EAC = \PEPonPlanACnum + (\PEPbasenum - \PEPonPlanEVnum)/\PEPonPlanCPI = \$\PEPonPlanEacnum,
+EAC = \PEPonPlanACnum \times \PEPbasenum / \PEPonPlanEVnum = \$\PEPonPlanEacnum,
 \]
-and $BAC/CPI = \PEPbacnum/\PEPonPlanCPI = \$\PEPonPlanIeacnum$, which sits above the \PEPbac ceiling. Green at M-4 still carries a recovery obligation toward the finish-line rule.
+which is identical to $AC + (BAC_{\text{work}}-EV)/(EV/AC)$. Authorisation
+\[
+BAC \times AC / EV = \PEPbacnum \times \PEPonPlanACnum / \PEPonPlanEVnum = \$\PEPonPlanIeacnum
+\]
+sits above the \PEPbac ceiling. Green at M-4 still carries a recovery obligation toward the finish-line rule.
 
-The late-stack illustration holds PV at \PEPpvmFour but drops EV to \PEPlateEV and AC to \PEPlateAC because HP-1 is unsigned. A-123 is milestone 0/100 tied to that hold, so the \$218{,}000 control account contributes \$0 of EV---the whole package is withheld, not a partial-hours claim. Then $CPI = \PEPlateEVnum/\PEPlateACnum = \PEPlateCPI$ and $SPI = \PEPlateEVnum/\PEPpvmFournum = \PEPlateSPI$---\PEPlateBand. Ilsa issues the Exception Report within 48~hours and freezes contingency. If R-14 has fired, the seven-day recovery invokes Option~C and crashes A-134 and A-142---not A-141. Work $EAC$ is $\$\PEPlateACnum + (\PEPbasenum - \PEPlateEVnum)/\PEPlateCPI = \$\PEPlateEacnum$. $BAC/CPI = \PEPbacnum/\PEPlateCPI = \$\PEPlateIeacnum$. Those two points are a worked example at one physical gate, not a time series and not a claim that October has already been worked.
+The late-stack illustration holds PV at \PEPpvmFour but drops EV to \PEPlateEV and AC to \PEPlateAC because HP-1 is unsigned. A-123 is milestone 0/100 tied to that hold, so the \$218{,}000 control account contributes \$0 of EV---the whole package is withheld, not a partial-hours claim. Then $CPI = \PEPlateEVnum/\PEPlateACnum = \PEPlateCPI$ and $SPI = \PEPlateEVnum/\PEPpvmFournum = \PEPlateSPI$---\PEPlateBand. Ilsa issues the Exception Report within 48~hours and freezes contingency. If R-14 has fired, the seven-day recovery invokes Option~C and crashes A-134 and A-142---not A-141. Work $EAC$ is $\PEPlateACnum \times \PEPbasenum / \PEPlateEVnum = \$\PEPlateEacnum$. $BAC \times AC / EV = \PEPbacnum \times \PEPlateACnum / \PEPlateEVnum = \$\PEPlateIeacnum$. Those two points are a worked example at one physical gate, not a time series and not a claim that October has already been worked.
 
 \input{sections/generated/s7_evm_table}
 

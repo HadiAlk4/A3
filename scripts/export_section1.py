@@ -46,11 +46,12 @@ def day_month_year(d) -> str:
 def recommendation(data: dict) -> str:
     proj = data["project"]
     t0 = day_month_year(data["milestones"]["M7"]["date"])
+    gate = day_month_year(data["milestones"]["M2"]["date"])
     return (
         "It is recommended that the Executive Board approve this Project Execution Plan, "
         f"baseline the campaign at {aud(proj['bac'])} AUD (inclusive of "
         f"{aud(proj['contingency'])} contingency), lock remaining pad spend at Gate~1 "
-        f"on 2~October~2026, and hold $T$-0 on {t0} inside the charter's Q1~2027 outer window."
+        f"on {gate}, and hold $T$-0 on {t0} inside the charter's Q1~2027 outer window."
     )
 
 

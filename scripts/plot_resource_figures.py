@@ -12,7 +12,7 @@ from matplotlib.patches import Patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from resource_occupancy import demand_series, surge_days, weekly_peaks  # noqa: E402
+from resource_occupancy import D, demand_series, surge_days, weekly_peaks  # noqa: E402
 
 YAML_PATH = ROOT / "data" / "pep_baseline.yaml"
 FIG = ROOT / "figures"
@@ -39,6 +39,20 @@ plt.rcParams.update(
 def load():
     with YAML_PATH.open() as f:
         return yaml.safe_load(f)
+
+
+def _surge_span(model) -> str:
+    a, b = D(model["surge_start"]), D(model["surge_end"])
+    if a.strftime("%b") == b.strftime("%b"):
+        return f"{a.day}--{b.day} {a.strftime('%b')}"
+    return f"{a.day} {a.strftime('%b')}--{b.day} {b.strftime('%b')}"
+
+
+def _surge_tex(model) -> str:
+    a, b = D(model["surge_start"]), D(model["surge_end"])
+    if a.strftime("%b") == b.strftime("%b"):
+        return f"{a.day}--{b.day}~{a.strftime('%b')}"
+    return f"{a.day}~{a.strftime('%b')}--{b.day}~{b.strftime('%b')}"
 
 
 def save(fig, name: str) -> None:
@@ -105,8 +119,8 @@ def plot_histogram(data) -> None:
         zorder=5,
     )
     ax.annotate(
-        "Surge: four heads, 24--30 Oct only (7~d).\n"
-        "Replaces unmitigated OT; not stacked.",
+        f"Surge: four heads, {_surge_span(data['resource_model'])} only (7 d).\n"
+        "Replaces unmitigated OT; not stacked. Not 24 Oct.",
         xy=(11.2, 12.05),
         xytext=(7.15, 15.45),
         fontsize=7.1,
@@ -170,7 +184,7 @@ def write_build_table(data) -> None:
         "from activity $\\times$ named crew. Each weekly total is the maximum unique-head "
         "count on any calendar day that week (HSE cap is simultaneous, not weekly unique). "
         f"Mitigated A-125 uses $ES$--$EF$; unmitigated uses the late bar $LS$--$LF$. "
-        f"Surge is four heads on 24--30~Oct only ({n_surge}~days). Unmitigated overtime is four "
+        f"Surge is four heads on {_surge_tex(data['resource_model'])} only ({n_surge}~days). Unmitigated overtime is four "
         "heads on WDR and static fire (16--30~Oct). Base, RF, surge and OT are disjoint name "
         "sets, so they add on the peak day.}\n"
         "\\label{tab:resource-build}\n"

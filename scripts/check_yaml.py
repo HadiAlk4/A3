@@ -39,7 +39,6 @@ MILESTONE_OWNERS = {
     "M9": "A-145",
 }
 LAUNCH_CP = {
-    "A-100",
     "A-113",
     "A-122",
     "A-123",
@@ -127,6 +126,11 @@ def check(data) -> list[str]:
             errors.append(f"{a['id']} critical but TF={tf}")
         if a["critical"] and a.get("gate_constrained"):
             errors.append(f"{a['id']} cannot be both launch-critical and gate_constrained")
+        if a.get("external_driver"):
+            if a["critical"]:
+                errors.append(f"{a['id']} external driver must not be launch-critical")
+            if a["id"] in LAUNCH_CP:
+                errors.append(f"{a['id']} external driver must not sit in LAUNCH_CP")
         if a["id"] in LAUNCH_CP and not a["critical"]:
             errors.append(f"{a['id']} should be launch-critical")
         if a["critical"] and a["id"] not in LAUNCH_CP:
@@ -160,7 +164,7 @@ def check(data) -> list[str]:
         errors.append("Option C slope != 4200")
 
     tail = {t["id"]: t for t in data["compression"]["option_c_tail"]}
-    expect_d = {"A-134": 3, "A-141": 5, "A-142": 2, "A-143": 1}
+    expect_d = {"A-134": 1, "A-141": 5, "A-142": 4, "A-143": 1}
     chain = ["A-134", "A-141", "A-142", "A-143"]
     for iid, new_d in expect_d.items():
         es, ef = D(tail[iid]["es"]), D(tail[iid]["ef"])
@@ -218,6 +222,16 @@ def check(data) -> list[str]:
         errors.append("unmitigated peak must exceed the HSE pad cap")
     if surge_days(data["resource_model"]) != 7:
         errors.append("surge window must be 7 inclusive days")
+    wdr_ef = D(acts["A-132"]["ef"])
+    if D(data["resource_model"]["surge_start"]) <= wdr_ef <= D(data["resource_model"]["surge_end"]):
+        errors.append("surge window must not include 24 Oct (last WDR day)")
+    org = data["resource_model"].get("organic_names", [])
+    if len(org) != proj["organic_crew"] or len(set(org)) != proj["organic_crew"]:
+        errors.append("organic_names must be unique and equal organic_crew")
+    crew_names = {n for row in data["resource_model"]["crews"] for n in row["crew"]}
+    missing_org = [n for n in org if n not in crew_names]
+    if missing_org:
+        errors.append(f"organic_names missing from crews: {missing_org}")
     res_tex = ROOT / "sections" / "05_resource.tex"
     if res_tex.exists() and r"\input{sections/generated/s5_resource_build}" not in res_tex.read_text():
         errors.append("05_resource.tex must input the generated headcount-build table")
@@ -315,26 +329,26 @@ def check(data) -> list[str]:
         c10 = labour["c10_ordinary"]
         emp_pro = employment_oncost(labour, pad=False)
         emp_pad = employment_oncost(labour, pad=True)
+        fee_keys = [k for k in labour if k.endswith("_fee")]
+        if fee_keys:
+            errors.append(f"labour still has a fee fudge: {fee_keys}")
         eng = (
             c10
             * emp_pro
             / labour["engineer_utilisation"]
             * labour["engineer_overhead"]
-            * labour["engineer_fee"]
         )
         tech = (
             c10
             * emp_pad
             / labour["technician_utilisation"]
             * labour["technician_overhead"]
-            * labour["technician_fee"]
         )
         spec = (
             c10
             * emp_pro
             / labour["specialist_utilisation"]
             * labour["specialist_overhead"]
-            * labour["specialist_fee"]
         )
         surge = (
             c10
@@ -351,8 +365,34 @@ def check(data) -> list[str]:
             errors.append(f"specialist stack {spec:.2f} != {labour['specialist']}")
         if abs(surge - labour["surge"]) > 0.15:
             errors.append(f"surge stack {surge:.2f} != {labour['surge']}")
-        if labour["crane_lift_days"] + labour["crane_standby_days"] != 24:
-            errors.append("crane lift + standby days must equal A-123 duration 24")
+        if labour["crane_lift_days"] + labour["crane_nonlift_days"] != 24:
+            errors.append("crane lift + non-lift days must equal A-123 duration 24")
+    cb = data.get("cost_build", {})
+    if cb:
+        if cb["wbs_113_asa"] + cb["wbs_113_casa"] + cb["wbs_113_gbrmpa"] != 88000:
+            errors.append("1.1.3 split must sum to $88,000")
+        if cb["gn2_cylinders"] * cb["gn2_unit_aud"] != 8000:
+            errors.append("GN2 multiply-out must equal $8,000")
+        if cb["cryo_hoses"] * cb["cryo_hose_aud"] + cb["cryo_seal_kit_aud"] != 6000:
+            errors.append("cryo multiply-out must equal $6,000")
+        opt_h = (
+            cb["option_c_specialists"] * labour["specialist"]
+            + cb["option_c_technicians"] * labour["technician"]
+        )
+        opt = opt_h * cb["option_c_hours_per_day"] * cb["option_c_days"]
+        if abs(opt - data["project"]["option_c_cost"]) > 250:
+            errors.append(f"Option C labour multiply-out {opt} != {data['project']['option_c_cost']}")
+    if data["project"].get("pv_at_gate1") != 602301:
+        errors.append("pv_at_gate1 must remain $602,301")
+    r06 = next(r for r in data["risks"] if r["id"] == "R-06")
+    if r06["emv"] != 0 or r06["i_dollar"] != 0:
+        errors.append("R-06 must be schedule-only (weather $ live only in RES)")
+    r08 = next(r for r in data["risks"] if r["id"] == "R-08")
+    if r08["i_res"] != r08["i"] or r08["i"] != 4 or r08["emv"] != 0:
+        errors.append("R-08 residual I must stay 4 with $0 transferred")
+    a100 = acts["A-100"]
+    if not a100.get("external_driver") or a100["critical"]:
+        errors.append("A-100 must be an external $0 driver, not launch-critical")
     if data["executive"]["top_risks"] != ["R-01", "R-12", "R-14"]:
         errors.append("top risks must be R-01, R-12, R-14")
     if "A-141" in str(data["compression"]["option_c_tail"]) and expect_d["A-141"] != 5:
@@ -393,9 +433,10 @@ def check_table_31(data) -> list[str]:
         if fmt(a["es"]) not in line or fmt(a["ef"]) not in line:
             errors.append(f"Table 3.1 {a['id']} dates != YAML ({fmt(a['es'])}–{fmt(a['ef'])})")
         if f" {a['d']} &" not in line and f" {a['d']} " not in line:
-            # duration is the first numeric column after the name
             if not re.search(rf"&\s*{a['d']}\s*&", line):
                 errors.append(f"Table 3.1 {a['id']} duration != {a['d']}")
+        if a["id"] == "A-100" and not re.search(r"&\s*Ext\s*\\\\", line):
+            errors.append("Table 3.1 A-100 CP column must be Ext, not Y")
     for rid in RETIRED:
         if re.search(rf"\b{rid}\b", tex):
             errors.append(f"retired ID {rid} appears in 03_schedule.tex")
@@ -449,6 +490,8 @@ def check_section_7(data) -> list[str]:
         "s7_holdpoints_table",
         "s7_evm_table",
         "s7_macros",
+        "2.6",
+        "4.4",
     ]
     for needle in required:
         if needle not in tex:
@@ -551,6 +594,16 @@ def check_section_2(data) -> list[str]:
         "Week 8 workshop",
         "Payload sponsor remains a witness",
         "residual EMV",
+        "Payload operations remain",
+        "stability loss",
+        "Next Spaceflight",
+        "weekly integration logs",
+        "QLD Regional Press",
+        "10 seconds before simulated",
+        "Stakeholder",
+        "40/30/30",
+        "Charter has no NTP",
+        "Gate~1 PV",
     ):
         if needle not in gen:
             errors.append(f"s2_change_table.tex missing locked A3 cell: {needle}")
@@ -655,6 +708,7 @@ def check_section_1(data: dict) -> list[str]:
     if r"\section{Executive summary}" in a3:
         errors.append("A3.tex still contains an inline Executive summary heading")
 
+    blob1 = exec_tex + "\n" + rec_tex
     money_needles = [
         _aud(proj["base_estimate"]),
         _aud(proj["contingency"]),
@@ -662,6 +716,7 @@ def check_section_1(data: dict) -> list[str]:
         _aud(proj["res_allowance"]),
         _aud(proj["bac"]),
         _aud(proj["option_c_cost"]),
+        _aud(proj.get("pv_at_gate1", 0)),
         "15~October~2026",
         "24~October",
         "30~October~2026",
@@ -671,7 +726,7 @@ def check_section_1(data: dict) -> list[str]:
         "1~December~2026",
     ]
     for needle in money_needles:
-        if needle not in exec_tex:
+        if needle not in blob1:
             errors.append(f"Section 1 missing locked figure {needle!r}")
 
     for rid in data.get("executive", {}).get("top_risks", ["R-01", "R-09", "R-14"]):
@@ -686,6 +741,8 @@ def check_section_1(data: dict) -> list[str]:
         errors.append("Recommendation BAC does not match YAML")
     if _aud(proj["contingency"]) not in rec_tex:
         errors.append("Recommendation contingency does not match YAML")
+    if _aud(proj.get("pv_at_gate1", 0)) not in rec_tex:
+        errors.append("Recommendation must disclose Gate 1 planned PV")
     return errors
 
 
@@ -705,9 +762,12 @@ def check_section_4(data: dict) -> list[str]:
         "residual",
         "1.378",
         "1.405",
+        "602{,}301",
     ):
         if needle not in tex:
             errors.append(f"Section 4 missing locked string: {needle}")
+    if "and a fee" in tex or re.search(r"1\.\d{4}", tex):
+        errors.append("Section 4 still describes a labour fee or four-decimal factor")
     if "5.09" in tex or "3.23" in tex:
         errors.append("Section 4: reverse-engineered 5.09/3.23 labour multiplier still present")
     if "175{,}500" in tex or "218{,}630" in tex or "1{,}718{,}630" in tex:
@@ -728,10 +788,17 @@ def check_section_6(data: dict) -> list[str]:
         _aud(proj["res_allowance"]),
         "0.03\\times90{,}000",
         "2{,}700",
-        "2{,}160",
+        _aud(proj["emv_sum"]),
     ):
         if needle not in tex:
             errors.append(f"Section 6 missing locked string: {needle}")
+    if "Cause $\\rightarrow$ event $\\rightarrow$ effect" in tex or "Cause $\\to$ event $\\to$ effect" in tex:
+        errors.append("Table 6.1 still jams cause, event and effect in one cell")
+    if "Cause & Event & Effect" not in tex:
+        errors.append("Table 6.1 must split Cause, Event and Effect")
+    r08_line = next((ln for ln in tex.splitlines() if ln.startswith("R-08")), "")
+    if r08_line and not re.search(r"&\s*1\s*&\s*4\s*&", r08_line):
+        errors.append("R-08 residual I must stay 4 in Table 6.1")
     if "EMV remains \\$27,000" in tex or "EMV remains $27,000" in tex:
         errors.append("Section 6 still quotes inherent EMV for R-01 as the pool")
     if "175{,}500" in tex:
@@ -752,9 +819,26 @@ def check_all_tex(data: dict) -> list[str]:
             errors.append(f"retired WBS id {wid} still appears in the plan")
     if "SV > -5" in all_tex:
         errors.append("SV threshold still written as days")
-    for stale in ("175{,}500", "218{,}630", "1{,}718{,}630", "14.58", "5.09", "3.23"):
+    for stale in (
+        "175{,}500",
+        "218{,}630",
+        "1{,}718{,}630",
+        "14.58",
+        "5.09",
+        "3.23",
+        "81{,}050",
+        "37{,}920",
+        "1{,}581{,}050",
+        "1{,}645{,}751",
+        "2{,}124{,}089",
+        "fwo2020",
+    ):
         if stale in all_tex:
             errors.append(f"stale identity {stale} still appears in the plan")
+    if "A-142 4~$\\to$~2" in all_tex or "A-142 4~$\\to$~2~d" in all_tex:
+        errors.append("Option C still crashes A-142")
+    if "engineer_fee" in all_tex:
+        errors.append("labour fee key still appears in the plan")
     return errors
 
 

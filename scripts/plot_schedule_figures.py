@@ -25,6 +25,7 @@ CRIMSON = "#C0392B"
 TEAL = "#2A9D8F"
 AMBER = "#E76F51"
 GREY = "#E0E0E0"
+SLATE = "#7F8C8D"
 
 plt.rcParams.update(
     {
@@ -73,14 +74,17 @@ def plot_gantt(data) -> None:
         y = i
         es, ef, lf = parse(a["es"]), parse(a["ef"]), parse(a["lf"])
         width = (ef - es).days + 1
-        colour = CRIMSON if a["critical"] else NAVY
+        ext = bool(a.get("external_driver"))
+        colour = SLATE if ext else (CRIMSON if a["critical"] else NAVY)
         ax.barh(
             y,
             width,
             left=es,
             height=0.55,
             color=colour,
-            edgecolor="none",
+            edgecolor=SLATE if ext else "none",
+            linewidth=0.8 if ext else 0.0,
+            hatch="///" if ext else None,
             zorder=3,
         )
         if (not a["critical"]) and a["tf"] > 0:
@@ -187,6 +191,7 @@ def plot_gantt(data) -> None:
     legend = [
         Rectangle((0, 0), 1, 1, color=CRIMSON, label="Launch-critical ($TF=0$)"),
         Rectangle((0, 0), 1, 1, color=NAVY, label="Non-critical / Gate 1"),
+        Rectangle((0, 0), 1, 1, facecolor=SLATE, edgecolor=SLATE, hatch="///", label="External $0 driver (A-100)"),
         Line2D([0], [0], color=TEAL, lw=2, label="Total float to $LF$"),
         Line2D(
             [0],
@@ -305,7 +310,7 @@ def plot_network(data) -> None:
             "S": (cx, y),
         }[side]
 
-    def draw_link(ax, pred, succ, colour, lw, start_side, end_side, vias=None):
+    def draw_link(ax, pred, succ, colour, lw, start_side, end_side, vias=None, ls="-"):
         p0 = port(pred, start_side)
         p1 = port(succ, end_side)
         pts = [p0, *(vias or []), p1]
@@ -318,6 +323,7 @@ def plot_network(data) -> None:
                     mutation_scale=9,
                     lw=lw,
                     color=colour,
+                    linestyle=ls,
                     zorder=1,
                     shrinkA=0,
                     shrinkB=1.5,
@@ -332,6 +338,7 @@ def plot_network(data) -> None:
                 facecolor="none",
                 edgecolor=colour,
                 lw=lw,
+                linestyle=ls,
                 capstyle="butt",
                 joinstyle="miter",
                 zorder=1,
@@ -345,6 +352,7 @@ def plot_network(data) -> None:
                 mutation_scale=9,
                 lw=lw,
                 color=colour,
+                linestyle=ls,
                 zorder=1,
                 shrinkA=0,
                 shrinkB=1.5,
@@ -433,9 +441,12 @@ def plot_network(data) -> None:
     for a in data["activities"]:
         for pred in a["predecessors"]:
             key = (pred, a["id"])
+            ext = pred == "A-100" or a.get("external_driver")
             both = pred in crit_ids and a["critical"]
-            colour = CRIMSON if both else NAVY
-            lw = 1.4 if both else 0.6
+            if ext:
+                colour, lw, ls = SLATE, 1.15, "--"
+            else:
+                colour, lw, ls = (CRIMSON, 1.4, "-") if both else (NAVY, 0.6, "-")
             spec = link_spec.get(key)
             if spec is None:
                 # Fallback: east-west if successor is to the right, else north-south.
@@ -445,7 +456,7 @@ def plot_network(data) -> None:
                     spec = ("E" if dx > 0 else "W", "W" if dx > 0 else "E", None)
                 else:
                     spec = ("N" if dy > 0 else "S", "S" if dy > 0 else "N", None)
-            draw_link(ax, pred, a["id"], colour, lw, spec[0], spec[1], spec[2])
+            draw_link(ax, pred, a["id"], colour, lw, spec[0], spec[1], spec[2], ls=ls)
             drawn.add(key)
 
     ax.text(
@@ -474,8 +485,9 @@ def plot_network(data) -> None:
         x, y = pos[a["id"]]
         crit = a["critical"]
         gate = bool(a.get("gate_constrained"))
-        edge = CRIMSON if crit else NAVY
-        lw = 1.65 if crit or gate else 0.85
+        ext = bool(a.get("external_driver"))
+        edge = SLATE if ext else (CRIMSON if crit else NAVY)
+        lw = 1.65 if crit or gate or ext else 0.85
         ax.add_patch(
             Rectangle(
                 (x, y),
@@ -484,6 +496,7 @@ def plot_network(data) -> None:
                 facecolor="white",
                 edgecolor=edge,
                 linewidth=lw,
+                linestyle="--" if ext else "-",
                 zorder=2,
             )
         )
@@ -565,14 +578,16 @@ def plot_network(data) -> None:
         tf_lab = f"TF={a['tf']}"
         if gate:
             tf_lab += "  Gate 1"
+        if ext:
+            tf_lab += "  ext."
         ax.text(
             x + w / 2,
             y + bot_h / 2,
             tf_lab,
             ha="center",
             va="center",
-            fontsize=5.8,
-            color=CRIMSON if crit else NAVY,
+            fontsize=5.4 if ext or gate else 5.8,
+            color=SLATE if ext else (CRIMSON if crit else NAVY),
             zorder=4,
         )
         if gate:
@@ -604,6 +619,7 @@ def plot_network(data) -> None:
     legend = [
         Line2D([0], [0], color=CRIMSON, lw=1.4, label="Launch-critical FS ($TF=0$)"),
         Line2D([0], [0], color=NAVY, lw=0.6, label="Feeder / float FS"),
+        Line2D([0], [0], color=SLATE, lw=1.15, ls="--", label="A-100 external $0 driver"),
         Line2D(
             [0],
             [0],
@@ -619,7 +635,7 @@ def plot_network(data) -> None:
         frameon=False,
         fontsize=7,
         bbox_to_anchor=(0.0, -0.08),
-        ncol=3,
+        ncol=4,
     )
 
     ax.set_xlim(-0.35, 17.15)

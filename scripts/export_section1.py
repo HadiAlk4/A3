@@ -50,8 +50,11 @@ def recommendation(data: dict) -> str:
     return (
         "It is recommended that the Executive Board approve this Project Execution Plan, "
         f"baseline the campaign at {aud(proj['bac'])} AUD (inclusive of "
-        f"{aud(proj['contingency'])} contingency), lock remaining pad spend at Gate~1 "
-        f"on {gate}, and hold $T$-0 on {t0} inside the charter's Q1~2027 outer window."
+        f"{aud(proj['contingency'])} contingency), including the "
+        f"{aud(proj['pv_at_gate1'])} of planned pad PV already on the clock by Gate~1 "
+        f"on {gate} (40.2\\% of the work PMB: permitting, Juru, cleanroom, GSE, RF and "
+        f"stacking in progress), lock remaining spend at that gate, and hold $T$-0 on "
+        f"{t0} inside the charter's Q1~2027 outer window."
     )
 
 

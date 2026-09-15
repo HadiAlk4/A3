@@ -448,6 +448,18 @@ def plot_network(data) -> None:
             draw_link(ax, pred, a["id"], colour, lw, spec[0], spec[1], spec[2])
             drawn.add(key)
 
+    ax.text(
+        6.55,
+        2.02,
+        "A-125 FS into A-133",
+        fontsize=6.6,
+        color=NAVY,
+        ha="center",
+        va="top",
+        zorder=5,
+        bbox=dict(boxstyle="round,pad=0.18", facecolor="white", edgecolor=GREY, linewidth=0.4),
+    )
+
     expected = {(p, a["id"]) for a in data["activities"] for p in a["predecessors"]}
     missing = expected - drawn
     if missing:

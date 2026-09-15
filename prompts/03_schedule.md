@@ -26,8 +26,8 @@ These items from earlier drafts are **retired**. Using them will fail Exceeds.
 | Option A: overlap stacking (A-123) with GSE (A-124) | A-124 already runs in parallel and has $TF=3$; that overlap does **not** move $T$-0 |
 | Option B: crash A-105 from 14 to 9 days | No A-105. A-133 is 6 days. Crashing stacking or static fire **alone saves 0 days** because A-113 still gates A-133 |
 | Option C: crash A-102 + A-105 and fast-track A-106 | None of those IDs are on the launch critical path |
-| Baseline $T$-0 moved to 10 Nov; $21k$ baked into BAC | Baseline $T$-0 stays **15 Nov**. Option C is a **contingent** draw on the $225k$ reserve if R-12/R-14 fires |
-| “48-hour diagnostic buffer before LRR” under Option C | Option C **shortens** diagnostics. What is preserved is **A-142** (4-day range/countdown), which is not crashed |
+| Baseline $T$-0 moved to 10 Nov; $21k$ baked into BAC | Baseline $T$-0 stays **15 Nov**. Option C is a **contingent** draw on the $218,630$ reserve if R-14 fires |
+| “48-hour diagnostic buffer before LRR” under Option C | Option C **shortens** diagnostics. What is preserved is **A-141 at 5 days** (HP-4). A-142 is crashed 4→2; that shorter sweep is the R-15 residual |
 | Compression “curve” of three points all at $x=5$ days | That is a vertical line. Use the grouped-bar trade-off in `charts.md` |
 | `\includegraphics{compression_curve.pdf}` | File is `figures/compression_tradeoff.pdf` |
 | PMBOK 8th edition as a default cite | Cite PMI (2021) PMBOK 7th unless an 8th-edition bibliographic record is in `references.bib` |
@@ -44,7 +44,7 @@ These items from earlier drafts are **retired**. Using them will fail Exceeds.
 
 ### Compression what-if (not the baseline)
 
-Board question: can $T$-0 move from **15 Nov to 10 Nov** if R-12 or R-14 is realised?
+Board question: can $T$-0 move from **15 Nov to 10 Nov** if R-14 is realised?
 
 Only the **post-A-133 tail** can give five days without also crashing A-113.
 
@@ -52,9 +52,9 @@ Only the **post-A-133 tail** can give five days without also crashing A-113.
 | :--- | :--- | ---: | ---: | :--- | :--- |
 | A Pure fast-track | A-134 → A-141 from FS to SS+1 (LRR overlaps diagnostics) | 5 | $0 | $0/d | **Rejected** — LRR on incomplete post-fire data; AS9100D hold-point failure / rework |
 | B Pure crash | A-134 crashed 6 → 1 day | 5 | $40,000 | $8,000/d | **Rejected** — fatigue, skipped thermal/electrical screens |
-| C Hybrid (if R-12/R-14 fires) | A-134 6→3 d ($3,000/d = $9,000); A-141 5→3 d ($6,000/d = $12,000) | 5 | **$21,000** | **$4,200/d** | **Contingent** — keep A-142 uncrashed; $21k from contingency, **not** added to the $1.5M base |
+| C Hybrid (if R-14 fires) | A-134 6→3 d ($9,000); A-141 kept at 5 d; A-142 4→2 d ($12,000) | 5 | **$21,000** | **$4,200/d** | **Contingent** — keep HP-4; $21k from contingency, **not** added to the $1.5M base |
 
-Option C dates **if invoked:** A-134 31 Oct–2 Nov; A-141 3–5 Nov; A-142 6–9 Nov; A-143 **10 Nov**. Do not move the M-7 diamond on the **baseline** Gantt.
+Option C dates **if invoked:** A-134 31 Oct–2 Nov; A-141 3–7 Nov; A-142 8–9 Nov; A-143 **10 Nov**. Do not move the M-7 diamond on the **baseline** Gantt.
 
 State explicitly: crashing A-123 by five days saves **zero** days on $T$-0 unless A-113 is crashed too.
 

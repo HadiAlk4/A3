@@ -86,12 +86,12 @@ def plot_evm(data) -> None:
             raise SystemExit(f"{label} CPI {case['cpi']} != round(EV/AC,2)={round(cpi, 2)}")
         if round(spi + 1e-12, 2) != case["spi"]:
             raise SystemExit(f"{label} SPI {case['spi']} != round(EV/PV,2)={round(spi, 2)}")
-        eac = case["ac"] + (proj["base_estimate"] - case["ev"]) / case["cpi"]
-        if abs(eac - case["eac_work"]) > 0.51:
-            raise SystemExit(f"{label} eac_work {case['eac_work']} != {eac:.1f}")
-        ieac = proj["bac"] / case["cpi"]
-        if abs(ieac - case["ieac_bac"]) > 0.51:
-            raise SystemExit(f"{label} ieac_bac {case['ieac_bac']} != {ieac:.1f}")
+        eac = round(proj["base_estimate"] * case["ac"] / case["ev"])
+        if case["eac_work"] != eac:
+            raise SystemExit(f"{label} eac_work {case['eac_work']} != AC×BAC_work/EV {eac}")
+        ieac = round(proj["bac"] * case["ac"] / case["ev"])
+        if case["ieac_bac"] != ieac:
+            raise SystemExit(f"{label} ieac_bac {case['ieac_bac']} != AC×BAC/EV {ieac}")
 
     fig, (ax_bar, ax_band) = plt.subplots(
         2, 1, figsize=(10.4, 7.15), gridspec_kw={"height_ratios": [1.15, 0.95]}
@@ -173,7 +173,7 @@ def plot_evm(data) -> None:
     # --- Lower: Green / Amber / Red index bands with the two M-4 readings ---
     green_lo, green_hi = evm["green_lo"], evm["green_hi"]
     amber_lo, red_lt = evm["amber_lo"], evm["red_lt"]
-    ax_band.axhspan(0.80, red_lt, facecolor=RED_BAND, edgecolor="none", zorder=0)
+    ax_band.axhspan(0.66, red_lt, facecolor=RED_BAND, edgecolor="none", zorder=0)
     ax_band.axhspan(amber_lo, green_lo, facecolor=AMBER_BAND, edgecolor="none", zorder=0)
     ax_band.axhspan(green_lo, green_hi, facecolor=GREEN_BAND, edgecolor="none", zorder=0)
     ax_band.axhline(1.0, color=NAVY, linewidth=0.8, linestyle=":", zorder=1)
@@ -186,8 +186,9 @@ def plot_evm(data) -> None:
     ax_band.scatter(
         [0 + 0.08], [onp["spi"]], s=70, marker="s", color=NAVY, edgecolor=NAVY, linewidth=0.5, zorder=4
     )
+    late_colour = CRIMSON if late["band"] == "Red" else AMBER
     ax_band.scatter(
-        [1 - 0.08], [late["cpi"]], s=70, color=AMBER, edgecolor=NAVY, linewidth=0.5, zorder=4
+        [1 - 0.08], [late["cpi"]], s=70, color=late_colour, edgecolor=NAVY, linewidth=0.5, zorder=4
     )
     ax_band.scatter(
         [1 + 0.08], [late["spi"]], s=70, marker="s", color=NAVY, edgecolor=NAVY, linewidth=0.5, zorder=4
@@ -214,16 +215,16 @@ def plot_evm(data) -> None:
         f"CPI {late['cpi']:.2f}",
         (1 - 0.08, late["cpi"]),
         textcoords="offset points",
-        xytext=(-22, -14),
+        xytext=(-28, 10),
         fontsize=7.2,
-        color=AMBER,
+        color=late_colour,
         fontweight="bold",
     )
     ax_band.annotate(
         f"SPI {late['spi']:.2f}",
         (1 + 0.08, late["spi"]),
         textcoords="offset points",
-        xytext=(10, -14),
+        xytext=(12, 10),
         fontsize=7.2,
         color=NAVY,
         fontweight="bold",
@@ -234,7 +235,7 @@ def plot_evm(data) -> None:
         [f"On-plan ({onp['band']} band)", f"Late stack ({late['band']} band)"]
     )
     ax_band.set_xlim(-0.55, 1.55)
-    ax_band.set_ylim(0.82, 1.10)
+    ax_band.set_ylim(0.68, 1.10)
     ax_band.set_ylabel("CPI / SPI")
     ax_band.set_yticks(sorted({red_lt, amber_lo, green_lo, 1.0, green_hi}))
     for spine in ("top", "right"):
@@ -259,7 +260,7 @@ def plot_evm(data) -> None:
     )
     ax_band.text(
         1.52,
-        0.86,
+        0.70,
         f"Red  <{red_lt:.2f}  or  T-0 slip >{evm['t0_slip_trigger_days']} d",
         ha="right",
         va="center",

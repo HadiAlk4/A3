@@ -105,12 +105,26 @@ def reconcile_table(data: dict) -> str:
         ),
         (
             f"Pad occupancy & {proj['organic_crew']} org.\\ / {proj['hse_pad_cap']} cap / "
-            f"{proj['unmitigated_peak']} unmit.\\ / {proj['mitigated_peak']} mit. & "
-            f"Fig.~\\ref{{fig:resources}}; R-13; Sec.~\\ref{{sec:delivery-hse}} \\\\"
+            f"{proj['unmitigated_peak']} unmit.\\ / {proj['mitigated_peak']} mit.\\ "
+            f"(simultaneous unique heads) & "
+            f"Fig.~\\ref{{fig:resources}}; Table~\\ref{{tab:resource-build}}; R-13; "
+            f"Sec.~\\ref{{sec:delivery-hse}} \\\\"
         ),
         (
-            f"Surge labour & {aud(proj['surge_hire_cost'])} inside WBS~1.3.3 & "
+            f"Surge labour & {aud(proj['surge_hire_cost'])} $=$ $4 \\times 7$~d "
+            f"$\\times$ 8~h $\\times$ \\$100 inside WBS~1.3.3 "
+            f"(24--30~Oct only) & "
             f"In the {aud(proj['base_estimate'])} base, not a contingency draw \\\\"
+        ),
+        (
+            f"EMV pool & residual $P'\\%$ $\\times$ $I_{{\\$}}$ $=$ {aud(proj['emv_sum'])} "
+            f"(not inherent $P\\%$) & "
+            f"Table~\\ref{{tab:contingency}}; Table~\\ref{{tab:risk-register}} EMV column \\\\"
+        ),
+        (
+            "HP-4 & Launch Director / RSO / Juru Officer / Abdul / Ziyad; "
+            "payload sponsor witnesses & "
+            "Table~\\ref{tab:holdpoints}; Table~\\ref{tab:raci} 1.4.1; A1 M-6 \\\\"
         ),
         (
             f"Option~C & {aud(proj['option_c_cost'])} from contingency if R-14 fires & "

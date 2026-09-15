@@ -119,6 +119,9 @@ def render(data) -> dict[str, str]:
 \\newcommand{{\\PEPlateSPI}}{{{late["spi"]:.2f}}}
 \\newcommand{{\\PEPlateEac}}{{{aud(late["eac_work"])}\\xspace}}
 \\newcommand{{\\PEPlateEacnum}}{{{aud_plain(late["eac_work"])}}}
+\\newcommand{{\\PEPlateIeac}}{{{aud(late["ieac_bac"])}\\xspace}}
+\\newcommand{{\\PEPlateIeacnum}}{{{aud_plain(late["ieac_bac"])}}}
+\\newcommand{{\\PEPlateBand}}{{{late["band"]}}}
 \\newcommand{{\\PEPmFourGap}}{{{aud(m4_gap)}\\xspace}}
 \\newcommand{{\\PEPpmBox}}{{%
 \\textbf{{Campaign PM}}\\\\[-0.05em]\\textbf{{\\mbox{{\\PEPpmName}}}}\\\\[0.12em]
@@ -135,7 +138,7 @@ def render(data) -> dict[str, str]:
             f"{hp['id']} & {hp['activity']} ({day_mon(act['ef'])}) & {hp['risk']} & "
             f"{tex_escape(hp['name'])} & {tex_escape(hp['release'])} \\\\"
         )
-    hold_colspec = r"@{}l l l l X@{}"
+    hold_colspec = r"@{}l l l >{\raggedright\arraybackslash}p{3.55cm} >{\raggedright\arraybackslash}X@{}"
     hold_tex = (
         "\\begin{table}[H]\n"
         "\\centering\n"

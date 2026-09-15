@@ -46,11 +46,12 @@ def day_month_year(d) -> str:
 def recommendation(data: dict) -> str:
     proj = data["project"]
     t0 = day_month_year(data["milestones"]["M7"]["date"])
+    gate = day_month_year(data["milestones"]["M2"]["date"])
     return (
         "It is recommended that the Executive Board approve this Project Execution Plan, "
         f"baseline the campaign at {aud(proj['bac'])} AUD (inclusive of "
-        f"{aud(proj['contingency'])} contingency), and authorise mobilisation for "
-        f"Bowen pad operations with $T$-0 on {t0}."
+        f"{aud(proj['contingency'])} contingency), lock remaining pad spend at Gate~1 "
+        f"on {gate}, and hold $T$-0 on {t0} inside the charter's Q1~2027 outer window."
     )
 
 
@@ -81,6 +82,10 @@ def identities(data) -> list[str]:
         errors.append("recommendation missing BAC or contingency")
     if "15~November~2026" not in rec:
         errors.append("recommendation T-0 must be 15 November 2026")
+    if "Gate~1" not in rec or "Q1~2027" not in rec:
+        errors.append("recommendation must lock remaining spend at Gate 1 inside Q1 2027")
+    if "authorise mobilisation" in rec:
+        errors.append("recommendation must not ask the Board to authorise a mobilisation already on the clock")
     if D(data["milestones"]["M7"]["date"]) != date(2026, 11, 15):
         errors.append("M-7 must remain 15 Nov 2026")
     for rid in TOP_RISKS:

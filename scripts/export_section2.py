@@ -212,15 +212,9 @@ def identities(data) -> list[str]:
         "success",
         "objectives",
         "lrr",
-        "week8",
-        "payload",
-        "tf1",
-        "window_source",
-        "payload_logs",
         "community_media",
         "wdr_t10",
         "ilsa_role",
-        "scoring_screen",
         "mobilisation",
     ]
     if keys != expect:

@@ -72,7 +72,7 @@ def reconcile_table(data: dict) -> str:
     rows = [
         (
             f"Work PMB & {aud(proj['base_estimate'])} & "
-            f"Sec.~\\ref{{sec:exec}}; Sec.~\\ref{{sec:overview-objectives}}; "
+            f"Sec.~\\ref{{sec:exec}}; Sec.~\\ref{{sec:overview}}; "
             f"Table~\\ref{{tab:wbs-cost}}; "
             f"Table~\\ref{{tab:cashflow}} (ends here); Fig.~\\ref{{fig:scurve}}; "
             f"Sec.~\\ref{{sec:delivery-evm}} distributed $PV$ \\\\"
@@ -86,7 +86,7 @@ def reconcile_table(data: dict) -> str:
         (
             f"Authorised $BAC$ & {aud(proj['bac'])} & "
             f"Finish-line $AC \\le BAC$ in Sec.~\\ref{{sec:exec}}, "
-            f"Sec.~\\ref{{sec:overview-objectives}} "
+            f"Sec.~\\ref{{sec:overview}} "
             f"and Sec.~\\ref{{sec:delivery-evm}} \\\\"
         ),
         (

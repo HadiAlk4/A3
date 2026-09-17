@@ -6,7 +6,7 @@ The campaign schedule converts the WBS into a time-phased baseline for board app
 \subsection{Network logic and float analysis}
 \label{sec:schedule-network}
 
-Precedence is modelled as activity-on-node with finish-to-start links and zero lag \citep{pmi2021,kerzner2017}. Textbook discrete-time notation writes $EF = ES + D$ when $EF$ is exclusive. On the Bowen calendar every displayed date is inclusive, so the implemented identities are
+Precedence is modelled as activity-on-node with finish-to-start links and zero lag. Textbook discrete-time notation writes $EF = ES + D$ when $EF$ is exclusive. On the Bowen calendar every displayed date is inclusive, so the implemented identities are
 \begin{equation}
 ES_{i} = \max_{j \in P_{i}}(EF_{j}) + 1,
 \qquad
@@ -100,7 +100,7 @@ Three gates sit on the baseline. Gate~1 is the PEP lock at A-111 on 2~October. G
 \subsection{Schedule compression: crashing and fast-tracking}
 \label{sec:schedule-compression}
 
-\citet{kerzner2017} and \citet{pmi2021} distinguish fast-tracking (overlap of sequential work, usually at zero direct cost) from crashing (added resource on critical work, paid as a cost slope). The Board question is whether $T$-0 can move from 15~November to 10~November if R-14 is realised (ASA / CASA refuses the 15~November slot). Five days must come off a $TF = 0$ path that actually sets lift-off. After the A-133 merge that path is the tail A-134--A-143. Crashing A-123 by five days, or overlapping A-123 with A-124, saves \textbf{zero} days on $T$-0 while A-113 still finishes on 24~October. A-124 already runs in parallel with stacking.
+Fast-tracking (overlap of sequential work, usually at zero direct cost) is distinguished from crashing (added resource on critical work, paid as a cost slope). The Board question is whether $T$-0 can move from 15~November to 10~November if R-14 is realised (ASA / CASA refuses the 15~November slot). Five days must come off a $TF = 0$ path that actually sets lift-off. After the A-133 merge that path is the tail A-134--A-143. Crashing A-123 by five days, or overlapping A-123 with A-124, saves \textbf{zero} days on $T$-0 while A-113 still finishes on 24~October. A-124 already runs in parallel with stacking.
 
 The crash-cost slope on a crashed activity is
 \begin{equation}

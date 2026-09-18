@@ -20,43 +20,45 @@ Cadence matches the physical work. Field leads hold a daily pad standup. After G
   font=\sffamily,
   >=Stealth,
   board/.style={draw=navy, fill=navy, text=white, rounded corners=2pt,
-    inner xsep=8pt, inner ysep=6pt, font=\bfseries\small, align=center, text width=8.4cm},
+    inner xsep=8pt, inner ysep=6pt, font=\bfseries\small, align=center, text width=8.4cm, outer sep=1.5pt},
   pm/.style={draw=navy, fill=teal, text=white, rounded corners=2pt,
-    inner xsep=6pt, inner ysep=5pt, font=\small, align=center, text width=7.6cm},
+    inner xsep=6pt, inner ysep=5pt, font=\small, align=center, text width=7.6cm, outer sep=1.5pt},
   lead/.style={draw=navy, fill=white, rounded corners=2pt,
     inner xsep=4pt, inner ysep=4pt, font=\scriptsize, align=center,
-    text width=3.85cm, minimum height=1.22cm},
+    text width=3.85cm, minimum height=1.22cm, outer sep=1.5pt},
   field/.style={draw=navy!70, fill=white, rounded corners=1pt,
     inner xsep=2.5pt, inner ysep=3pt, font=\scriptsize, align=center,
-    text width=2.28cm, minimum height=1.08cm},
+    text width=2.28cm, minimum height=1.08cm, outer sep=1.5pt},
   note/.style={draw=crimson, dashed, thick, rounded corners=2pt, fill=white,
     inner xsep=6pt, inner ysep=4pt, font=\scriptsize, align=center, text width=15.4cm}
 ]
 \node[board] (board) {Gilmour Executive Board \\[0.12em] \normalfont\scriptsize Sponsor --- contingency, M-5 / M-7, hold-point waivers};
-\node[pm] (pm) at (0,-2.05) {\PEPpmBox};
-\draw[navy, thick, ->] (board.south) -- (pm.north);
+\node[pm, below=7mm of board] (pm) {\PEPpmBox};
+\draw[navy, thick, ->, shorten >=2pt] (board.south) -- (pm.north);
 
-\node[lead] (hadi)  at (-4.55,-4.05) {\textbf{\mbox{Hadi Alkhub}}\\Lead Planner\\schedule, network, compression};
-\node[lead] (ziyad) at ( 0.00,-4.05) {\textbf{\mbox{Ziyad Alahmari}}\\Risk and Quality Lead\\register, hold points, HSE};
-\node[lead] (ilsa)  at ( 4.55,-4.05) {\textbf{\mbox{Ilsa Hashmi}}\\Cost and Resource Lead\\PMB, EVM, Juru commercial};
+\node[lead, anchor=north] (hadi)  at (-4.55,-4.55) {\textbf{\mbox{Hadi Alkhub}}\\Lead Planner\\schedule, network, compression};
+\node[lead, anchor=north] (ziyad) at ( 0.00,-4.55) {\textbf{\mbox{Ziyad Alahmari}}\\Risk and Quality Lead\\register, hold points, HSE};
+\node[lead, anchor=north] (ilsa)  at ( 4.55,-4.55) {\textbf{\mbox{Ilsa Hashmi}}\\Cost and Resource Lead\\PMB, EVM, Juru commercial};
+\coordinate (pmfork) at ($(pm.south)!0.55!(ziyad.north)$);
+\draw[navy, thick] (pm.south) -- (pmfork);
 \foreach \n in {hadi,ziyad,ilsa}
-  \draw[navy, thick, ->] (pm.south) -- ++(0,-0.26) -| (\n.north);
+  \draw[navy, thick, ->, shorten >=2.5pt] (pmfork) -| (\n.north);
 
-\node[field] (ld)   at (-6.35,-6.05) {\textbf{Launch}\\Director};
-\node[field] (rso)  at (-3.81,-6.05) {\textbf{Range Safety}\\Officer};
-\node[field] (gse)  at (-1.27,-6.05) {\textbf{GSE}\\Lead};
-\node[field] (avio) at ( 1.27,-6.05) {\textbf{Avionics}\\Specialist};
-\node[field] (juru) at ( 3.81,-6.05) {\textbf{Juru Cultural}\\Officer};
-\node[field] (dc)   at ( 6.35,-6.05) {\textbf{D\&C package}\\manager};
-\coordinate (fieldbar) at (0,-5.15);
-\draw[navy, thick] (hadi.south) -- ++(0,-0.18) -| (fieldbar);
+\node[field, anchor=north] (ld)   at (-6.35,-7.15) {\textbf{Launch}\\Director};
+\node[field, anchor=north] (rso)  at (-3.81,-7.15) {\textbf{Range Safety}\\Officer};
+\node[field, anchor=north] (gse)  at (-1.27,-7.15) {\textbf{GSE}\\Lead};
+\node[field, anchor=north] (avio) at ( 1.27,-7.15) {\textbf{Avionics}\\Specialist};
+\node[field, anchor=north] (juru) at ( 3.81,-7.15) {\textbf{Juru Cultural}\\Officer};
+\node[field, anchor=north] (dc)   at ( 6.35,-7.15) {\textbf{D\&C package}\\manager};
+\coordinate (fieldbar) at ([yshift=-5.5mm]ziyad.south);
+\draw[navy, thick] (hadi.south) -- (hadi.south |- fieldbar);
 \draw[navy, thick] (ziyad.south) -- (fieldbar);
-\draw[navy, thick] (ilsa.south) -- ++(0,-0.18) -| (fieldbar);
-\draw[navy, thick] (-6.35,-5.15) -- (6.35,-5.15);
+\draw[navy, thick] (ilsa.south) -- (ilsa.south |- fieldbar);
+\draw[navy, thick] (ld.north |- fieldbar) -- (dc.north |- fieldbar);
 \foreach \n in {ld,rso,gse,avio,juru,dc}
-  \draw[navy!80, ->] (\n.north |- fieldbar) -- (\n.north);
+  \draw[navy!80, ->, shorten >=2.5pt] (\n.north |- fieldbar) -- (\n.north);
 
-\node[note] (cadence) at (0,-7.35) {\textbf{Reporting cadence.} Daily pad standup \quad$\cdot$\quad weekly EVM dashboard (Ilsa) \quad$\cdot$\quad fortnightly sponsor review \quad$\cdot$\quad 24~h to Board if DoA exceeded or R-16 fires.};
+\node[note, anchor=north] (cadence) at (0,-8.85) {\textbf{Reporting cadence.} Daily pad standup \quad$\cdot$\quad weekly EVM dashboard (Ilsa) \quad$\cdot$\quad fortnightly sponsor review \quad$\cdot$\quad 24~h to Board if DoA exceeded or R-16 fires.};
 \end{tikzpicture}%
 }
 \caption[Campaign governance structure]{Campaign governance for Bowen pad operations. Named roles, a numeric DoA on the PM, and the reporting cadence. Field titles match Table~\ref{tab:raci}. The Board, not the PM, moves M-5 or M-7 or draws the \PEPcontingency reserve.}
@@ -73,7 +75,11 @@ Turnkey EPC was considered and rejected. After TestFlight~1, handing the propuls
 \subsection{Quality}
 \label{sec:delivery-quality}
 
-Quality is specified against AS9100D and ISO~9001:2015 \citep{sae2016,iso9001}. Four hold points, each tied to a register row, are listed in Table~\ref{tab:holdpoints}. HP-1 is pad tie-down weld NDT on A-123 (R-08). HP-2 is the GSE helium leak test on A-124 (R-05). HP-3 is the pre-static-fire ignition interlock on A-133 (R-01). HP-4 is LRR sign-off on A-141: Launch Director, RSO and Juru Officer review with Abdul and Ziyad; the payload sponsor witnesses and does not sign. Work does not proceed past a hold without Ziyad's release or a Board waiver, and a Board waiver is outside Abdul's DoA.
+Quality is specified against two standards that sit together \citep{sae2016,iso9001}. ISO~9001:2015 is the general quality rule. Plan the work, name who checks it, and do not pass a job that has not been verified. AS9100D is the aviation, space and defence overlay on that same rule. It adds hold points, extra checks on welds, leaks and ignition, and a formal release before flight. This campaign meets both by using those rules as pad stops, not as a poster.
+
+ISO~9001 maps onto named owners and a written process. The PEP is the quality plan. Ziyad is the release authority. Table~\ref{tab:raci} names who is Accountable on each package. Design defects found on the pad go back to R\&D instead of being signed through. Nonconforming work is not counted as complete: if HP-1 is unsigned, stacking earns \$0, not a partial-hours claim.
+
+AS9100D maps onto the four hold points in Table~\ref{tab:holdpoints}. A hold point is a stop: the next job cannot start until the planned check is done and the hold is released. HP-1 is pad tie-down weld NDT on A-123 (R-08). HP-2 is the GSE helium leak test on A-124 (R-05). HP-3 is the pre-static-fire ignition interlock on A-133 (R-01). HP-4 is LRR sign-off on A-141: Launch Director, RSO and Juru Officer review with Abdul and Ziyad; the payload sponsor witnesses and does not sign. Work does not proceed past a hold without Ziyad's release or a Board waiver, and a Board waiver is outside Abdul's DoA. That is how the campaign meets AS9100D on this pad: special processes are checked, flight clearance is a signed release, and Option~A was rejected because signing HP-4 on incomplete post-fire data would be a hold-point failure.
 
 \input{sections/generated/s7_holdpoints_table}
 

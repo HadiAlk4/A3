@@ -1,14 +1,16 @@
 \section{Resource management}
 \label{sec:resource}
 
-Pad occupancy is a health-and-safety limit, not a roster convenience. The organic Bowen crew is eight named standing heads: GSE1--4, STK1--2, Launch Director and RSO. Juru, avionics and RF specialists sit against the blast-zone, suit-air and access-control cap of twelve people. Eight is therefore the standing organisation; twelve is this PEP's occupancy ceiling that Figure~\ref{fig:resources} must never cross. Those occupancy and HSE numbers are pad controls in this PEP, not A1 charter figures. A1 finish-line HSE remains zero lost-time injuries, zero GBRMPA breaches and zero Juru heritage breaches.
+This section names who owns each package on this pad. It then puts those people on the same dates as Table~\ref{tab:precedence}. Figure~\ref{fig:resources} shows where demand peaks, where it would go over the twelve-person limit, and what we do about it.
 
 \subsection{Roles and responsibilities}
 \label{sec:resource-raci}
 
-Accountability is split across two layers, with exactly one Accountable owner per Level-3 package in Table~\ref{tab:raci}. The consultancy layer is Abdul Wahab Obeid, Hadi Alkhub, Ziyad Alahmari and Ilsa Hashmi. The field layer is the Launch Director, Range Safety Officer, GSE Lead, Avionics Specialist, Juru Cultural Officer and the design-and-construct package manager. Consulted names must see the work product before the Accountable owner signs; they are not a second A.
+Table~\ref{tab:raci} is the RACI for this campaign. Responsible does the work. Accountable answers for it. Consulted sees the work before the Accountable owner signs. Each Level-3 package has exactly one Accountable owner. Two would mean nobody owns the row.
 
-The pattern matches the network. Hadi is Accountable for stacking because the dawn-lift window is a schedule control (R-06). Hot operations are Accountable to the Launch Director with the RSO consulted, except range exclusion, which the RSO owns. Closeout audit is Ziyad's, so quality is not marking its own homework.
+There are two layers, both specific to Bowen. The consultancy layer is Abdul Wahab Obeid (project manager and integration), Hadi Alkhub (planner), Ziyad Alahmari (risk, quality and HSE) and Ilsa Hashmi (cost, resources and the Juru commercial interface). The field layer is the Launch Director, Range Safety Officer, GSE Lead, Avionics Specialist, Juru Cultural Officer and the design-and-construct package manager.
+
+The owners follow the network. Hadi is Accountable for stacking because the dawn-lift window is a schedule control (R-06). The Launch Director is Accountable for static fire and lift-off, with the RSO consulted. Range exclusion is the other way round: the RSO is Accountable and the Launch Director is Responsible. Closeout audit is Ziyad's, so quality is not marking its own homework.
 
 \begin{table}[H]
 \centering
@@ -41,25 +43,51 @@ WBS & Package & A & R & C \\
 \end{tabularx}
 \end{table}
 
-\subsection{Capacity planning}
+\subsection{Resource allocation and the schedule}
 \label{sec:resource-capacity}
 
-Figure~\ref{fig:resources} and Table~\ref{tab:resource-build} are the weekly simultaneous occupancy implied by Table~\ref{tab:precedence}. Each activity carries a named pad crew. Daily occupancy is the unique-head union of every crew whose bar is live that calendar day; the weekly bar is the maximum of those daily counts. The HSE cap of twelve is a simultaneous limit, not a weekly unique-head total. Two RF specialists belong only to A-125. Mitigated A-125 uses $ES$--$EF$ (29~August to 15~September), which is why weeks 3--6 sit two people above the unmitigated series. Unmitigated A-125 uses the late bar $LS$--$LF$ (7--24~October), so those two heads sit in weeks 9--11---on Wet Dress Rehearsal, not on static fire after 24~October. Four overtime heads are an unmitigated overlay on 16--30~October only. Together with late RF they take 16~October to fourteen: two above the cap. That is R-13 in numbers.
+Every bar in Table~\ref{tab:precedence} already carries a named pad crew. The standing Bowen crew is eight people: four GSE technicians, two stacking technicians, the Launch Director and the RSO. Juru monitors, avionics and RF specialists join them when their bars are live. Eight is the standing organisation. It is not a hard pad limit.
 
-The baseline does two things, in that order. First, A-125 is placed at $ES$--$EF$ using its 39 days of total float. The move costs \$0 and does not change 15~November, because A-125 is a feeder into A-133, not a launch-critical bar. Second, four surge technicians are hired for seven days, 25--31~October (static fire plus the first diagnostics day; not 24~October, the last WDR day), inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$, already inside the \$1{,}500{,}000 work estimate \citep{fwc2026}. Those four replace the unmitigated overtime heads; they are not stacked on top of them. Mitigated 25--30~October is therefore eight named pad heads plus four surge, on the cap and never above it. 24~October is WDR only. Stacking ends 15~October and WDR starts 16~October, so there is no same-day overlap to invent. Option~C, if invoked, shortens A-134 only and does not redraw Figure~\ref{fig:resources}.
+The hard limit is twelve people on the pad at once. That cap comes from the blast zone, suit air and access control. Figure~\ref{fig:resources} must not cross it. Those occupancy numbers are pad controls in this PEP, not Week~4 charter figures.
+
+Demand is counted from the schedule, not from a separate roster. For each calendar day we add the people on every live bar, counting each person once. The weekly bar in Figure~\ref{fig:resources} is the busiest day that week. Twelve is a same-time limit, not a weekly headcount.
+
+\subsection{Where demand peaks, and what we do}
+
+October is the busy month because stacking, Wet Dress Rehearsal and static fire sit there. If we left RF calibration (A-125) on its late dates (7--24~October) and added four overtime heads on 16--30~October, the pad would ask for fourteen people on 16--24~October. That is two over the cap of twelve, and six over the standing crew of eight. Week~9 is already thirteen, because late RF would still be on the pad during stacking. After 24~October the two RF specialists are gone, so the leftover overtime sits on static fire, not on the rehearsal. Figure~\ref{fig:resources} (hashed crimson) and Table~\ref{tab:resource-build} show that over-allocation. It is R-13 in numbers.
+
+Four responses were on the table: smoothing, levelling, hiring and resequencing. We choose smoothing first, then hiring. Levelling and resequencing are rejected.
+
+Smoothing moves work only inside its float. The finish date stays. RF calibration has 39 days of total float. It is a finish-to-start feeder into static fire, not a launch-critical bar. We place it at its early dates, 29~August to 15~September. The two RF specialists then sit in weeks 3--6, not on Wet Dress Rehearsal. Cost is \$0. Lift-off stays 15~November.
+
+Smoothing is not enough on its own. After RF is moved, static fire on 25--30~October still needs more than eight standing heads. Wet Dress Rehearsal on 16--24~October is already inside the cap once RF is gone. 24~October is rehearsal only. Stacking ends 15~October and rehearsal starts 16~October, so those two jobs do not share a day.
+
+Levelling would fix the leftover peak by delaying work even if the finish moved. Wet Dress Rehearsal and static fire are already $TF = 0$. Pushing either of them pushes 15~November. The occupancy cap is hard, but so is the lift-off date. Levelling is rejected.
+
+Resequencing would change the order of work. Starting the rehearsal before stacking finishes, or starting static fire before permits and RF are done, would break the hold points in Section~\ref{sec:schedule}. Moving RF until after static fire is impossible: the array has to be live before hot fire. Resequencing is rejected.
+
+Hiring adds people. Four surge technicians are hired for seven days, 25--31~October (static fire plus the first diagnostics day), inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$. That sum is already inside the \$1{,}500{,}000 work estimate \citep{fwc2026}. The four surge heads replace the unmitigated overtime heads; they are not stacked on top of them. Mitigated 25--30~October is therefore eight standing heads plus four surge: twelve, on the cap and never above it.
+
+Note: The third R-13 control is a ten-hour stagger on Wet Dress Rehearsal and static fire. Named people can still belong to that calendar day; they are not all in the blast zone at the same hour. Cost is \$0. Dates stay. Figure~\ref{fig:resources} does not change, because each bar is unique people that day, not the hour.
+
+The choice is therefore smoothing, then hiring, with the ten-hour stagger as the same-day pad control. Smoothing spends float and costs nothing. Hiring spends \$22{,}400 already in the base and keeps 15~November. The stagger spends nothing and does not move a date. Levelling would move $T$-0. Resequencing would break the network. If Option~C is later invoked, it shortens post-fire diagnostics only and does not redraw Figure~\ref{fig:resources}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\linewidth]{resource_histogram.pdf}
-\caption[Weekly pad demand versus capacity]{Weekly pad demand versus capacity, from Table~\ref{tab:resource-build}. Each bar is the maximum simultaneous unique-head count that week. Hashed crimson bars are the unmitigated series (peak 14 on 16--24~October): Wet Dress Rehearsal plus A-125 on its late bar plus four overtime heads. Teal bars are the mitigated baseline (peak 12): RF at $ES$--$EF$ in weeks 3--6, and four surge technicians on 25--31~October only. The navy dashed line is the organic crew of eight named heads; the crimson dotted line is this PEP's HSE occupancy cap of twelve. Eight is not a hard pad limit.}
+\caption[Weekly pad demand versus capacity]{Weekly pad demand versus capacity, from Table~\ref{tab:resource-build}. Each bar is the busiest day that week. Hashed crimson is the unmitigated series (peak 14 on 16--24~October): Wet Dress Rehearsal, RF still on its late bar, and four overtime heads. Teal is the mitigated baseline (peak 12): RF moved to weeks 3--6, and four surge technicians on 25--31~October only. The navy dashed line is the standing crew of eight. The crimson dotted line is the twelve-person pad cap. Eight is not a hard pad limit.}
 \label{fig:resources}
 \end{figure}
 
 \input{sections/generated/s5_resource_build}
 
-\subsection{Conflict resolution and fallback}
+\subsection{Resource-conflict escalation}
 \label{sec:resource-escalation}
 
-Resource conflicts escalate on the work, not on personalities. Tier~1 field leads have four hours to level, stagger or borrow from float without spending money. Tier~2 is the campaign PM: twelve hours to choose overtime, hire or resequence, with the cost consequence going to Ilsa so that Table~\ref{tab:wbs-cost} stays the book of record. Tier~3 is the Executive Board, with a 24-hour SLA, for any decision that consumes contingency or moves M-5 (30~October) or M-7 (15~November). Those gates are the same dates as Section~\ref{sec:schedule}; they are not a second calendar.
+The live conflict is GSE technicians wanted on Wet Dress Rehearsal and on static fire in late October. The path is timed and named. It is not a values statement.
 
-Team-member fallback is separate and is the A1 defect closed here. If a member is non-responsive for more than 48 hours, the Lead Planner audits the artefacts within 12 hours, the PM issues a WBS-reassignment addendum, and the Buddycheck PAF is locked against Teams and version history so that contribution evidence cannot be rewritten after the fact. That procedure reallocates packages in Table~\ref{tab:raci}; it does not authorise a silent change to $T$-0 or to $BAC$.
+Tier~1 is the field lead. They have four hours for a same-day fix: the ten-hour stagger, or borrow from float, with no extra spend. That is not calendar levelling. It does not delay a $TF = 0$ bar and it does not move 15~November.
+
+Tier~2 is the campaign PM (Abdul). They have twelve hours to choose overtime, hire or resequence if the stagger is not enough. Resequencing here is a live trade-off, not the baseline: the baseline already rejected changing the order of stacking, permits and hot fire. The cost goes to Ilsa so that Table~\ref{tab:wbs-cost} stays the book of record.
+
+Tier~3 is the Executive Board. They have 24 hours. They sit only if the choice would spend contingency, or would move static fire (M-5, 30~October) or lift-off (M-7, 15~November). Those dates are the same dates as Section~\ref{sec:schedule}.

@@ -1,0 +1,183 @@
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{Appendix A: Campaign figures}
+\section*{Appendix A: Campaign figures}
+\label{app:figures}
+
+\noindent
+This appendix reprints every figure used in the PEP. The originals stay in their sections and keep their original numbers. Nothing here is a new figure.
+
+\newcommand{\appfigskip}{\par\vspace{1.15em plus 0.4em minus 0.2em}}
+
+\vspace{1.05em}
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Stealth,
+  L1/.style={draw=navy, fill=navy, text=white, rounded corners=2pt,
+    inner xsep=7pt, inner ysep=6pt, font=\bfseries\small, align=center, text width=7.4cm},
+  L2/.style={draw=navy, fill=teal, text=white, rounded corners=2pt,
+    inner xsep=3pt, inner ysep=4pt, font=\bfseries\scriptsize, align=center,
+    text width=3.62cm, minimum height=1.18cm},
+  L3/.style={draw=navy!65, fill=white, rounded corners=1pt,
+    inner xsep=3pt, inner ysep=2.4pt, font=\scriptsize, align=left,
+    text width=3.62cm, minimum height=0.78cm},
+  EXT/.style={draw=crimson, dashed, thick, rounded corners=1pt, fill=white,
+    inner xsep=4pt, inner ysep=3.5pt, font=\scriptsize, align=left, text width=15.7cm}
+]
+\node[L1] (root) {1.0 Eris TestFlight2 Launch Campaign};
+
+\node[L2] (n11) at (-6.15,-1.85) {1.1 Campaign project\\management and governance};
+\node[L2] (n12) at (-2.05,-1.85) {1.2 Pad logistics,\\infrastructure and GSE};
+\node[L2] (n13) at ( 2.05,-1.85) {1.3 Pad testing,\\rehearsals and qualification};
+\node[L2] (n14) at ( 6.15,-1.85) {1.4 Flight readiness,\\launch and closeout};
+
+\foreach \p in {n11,n12,n13,n14}
+  \draw[navy, thick, ->] (root.south) -- ++(0,-0.32) -| (\p.north);
+
+\node[L3] (n111) at (-6.15,-3.15) {\textbf{1.1.1} PEP and integration};
+\node[L3] (n112) at (-6.15,-4.05) {\textbf{1.1.2} Governance, budget and EVM};
+\node[L3] (n113) at (-6.15,-4.95) {\textbf{1.1.3} ASA / CASA / GBRMPA};
+\node[L3] (n114) at (-6.15,-5.85) {\textbf{1.1.4} Juru cultural heritage};
+
+\node[L3] (n121) at (-2.05,-3.15) {\textbf{1.2.1} Receiving and cleanroom};
+\node[L3] (n122) at (-2.05,-4.05) {\textbf{1.2.2} Crane and 23\,m stacking};
+\node[L3] (n123) at (-2.05,-4.95) {\textbf{1.2.3} Cryogenic GSE};
+\node[L3] (n124) at (-2.05,-5.85) {\textbf{1.2.4} RF array calibration};
+
+\node[L3] (n131) at ( 2.05,-3.15) {\textbf{1.3.1} Avionics power-on};
+\node[L3] (n132) at ( 2.05,-4.05) {\textbf{1.3.2} WDR (cold LOX/LN2)};
+\node[L3] (n133) at ( 2.05,-4.95) {\textbf{1.3.3} 5-second static fire};
+\node[L3] (n134) at ( 2.05,-5.85) {\textbf{1.3.4} Post-fire / pre-kitted spare};
+
+\node[L3] (n141) at ( 6.15,-3.15) {\textbf{1.4.1} LRR and RSO clearance};
+\node[L3] (n142) at ( 6.15,-4.05) {\textbf{1.4.2} Range exclusion / countdown};
+\node[L3] (n143) at ( 6.15,-4.95) {\textbf{1.4.3} Launch execution ($T$-0)};
+\node[L3] (n144) at ( 6.15,-5.85) {\textbf{1.4.4} Telemetry handover};
+\node[L3] (n145) at ( 6.15,-6.75) {\textbf{1.4.5} Demobilisation and audit};
+
+\foreach \a/\b in {n11/n111,n111/n112,n112/n113,n113/n114,
+                   n12/n121,n121/n122,n122/n123,n123/n124,
+                   n13/n131,n131/n132,n132/n133,n133/n134,
+                   n14/n141,n141/n142,n142/n143,n143/n144,n144/n145}
+  \draw[navy!80, ->] (\a.south) -- (\b.north);
+
+\node[EXT] (a100) at (0,-8.05) {%
+  \textbf{EXT A-100 --- not a WBS cost account.} External \$0 freight driver into A-122; omitted from Table~\ref{tab:wbs-cost}.};
+
+\end{tikzpicture}%
+}
+\captionof*{figure}{Repeat of Figure~\ref{fig:wbs}. Work breakdown structure for Eris TestFlight2 launch-site operations.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\linewidth]{network_logic.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:network_logic}. Activity-on-node network for the Bowen campaign.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\linewidth]{gantt_chart.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:gantt_chart}. Baseline Gantt from 10~August to 1~December~2026.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=0.98\linewidth]{compression_tradeoff.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:compression_curve}. Compression cost and risk trade-off.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=0.98\linewidth]{cash_flow_scurve.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:scurve}. Planned-value S-curve.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=0.98\linewidth]{resource_histogram.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:resources}. Weekly pad demand versus capacity.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=0.82\linewidth]{risk_matrix.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:risk-matrix}. Inherent-to-residual risk matrix.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Stealth,
+  board/.style={draw=navy, fill=navy, text=white, rounded corners=2pt,
+    inner xsep=8pt, inner ysep=6pt, font=\bfseries\small, align=center, text width=8.4cm, outer sep=1.5pt},
+  pm/.style={draw=navy, fill=teal, text=white, rounded corners=2pt,
+    inner xsep=6pt, inner ysep=5pt, font=\small, align=center, text width=7.6cm, outer sep=1.5pt},
+  lead/.style={draw=navy, fill=white, rounded corners=2pt,
+    inner xsep=4pt, inner ysep=4pt, font=\scriptsize, align=center,
+    text width=3.85cm, minimum height=1.22cm, outer sep=1.5pt},
+  field/.style={draw=navy!70, fill=white, rounded corners=1pt,
+    inner xsep=2.5pt, inner ysep=3pt, font=\scriptsize, align=center,
+    text width=2.28cm, minimum height=1.08cm, outer sep=1.5pt},
+  note/.style={draw=crimson, dashed, thick, rounded corners=2pt, fill=white,
+    inner xsep=6pt, inner ysep=4pt, font=\scriptsize, align=center, text width=15.4cm}
+]
+\node[board] (board) {Gilmour Executive Board \\[0.12em] \normalfont\scriptsize Sponsor --- contingency, M-5 / M-7, hold-point waivers};
+\node[pm, below=7mm of board] (pm) {\PEPpmBox};
+\draw[navy, thick, ->, shorten >=2pt] (board.south) -- (pm.north);
+
+\node[lead, anchor=north] (hadi)  at (-4.55,-4.55) {\textbf{\mbox{Hadi Alkhub}}\\Lead Planner\\schedule, network, compression};
+\node[lead, anchor=north] (ziyad) at ( 0.00,-4.55) {\textbf{\mbox{Ziyad Alahmari}}\\Risk and Quality Lead\\register, hold points, HSE};
+\node[lead, anchor=north] (ilsa)  at ( 4.55,-4.55) {\textbf{\mbox{Ilsa Hashmi}}\\Cost and Resource Lead\\PMB, EVM, Juru commercial};
+\coordinate (pmfork) at ($(pm.south)!0.55!(ziyad.north)$);
+\draw[navy, thick] (pm.south) -- (pmfork);
+\foreach \n in {hadi,ziyad,ilsa}
+  \draw[navy, thick, ->, shorten >=2.5pt] (pmfork) -| (\n.north);
+
+\node[field, anchor=north] (ld)   at (-6.35,-7.15) {\textbf{Launch}\\Director};
+\node[field, anchor=north] (rso)  at (-3.81,-7.15) {\textbf{Range Safety}\\Officer};
+\node[field, anchor=north] (gse)  at (-1.27,-7.15) {\textbf{GSE}\\Lead};
+\node[field, anchor=north] (avio) at ( 1.27,-7.15) {\textbf{Avionics}\\Specialist};
+\node[field, anchor=north] (juru) at ( 3.81,-7.15) {\textbf{Juru Cultural}\\Officer};
+\node[field, anchor=north] (dc)   at ( 6.35,-7.15) {\textbf{D\&C package}\\manager};
+\coordinate (fieldbar) at ([yshift=-5.5mm]ziyad.south);
+\draw[navy, thick] (hadi.south) -- (hadi.south |- fieldbar);
+\draw[navy, thick] (ziyad.south) -- (fieldbar);
+\draw[navy, thick] (ilsa.south) -- (ilsa.south |- fieldbar);
+\draw[navy, thick] (ld.north |- fieldbar) -- (dc.north |- fieldbar);
+\foreach \n in {ld,rso,gse,avio,juru,dc}
+  \draw[navy!80, ->, shorten >=2.5pt] (\n.north |- fieldbar) -- (\n.north);
+
+\node[note, anchor=north] (cadence) at (0,-8.85) {\textbf{Reporting cadence.} Daily pad standup \quad$\cdot$\quad weekly EVM dashboard (Ilsa) \quad$\cdot$\quad fortnightly sponsor review \quad$\cdot$\quad 24~h to Board if DoA exceeded or R-16 fires.};
+\end{tikzpicture}%
+}
+\captionof*{figure}{Repeat of Figure~\ref{fig:governance}. Campaign governance structure.}
+\end{minipage}
+
+\appfigskip
+\noindent
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=0.98\linewidth]{evm_example.pdf}
+\captionof*{figure}{Repeat of Figure~\ref{fig:evm}. Illustrative earned-value chart at M-4.}
+\end{minipage}

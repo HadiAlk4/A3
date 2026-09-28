@@ -1,7 +1,7 @@
 \section{Resource management}
 \label{sec:resource}
 
-This section names who owns each package on this pad. It then puts those people on the same dates as Table~\ref{tab:precedence}. Figure~\ref{fig:resources} shows where demand peaks, where it would go over the twelve-person limit, and what we do about it.
+This section names who owns each package, puts those people on the Table~\ref{tab:precedence} dates, and shows where demand would pass twelve and what we do about it.
 
 \subsection{Roles and responsibilities}
 \label{sec:resource-raci}
@@ -70,31 +70,25 @@ WBS & Package & A & R & C \\
 \subsection{Resource allocation and the schedule}
 \label{sec:resource-capacity}
 
-Every bar in Table~\ref{tab:precedence} already carries a named pad crew. The standing Bowen crew is eight people: four GSE technicians, two stacking technicians, the Launch Director and the RSO. Juru monitors, avionics and RF specialists join them when their bars are live. Eight is the standing organisation. It is not a hard pad limit.
+Every bar in Table~\ref{tab:precedence} carries a named pad crew. The standing crew is eight: four GSE technicians, two stacking technicians, the Launch Director and the RSO. Juru monitors, avionics and RF specialists join when their bars are live. Eight is the standing organisation, not a hard pad limit.
 
-The hard limit is twelve people on the pad at once. That cap comes from the blast zone, suit air and access control. Figure~\ref{fig:resources} must not cross it. Those occupancy numbers are pad controls in this PEP, not Week~4 charter figures.
-
-Demand is counted from the schedule, not from a separate roster. For each calendar day we add the people on every live bar, counting each person once. The weekly bar in Figure~\ref{fig:resources} is the busiest day that week. Twelve is a same-time limit, not a weekly headcount.
+The hard limit is twelve people on the pad at once, from the blast zone, suit air and access control. Figure~\ref{fig:resources} must not cross it. These occupancy numbers are PEP controls, not Week~4 charter figures. Demand comes from the schedule: each day, add the people on every live bar and count each person once. The weekly bar is that week's busiest day. Twelve is a same-time limit, not a weekly headcount.
 
 \subsection{Where demand peaks, and what we do}
 
-October is the busy month because stacking, Wet Dress Rehearsal and static fire sit there. If we left RF calibration (A-125) on its late dates (7--24~October) and added four overtime heads on 16--30~October, the pad would ask for fourteen people on 16--24~October. That is two over the cap of twelve, and six over the standing crew of eight. Week~9 is already thirteen, because late RF would still be on the pad during stacking. After 24~October the two RF specialists are gone, so the leftover overtime sits on static fire, not on the rehearsal. Figure~\ref{fig:resources} (hashed crimson) and Table~\ref{tab:resource-build} show that over-allocation. It is R-13 in numbers.
+October is the peak because stacking, Wet Dress Rehearsal and static fire sit there. Leaving A-125 on its late dates (7--24~October) and adding four overtime heads on 16--30~October asks for fourteen people on 16--24~October: two over the cap of twelve, and six over the crew of eight. Week~9 is already thirteen, because late RF is still on the pad during stacking. After 24~October the RF specialists are gone, so leftover overtime sits on static fire. Figure~\ref{fig:resources} and Table~\ref{tab:resource-build} show that over-allocation. It is R-13.
 
-Four responses were on the table: smoothing, levelling, hiring and resequencing. We choose smoothing first, then hiring. Levelling and resequencing are rejected.
+Four responses were tested: smoothing, levelling, hiring and resequencing. The baseline is smoothing, then hiring. Levelling and resequencing are rejected.
 
-Smoothing moves work only inside its float. The finish date stays. RF calibration has 39 days of total float. It is a finish-to-start feeder into static fire, not a launch-critical bar. We place it at its early dates, 29~August to 15~September. The two RF specialists then sit in weeks 3--6, not on Wet Dress Rehearsal. Cost is \$0. Lift-off stays 15~November.
+Smoothing moves work only inside its float, so the finish date stays. A-125 has 39 days of total float and is not launch-critical. Placed on its early dates, 29~August to 15~September, the two RF specialists sit in weeks 3--6. Cost is \$0. Lift-off stays 15~November. Static fire on 25--30~October still needs more than eight standing heads. Wet Dress Rehearsal on 16--24~October is inside the cap once RF is gone, and it does not share a day with stacking.
 
-Smoothing is not enough on its own. After RF is moved, static fire on 25--30~October still needs more than eight standing heads. Wet Dress Rehearsal on 16--24~October is already inside the cap once RF is gone. 24~October is rehearsal only. Stacking ends 15~October and rehearsal starts 16~October, so those two jobs do not share a day.
+Levelling would delay $TF = 0$ work. Wet Dress Rehearsal and static fire are already $TF = 0$, so pushing either pushes 15~November. Levelling is rejected.
 
-Levelling would fix the leftover peak by delaying work even if the finish moved. Wet Dress Rehearsal and static fire are already $TF = 0$. Pushing either of them pushes 15~November. The occupancy cap is hard, but so is the lift-off date. Levelling is rejected.
+Resequencing would start the rehearsal before stacking finishes, or static fire before permits and RF are done, and would break the hold points in Section~\ref{sec:schedule}. RF cannot follow static fire: the array has to be live before hot fire. Resequencing is rejected.
 
-Resequencing would change the order of work. Starting the rehearsal before stacking finishes, or starting static fire before permits and RF are done, would break the hold points in Section~\ref{sec:schedule}. Moving RF until after static fire is impossible: the array has to be live before hot fire. Resequencing is rejected.
+Hiring adds four surge technicians for seven days, 25--31~October, inside WBS~1.3.3 at \$100/h: $4 \times 7 \times 8 \times \$100 = \$22{,}400$, already in the \$1{,}500{,}000 estimate \citep{fwc2026}. They replace the overtime heads. Mitigated 25--30~October is eight standing heads plus four surge: twelve, on the cap.
 
-Hiring adds people. Four surge technicians are hired for seven days, 25--31~October (static fire plus the first diagnostics day), inside WBS~1.3.3 at \$100/h loaded: $4 \times 7 \times 8 \times \$100 = \$22{,}400$. That sum is already inside the \$1{,}500{,}000 work estimate \citep{fwc2026}. The four surge heads replace the unmitigated overtime heads; they are not stacked on top of them. Mitigated 25--30~October is therefore eight standing heads plus four surge: twelve, on the cap and never above it.
-
-Note: The third R-13 control is a ten-hour stagger on Wet Dress Rehearsal and static fire. Named people can still belong to that calendar day; they are not all in the blast zone at the same hour. Cost is \$0. Dates stay. Figure~\ref{fig:resources} does not change, because each bar is unique people that day, not the hour.
-
-The choice is therefore smoothing, then hiring, with the ten-hour stagger as the same-day pad control. Smoothing spends float and costs nothing. Hiring spends \$22{,}400 already in the base and keeps 15~November. The stagger spends nothing and does not move a date. Levelling would move $T$-0. Resequencing would break the network. If Option~C is later invoked, it shortens post-fire diagnostics only and does not redraw Figure~\ref{fig:resources}.
+A ten-hour stagger on Wet Dress Rehearsal and static fire is the third R-13 control. Named people can share the calendar day without sharing the blast zone in the same hour. Cost is \$0 and no date moves. Figure~\ref{fig:resources} counts unique people that day, not the hour, so the figure does not change. Option~C, if invoked, shortens post-fire diagnostics only and does not redraw it.
 
 \begin{figure}[H]
 \centering

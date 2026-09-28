@@ -1,7 +1,7 @@
 \section{Schedule management}
 \label{sec:schedule}
 
-The campaign schedule turns the WBS into a dated baseline for board approval. Dates come from a finish-to-start activity-on-node network. The pad calendar is seven days a week from 10~August to 1~December~2026, because LOX load, static fire and lift-off do not stop for weekends. Approved lift-off ($T$-0) stays 15~November~2026. That day still sits inside the charter's last-allowed window of Q1~2027. A five-day pull-in to 10~November exists only if R-14 is realised (ASA flight authorisation or a CASA NOTAM refuses the 15~November slot). It is not the baseline.
+The campaign schedule turns the WBS into a dated baseline. Dates come from a finish-to-start activity-on-node network on a seven-day pad calendar, 10~August to 1~December~2026, because LOX load, static fire and lift-off do not stop for weekends. Baseline $T$-0 is 15~November~2026, inside the charter's Q1~2027 window. A five-day pull-in to 10~November exists only if R-14 is realised. It is not the baseline.
 
 \subsection{Network logic and float analysis}
 \label{sec:schedule-network}
@@ -33,7 +33,7 @@ The forward pass gives two $TF = 0$ chains. They stay independent until hot fire
 \item Vehicle path: A-100 $\rightarrow$ A-122 $\rightarrow$ A-123 $\rightarrow$ A-132 $\rightarrow$ A-133. A-100 is the external \$0 freight wait, not a Gilmour launch-critical bar.
 \item Permit path: ASA / CASA / GBRMPA permits (A-113) into static fire (A-133).
 \end{itemize}
-RF calibration (A-125) is a finish-to-start predecessor of static fire, so the array is live before hot fire. It is not launch-critical. After static fire the tail from post-fire diagnostics (A-134) through closeout (A-145) is one critical chain. The PEP lock (A-111) finishes on 2~October by an imposed Must-Finish-On (Gate~1). It is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
+RF calibration (A-125) feeds static fire, so the array is live before hot fire. It is not launch-critical. After static fire, A-134 through closeout (A-145) is one critical chain. The PEP lock (A-111) finishes on 2~October by an imposed Must-Finish-On (Gate~1). It is not launch-critical. The Week~4 charter approved the document, not field mobilisation.
 
 The paths meet in two staged merges.
 \begin{itemize}[leftmargin=1.4em,itemsep=0.25em]
@@ -101,9 +101,9 @@ A-145 & 1.4.5 & Demobilisation and closeout & 11 & A-144 & 21 Nov & 1 Dec & 21 N
 \subsection{Schedule baseline, Gantt visualisation and milestone integrity}
 \label{sec:schedule-baseline}
 
-The dates in Table~\ref{tab:precedence} \emph{are} the schedule baseline. Figure~\ref{fig:gantt_chart} plots the same $ES$/$EF$ values. Launch-critical bars are crimson. Remaining total float is a teal whisker to $LF$. Permitting, heritage, mobilisation and GSE run through August and September. October is the physical peak: stacking 15~October, WDR 16--24~October, static fire 25--30~October. November is the flight-clearance tail.
+The dates in Table~\ref{tab:precedence} are the schedule baseline. Figure~\ref{fig:gantt_chart} plots the same $ES$/$EF$ values. August and September carry permitting, heritage, mobilisation and GSE. October is the physical peak: stacking 15~October, WDR 16--24~October, static fire 25--30~October. November is the flight-clearance tail.
 
-Two Week~4 collisions are closed here. The charter dated pad integration 15~October in Objective~1 and stacking as M-4 on 28~October. The PEP locks M-4 to stacking on \textbf{15~October~2026}. That restores the cold-flow window before hot fire. Handover ``within five days of lift-off'' was also dated M-8 at 22~November, seven days after a 15~November $T$-0. M-8 is now telemetry handover on \textbf{20~November}. The facility licence is already held, so permits gate static fire, not stacking. Treating flight permits as a stacking predecessor was an initiation error.
+Two Week~4 collisions are closed here. Objective~1 dated pad integration 15~October and M-4 stacking 28~October. M-4 is now stacking on \textbf{15~October~2026}, which restores the cold-flow window before hot fire. ``Within five days of lift-off'' was also dated M-8 at 22~November, seven days after a 15~November $T$-0. M-8 is now \textbf{20~November}. The facility licence is already held, so permits gate static fire, not stacking.
 
 Three gates sit on the baseline.
 \begin{itemize}[leftmargin=1.4em,itemsep=0.25em]
@@ -123,7 +123,7 @@ Crashing stacking without crashing the permit path therefore cannot pull $T$-0.
 \subsection{Schedule compression: crashing and fast-tracking}
 \label{sec:schedule-compression}
 
-Fast-tracking overlaps sequential work, usually at zero direct cost. Crashing adds resource on critical work and is paid as a cost slope. The Board question is whether $T$-0 can move from 15~November to 10~November if R-14 is realised (ASA / CASA refuses the 15~November slot). Five days must come off a $TF = 0$ path that actually sets lift-off. After the static-fire merge that path is the tail from diagnostics through lift-off. Crashing stacking by five days saves \textbf{zero} days on $T$-0 while permits still finish on 24~October. Overlapping stacking with cryogenic GSE also saves zero days. GSE already runs in parallel with stacking.
+Fast-tracking overlaps sequential work, usually at zero direct cost. Crashing adds resource on critical work and is paid as a cost slope. The Board question is whether $T$-0 can move from 15~November to 10~November if R-14 is realised. Five days must come off a $TF = 0$ path that sets lift-off. After the static-fire merge that path is diagnostics through lift-off. Crashing stacking by five days saves \textbf{zero} days on $T$-0 while permits still finish on 24~October. Overlapping stacking with cryogenic GSE also saves zero days: GSE already runs in parallel.
 
 The crash-cost slope on a crashed activity is
 \begin{equation}
@@ -150,15 +150,15 @@ C Hybrid (if R-14 fires) & Diagnostics 6~$\to$~1~d extra labour (\$21{,}000); LR
 \end{tabularx}
 \end{table}
 
-Decision: baseline $T$-0 stays 15~November. If R-14 fires, the Board draws Option~C and lift-off moves to 10~November. That is the only option that is valid on the network and acceptable on quality.
+Decision: baseline $T$-0 stays 15~November. If R-14 fires, the Board draws Option~C and lift-off moves to 10~November. That is the only option valid on the network and acceptable on quality.
 
-Option~A is a pure fast-track. It buys five days at \$0 by starting the review one day after diagnostics start. The review board would sit while those diagnostics were still open. AS9100D is the quality rule this campaign uses for hold points \citep{sae2016}. The LRR hold (HP-4) is sign-off of that review. A hold point is a stop: the next job cannot start until the planned checks are done and the hold is released. Option~A would let flight clearance start before post-fire data are complete. Signing that gate on incomplete data is a hold-point failure. Waiting to sign until diagnostics finish does not save five days; it creates rework. Fast-tracking the review is rejected.
+Option~A is a pure fast-track. It buys five days at \$0 by starting LRR one day after diagnostics start, while those diagnostics are still open. HP-4 is a stop: flight clearance cannot start on incomplete post-fire data \citep{sae2016}. Signing early is a hold-point failure. Waiting until diagnostics finish does not save the five days; it creates rework. Option~A is rejected.
 
-Option~B is a pure crash. It compresses diagnostics from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour diagnostic war room on a vehicle that has just fired is the work most likely to skip thermal and electrical screens. Crashing diagnostics without extra screens is rejected.
+Option~B is a pure crash of diagnostics from six days to one. The slope is $\$40{,}000/5 = \$8{,}000$ per day. A 24-hour war room on a vehicle that has just fired is the work most likely to skip thermal and electrical screens. Option~B is rejected.
 
-Option~C is the hybrid. It takes the five days only from diagnostics. Extra labour keeps the thermal and electrical screens that Option~B would skip: two specialists and two technicians for five days ($2\times\$165 + 2\times\$95 = \$520$/h $\times$ 8~h $=$ \$4{,}160/d, published as the same \$4{,}200/d unit used on the crawler) for \$21{,}000. The slope is $\$21{,}000/5 = \$4{,}200$ per day. Launch Readiness Review stays five days. Countdown stays four days, so the marine hold on R-15 is not consumed. If invoked, diagnostics sit on 31~October only, the review on 1--5~November, countdown on 6--9~November, and lift-off on \textbf{10~November}. The \$21{,}000 is drawn from the \$78{,}890 contingency only if R-14 is realised. It is not loaded into the \$1{,}500{,}000 base. Figure~\ref{fig:gantt_chart} is not redrawn. Feeder floats do not tighten: avionics stays at $TF = 1$, cryogenic GSE at $TF = 3$.
+Option~C takes the five days only from diagnostics, and extra labour keeps the screens Option~B would skip: two specialists and two technicians for five days ($2\times\$165 + 2\times\$95 = \$520$/h $\times$ 8~h $=$ \$4{,}160/d, published at the \$4{,}200/d crawler rate). The slope is $\$21{,}000/5 = \$4{,}200$ per day. LRR stays five days and countdown stays four, so the R-15 marine hold is kept. If invoked: diagnostics 31~October, review 1--5~November, countdown 6--9~November, lift-off \textbf{10~November}. The \$21{,}000 comes from the \$78{,}890 contingency only if R-14 is realised, not from the \$1{,}500{,}000 base. Feeder float stays at 1~day (avionics) and 3~days (cryogenic GSE).
 
-Option~C is chosen because it is cheaper than Option~B (\$4{,}200/d not \$8{,}000/d), it keeps the LRR hold that Option~A would break, and crashing stacking cannot move $T$-0 while permits still finish on 24~October.
+Option~C is chosen because it is cheaper than Option~B (\$4{,}200/d, not \$8{,}000/d), it keeps the LRR hold Option~A would break, and crashing stacking cannot move $T$-0 while permits finish on 24~October.
 
 \begin{figure}[H]
 \centering

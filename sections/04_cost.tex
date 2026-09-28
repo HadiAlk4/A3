@@ -6,18 +6,40 @@ The cost baseline is the WBS in Figure~\ref{fig:wbs} priced at Level~3. Seventee
 \subsection{Estimating basis and assumptions}
 \label{sec:cost-basis}
 
-The estimate is bottom-up at Level~3, with analogous plant and commodity rates beside the hours. Loaded 2026 Australian-dollar rates are used throughout:
-\begin{itemize}[leftmargin=1.4em,itemsep=0.25em]
-\item Systems-engineering and project-management time at \$150/h.
-\item Pad technicians at \$95/h.
-\item Cryogenic and range-safety specialists at \$165/h.
-\item Surge technicians at \$100/h.
-\end{itemize}
-The Manufacturing Award C10 ordinary hourly rate is \$29.45 from the first full pay period on or after 1~July~2026 \citep{fwc2026}. Charge-out multiplies that C10 rate by the on-cost, utilisation and overhead in the notes to Table~\ref{tab:wbs-cost}. Those factors do not change the \$1{,}500{,}000 lines. The 100~t crawler for 23\,m stacking is \$4{,}200 per wet day, operator included, from Queensland plant-hire schedules cross-checked against Rawlinsons \citep{rawlinsons2025}.
+The estimate is built bottom-up at Level~3. Each package is hours $\times$ an hourly rate, plus plant and materials. Four hourly rates are used. All four start from the same award wage and go through the same four steps.
 
-Inclusions are the seventeen packages in Figure~\ref{fig:wbs}. Factory manufacture, engine research and freight stay out of scope, so A-100 is not a cost account. The surge crew (\$22{,}400) is planned capacity in WBS~1.3.3. Option~C's \$21{,}000 is a draw on the \$78{,}890 reserve if R-14 is realised, not part of the \$1{,}500{,}000 baseline.
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.25em]
+\item \textbf{Wage.} The Manufacturing Award C10 rate is \$29.45 an hour from 1~July~2026 \citep{fwc2026}. It is the legal minimum for a trade-qualified worker. Engineer and specialist rates start from the same wage so all four rates share one published base. C10 is not the award rate for those two jobs.
+\item \textbf{Employment on-cost.} The employer pays more than the wage: super 12\%, annual leave 7.69\%, 17.5\% leave loading on that leave, personal leave 3.85\%, public holidays 4.23\%, long service leave 2.17\%, workers compensation and Queensland payroll tax 4.75\%. That adds 37.8\% for office staff and 40.5\% for pad staff, because pad workers compensation is 4.5\% instead of 1.8\%. The multipliers are 1.378 and 1.405.
+\item \textbf{Utilisation (assumption).} Not every paid hour can be charged to a package. Briefings, waiting outside the blast zone and paperwork still cost money. We assume 85\% of a technician's paid hours are chargeable, 72\% for engineers and 60\% for specialists. Dividing by that share spreads the unchargeable hours over the chargeable ones.
+\item \textbf{Overhead (assumption).} Overhead is the cost of running the crew beyond wages. The multipliers are 1.95 for technicians, 2.66 for engineers, 2.44 for specialists and 1.37 for surge.
+\end{enumerate}
 
-Permitting and Juru work start on 10~August because those durations must finish before hot fire. Other August--September pad cost is a PEP choice. By Gate~1 (A-111, 2~October), \$602{,}301 of planned value is already on the clock (40.2\% of \$1{,}500{,}000): permits, Juru, cleanroom, GSE, RF and stacking in progress. It is planned value, not cash paid. The leftover \$897{,}699, plus the \$78{,}890 contingency rules, is what Gate~1 locks. After that, pad work cannot be added and $T$-0 cannot move without a Board variation.
+\begin{table}[H]
+\centering
+\small
+\caption[Hourly charge-out build-up]{Hourly charge-out build-up. Only the wage and statutory on-costs are published; utilisation and overhead are planning assumptions.}
+\label{tab:labour-rates}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Role & Wage & $\times$ on-cost & $\div$ utilisation & $\times$ overhead & Rate \\
+\midrule
+Pad technician & 29.45 & 41.38 & 48.68 & 94.93 & \textbf{\$95} \\
+Engineer / PM & 29.45 & 40.58 & 56.36 & 149.92 & \textbf{\$150} \\
+Specialist & 29.45 & 40.58 & 67.63 & 165.02 & \textbf{\$165} \\
+Surge technician$^{\dagger}$ & 44.18 & 62.07 & 73.02 & 100.04 & \textbf{\$100} \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.2em}
+{\footnotesize $^{\dagger}$Surge is paid at overtime first: $\$29.45 \times 1.5 = \$44.18$.}
+\end{table}
+
+The crane is priced separately: a 100~t crawler at \$4{,}200 per wet day, operator included, from Queensland plant-hire rates checked against Rawlinsons \citep{rawlinsons2025}.
+
+The budget covers the seventeen packages in Figure~\ref{fig:wbs}. Factory manufacture, engine research and freight are out of scope, so A-100 has no cost. The surge crew (\$22{,}400) is already inside WBS~1.3.3. Option~C's \$21{,}000 is not in the \$1{,}500{,}000; it would come out of the \$78{,}890 reserve only if R-14 happens.
+
+Permits and Juru start on 10~August because they take too long to wait. Other August--September pad work is our choice. By Gate~1 (A-111, 2~October), \$602{,}301 of planned work is already under way: 40.2\% of \$1{,}500{,}000. That is planned work, not cash paid. Gate~1 locks the other \$897{,}699 and the \$78{,}890 contingency rules. After that, adding pad work or moving $T$-0 needs a Board variation.
 
 \subsection{WBS cost baseline}
 \label{sec:cost-wbs}
@@ -63,7 +85,7 @@ WBS & Package & Amount (AUD) & Basis \\
 \end{tabularx}
 
 \vspace{0.35em}
-{\footnotesize\textit{Notes.} Labour: MA000010 C10 ordinary \$29.45/h (ppc 1~July~2026) from Annual Wage Review 2026 \citep{fwc2026}. Employment on-cost $=$ super 12\% $+$ annual leave 7.69\% $+$ personal leave 3.85\% $+$ public holidays 4.23\% $+$ LSL 2.17\% $+$ 17.5\% leave loading on annual leave $+$ workers compensation (1.8\% professional / 4.5\% pad) $+$ QLD payroll tax 4.75\% ($1.378\times$ professional, $1.405\times$ pad). Charge-out then divides by utilisation and applies overhead, with no consultancy fee: engineer/PM $\$29.45 \times 1.378 / 0.72 \times 2.66 = \$150$; technician $\$29.45 \times 1.405 / 0.85 \times 1.95 = \$95$; specialist $\$29.45 \times 1.378 / 0.60 \times 2.44 = \$165$. Surge is C10 $\times$ 1.5 overtime $\times$ pad on-cost $/ 0.85 \times 1.37 = \$100$. Crane: 8 lift days and 16 weld/NDT/bolt-up days at the same wet \$4{,}200 (QLD 100~t crawler band about \$3{,}800--\$4{,}500/day), cross-checked against Rawlinsons \citep{rawlinsons2025}. Weather dollars sit only in RES (4 extra wet days). 1.1.3: ASA 280~h @ \$150 $=$ \$42{,}000; CASA CRIS airspace instrument \$28{,}000; GBRMPA permission \$18{,}000 \citep{asa2025,casa2024,gbrmpa2019}. LOX/LN2 \$68{,}500 is a bulk industrial-gas analogue inside 1.3.2. Surge \$22{,}400 $=$ $4 \times 7$~d $\times$ 8~h $\times$ \$100 and sits in 1.3.3, not in contingency.}
+{\footnotesize\textit{Notes.} Labour rates are built in Table~\ref{tab:labour-rates}. Crane: 8 lift days and 16 weld/NDT/bolt-up days at the same wet \$4{,}200 (QLD 100~t crawler band about \$3{,}800--\$4{,}500/day), cross-checked against Rawlinsons \citep{rawlinsons2025}. Weather dollars sit only in RES (4 extra wet days). 1.1.3: ASA 280~h @ \$150 $=$ \$42{,}000; CASA CRIS airspace instrument \$28{,}000; GBRMPA permission \$18{,}000 \citep{asa2025,casa2024,gbrmpa2019}. LOX/LN2 \$68{,}500 is a bulk industrial-gas analogue inside 1.3.2. Surge \$22{,}400 $=$ $4 \times 7$~d $\times$ 8~h $\times$ \$100 and sits in 1.3.3, not in contingency.}
 \end{table}
 
 The largest package is crane mobilisation and stacking (1.2.2, \$218{,}000) because A-123 is 24 launch-critical days. Table~\ref{tab:wbs-cost} splits the crawler hire from rigger labour. The 16 non-lift days are plant time, not weather. Weather dollars sit only in RES: four extra wet days, \$16{,}800. R-06 is a dawn-lift control with EMV \$0, so it is not a second crane line. The seventeen lines sum to \$1{,}500{,}000. Package 1.2.1 stays one account for A-121 and A-122.

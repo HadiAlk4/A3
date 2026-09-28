@@ -160,7 +160,7 @@ def reconcile_table(data: dict) -> str:
         (
             "Labour stack & C10 $\\times$ on-cost $/$ utilisation $\\times$ overhead; "
             "no fee; hits \\$150/\\$95/\\$165/\\$100 & "
-            "Table~\\ref{tab:wbs-cost} notes; Fair Work Commission (2026) \\\\"
+            "Table~\\ref{tab:labour-rates}; Fair Work Commission (2026) \\\\"
         ),
         (
             f"Contribution & {contrib[0]['pct']:.1f}\\% $\\times$ {n} $=$ {pct:.1f}\\% "

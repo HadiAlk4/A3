@@ -6,28 +6,44 @@ The cost baseline is the WBS in Figure~\ref{fig:wbs} priced at Level~3. Seventee
 \subsection{Estimating basis and assumptions}
 \label{sec:cost-basis}
 
-The estimate is built bottom-up at Level~3. Each package is hours $\times$ an hourly rate, plus plant and materials. Four hourly rates are used. All four start from the same award wage and go through the same four steps.
+The estimate is built bottom-up at Level~3. Each package is hours $\times$ an hourly rate, plus plant and materials. Four hourly rates are used.
 
-\begin{enumerate}[leftmargin=1.6em,itemsep=0.25em]
+A wage is not what an hour of work costs the project. The employer also pays super, leave and tax on every wage dollar. Some paid hours are never booked to a package. And a crew needs support that is not anyone's wage. The three multipliers below add those costs, one at a time, so each package pays its full share. All four rates start from the same wage and go through the same four steps.
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.35em]
 \item \textbf{Wage.} The Manufacturing Award C10 rate is \$29.45 an hour from 1~July~2026 \citep{fwc2026}. It is the legal minimum for a trade-qualified worker. Engineer and specialist rates start from the same wage so all four rates share one published base. C10 is not the award rate for those two jobs.
-\item \textbf{Employment on-cost.} The employer pays more than the wage: super 12\%, annual leave 7.69\%, 17.5\% leave loading on that leave, personal leave 3.85\%, public holidays 4.23\%, long service leave 2.17\%, workers compensation and Queensland payroll tax 4.75\%. That adds 37.8\% for office staff and 40.5\% for pad staff, because pad workers compensation is 4.5\% instead of 1.8\%. The multipliers are 1.378 and 1.405.
-\item \textbf{Utilisation (assumption).} Not every paid hour can be charged to a package. Briefings, waiting outside the blast zone and paperwork still cost money. We assume 85\% of a technician's paid hours are chargeable, 72\% for engineers and 60\% for specialists. Dividing by that share spreads the unchargeable hours over the chargeable ones.
-\item \textbf{Overhead (assumption).} Overhead is the cost of running the crew beyond wages. The multipliers are 1.95 for technicians, 2.66 for engineers, 2.44 for specialists and 1.37 for surge.
+
+\item \textbf{Employment on-cost: what the employer pays on top of the wage.} Every wage dollar carries costs the worker never sees on their payslip. Each one is a share of the wage:
+\begin{itemize}[leftmargin=1.2em,itemsep=0.1em]
+\item super 12\% \citep{ato2025};
+\item annual leave 7.69\% (4 weeks off in 52, still paid) \citep{fwa2009};
+\item leave loading 1.35\% (17.5\% extra on that annual leave, award clause 34.4) \citep{fwc2026};
+\item personal leave 3.85\% (10 days in 260) \citep{fwa2009};
+\item public holidays 4.23\% (about 11 weekdays in 260) \citep{fwa2009,qholidays1983};
+\item long service leave 1.67\% (8.6667 weeks after 10 years, so 0.867 weeks in 52) \citep{qira2016};
+\item Queensland payroll tax 4.75\% (employers paying \$6.5 million or less in wages) \citep{qro2024};
+\item workers compensation 1.8\% for office staff and 4.5\% for pad staff (assumption).
+\end{itemize}
+WorkCover Queensland's average premium is 1.343\% of wages in 2026--27, and each industry pays its own rate by risk \citep{workcover2026}. We assume 1.8\% for office work and 4.5\% for pad work, which sits well above that average. The first seven items add to 35.5\%. With office workers compensation the total is 37.3\%, so the multiplier is 1.373. With pad workers compensation the total is 40.0\%, a multiplier of 1.400. For a technician, $\$29.45 \times 1.400 = \$41.23$ is the true cost of one paid hour.
+
+\item \textbf{Utilisation (assumption): paid hours that cannot be charged.} Not every paid hour is spent on a package. Toolbox talks, safety briefings, waiting outside the blast zone and paperwork are paid but belong to no package. Those hours still have to be paid for, so they are spread over the hours that are charged. If 85 of every 100 paid hours are chargeable, each chargeable hour carries the cost of $100/85$ paid hours, which is why we divide by 0.85. The share differs by role. Technicians are on the tools most of the day (85\%). Engineers lose more time to reviews and reporting (72\%). Specialists are on the pad only when their bars are live and wait in between (60\%). These are our planning figures, not measured ones.
+
+\item \textbf{Overhead (assumption): what the crew needs beyond wages.} A crew cannot work on wages alone. Supervision, site facilities, equipment and company running costs are paid by someone, and no single package owns them. The overhead multiplier adds that share to every chargeable hour. It is 1.95 for technicians, 2.67 for engineers, 2.45 for specialists and 1.37 for surge. Surge is lowest because its wage has already been raised by the 1.5 overtime rate. These are our planning figures, set so the four charge-out rates sit where Table~\ref{tab:labour-rates} shows them.
 \end{enumerate}
 
 \begin{table}[H]
 \centering
 \small
-\caption[Hourly charge-out build-up]{Hourly charge-out build-up. Only the wage and statutory on-costs are published; utilisation and overhead are planning assumptions.}
+\caption[Hourly charge-out build-up]{Hourly charge-out build-up. The wage and statutory on-costs are published; workers compensation, utilisation and overhead are planning assumptions. Rates are rounded to the whole dollar.}
 \label{tab:labour-rates}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Role & Wage & $\times$ on-cost & $\div$ utilisation & $\times$ overhead & Rate \\
 \midrule
-Pad technician & 29.45 & 41.38 & 48.68 & 94.93 & \textbf{\$95} \\
-Engineer / PM & 29.45 & 40.58 & 56.36 & 149.92 & \textbf{\$150} \\
-Specialist & 29.45 & 40.58 & 67.63 & 165.02 & \textbf{\$165} \\
-Surge technician$^{\dagger}$ & 44.18 & 62.07 & 73.02 & 100.04 & \textbf{\$100} \\
+Pad technician & 29.45 & 41.23 & 48.51 & 94.59 & \textbf{\$95} \\
+Engineer / PM & 29.45 & 40.43 & 56.15 & 149.92 & \textbf{\$150} \\
+Specialist & 29.45 & 40.43 & 67.38 & 165.08 & \textbf{\$165} \\
+Surge technician$^{\dagger}$ & 44.18 & 61.85 & 72.76 & 99.68 & \textbf{\$100} \\
 \bottomrule
 \end{tabular}
 

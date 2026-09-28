@@ -55,17 +55,17 @@ labour:
   annual_leave_pct: 0.0769
   personal_leave_pct: 0.0385
   public_holiday_pct: 0.0423
-  lsl_pct: 0.0217
+  lsl_pct: 0.016667  # Qld IR Act 2016 s 95: 8.6667 weeks per 10 years
   leave_loading_on_al: 0.175
   wc_professional_pct: 0.018
   wc_pad_pct: 0.045
   payroll_tax_qld_pct: 0.0475
   engineer_utilisation: 0.72
-  engineer_overhead: 2.66
+  engineer_overhead: 2.67
   technician_utilisation: 0.85
   technician_overhead: 1.95
   specialist_utilisation: 0.60
-  specialist_overhead: 2.44
+  specialist_overhead: 2.45
   surge_overtime_factor: 1.50
   surge_overhead: 1.37
   crane_wet_day: 4200

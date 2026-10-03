@@ -2,8 +2,9 @@
 """Count words in the PEP from A3.tex and the section files it inputs.
 
 Excludes the title page, appendix, bibliography, front-matter lists
-(TOC / LOF / LOT), itemize/enumerate/description lists, and figures.
-Prints one total that still includes table text, and one that does not.
+(TOC / LOF / LOT), and figures. Bullet points (itemize/enumerate) count
+as body text. Prints one total that still includes table text, and one
+that does not.
 
 Usage (from repo root):
     python3 scripts/word_count.py
@@ -29,9 +30,6 @@ SECTION_INPUTS = [
 ALWAYS_DROP_ENVS = (
     "titlepage",
     "thebibliography",
-    "itemize",
-    "enumerate",
-    "description",
     "figure",
     "tikzpicture",
     "equation",
@@ -437,7 +435,8 @@ def main() -> None:
 
     print("Word count from A3.tex + inputted section .tex files")
     print("Excluded: title page, appendix, references, TOC/LOF/LOT,")
-    print("          itemize/enumerate lists, figures, display maths")
+    print("          figures, display maths")
+    print("Included: body prose, bullet points, numbered lists")
     print()
     print(f"  With tables:     {with_tables:,}")
     print(f"  Without tables:  {without_tables:,}")

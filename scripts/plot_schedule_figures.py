@@ -470,6 +470,18 @@ def plot_network(data) -> None:
         zorder=5,
         bbox=dict(boxstyle="round,pad=0.18", facecolor="white", edgecolor=GREY, linewidth=0.4),
     )
+    # A-124 and A-131 both land on the south edge of A-132.
+    ax.text(
+        8.02,
+        3.00,
+        "A-124 and A-131",
+        fontsize=5.8,
+        color=NAVY,
+        ha="center",
+        va="top",
+        zorder=5,
+        bbox=dict(boxstyle="round,pad=0.12", facecolor="white", edgecolor=GREY, linewidth=0.4),
+    )
 
     expected = {(p, a["id"]) for a in data["activities"] for p in a["predecessors"]}
     missing = expected - drawn

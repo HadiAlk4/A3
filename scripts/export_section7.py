@@ -156,9 +156,10 @@ def render(data) -> dict[str, str]:
         "\\end{table}\n"
     )
 
+    planned = m4["planned_label"].replace("%", r"\%")
     evm_rows = "\n".join(
         [
-            f"{m4['planned_label']} & {aud_plain(m4['pv'])} & --- & --- & --- & --- & --- \\\\",
+            f"{planned} & {aud_plain(m4['pv'])} & --- & --- & --- & --- & --- \\\\",
             (
                 f"Illustrative on-plan & {aud_plain(m4['pv'])} & {aud_plain(m4['on_plan']['ev'])} & "
                 f"{aud_plain(m4['on_plan']['ac'])} & {m4['on_plan']['cpi']:.2f} & "

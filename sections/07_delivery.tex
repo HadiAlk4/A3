@@ -96,7 +96,7 @@ Quality uses two standards together \citep{sae2016,iso9001}. ISO~9001:2015 is th
 
 ISO~9001 maps onto named owners. The PEP is the quality plan and Ziyad is the release authority. Table~\ref{tab:raci} names who is Accountable on each package. Design defects found on the pad go back to R\&D. If HP-1 is unsigned, stacking earns \$0.
 
-AS9100D maps onto the four hold points in Table~\ref{tab:holdpoints}. A hold point is a stop: the next job cannot start until the check is done and the hold is released. HP-1 is weld NDT on A-123 (R-08), HP-2 the helium leak test on A-124 (R-05), HP-3 the ignition interlock on A-133 (R-01), and HP-4 LRR sign-off on A-141. The payload sponsor witnesses HP-4 and does not sign. Work does not pass a hold without Ziyad's release or a Board waiver, which sits outside Abdul's authority. Option~A was rejected because signing HP-4 on incomplete post-fire data would be a hold-point failure.
+AS9100D maps onto the four hold points in Table~\ref{tab:holdpoints}. Work does not pass a hold without Ziyad's release or a Board waiver, which sits outside Abdul's authority. Option~A was rejected because signing HP-4 on incomplete post-fire data would be a hold-point failure.
 
 \input{sections/generated/s7_holdpoints_table}
 
@@ -118,8 +118,6 @@ HSE is this pad under the \textit{Work Health and Safety Act 2011} (Qld) \citep{
 \item Juru artefact buffers and stop-work authority (R-04) are HSE controls: A-114 feeds A-132 as a cultural hold.
 \item Finish-line HSE remains as chartered: zero lost-time injuries, zero GBRMPA breaches, and zero Juru heritage breaches.
 \item Marine-mammal protocol on A-142 (R-15) is owned by the RSO \citep{gbrmpa2019}.
-\item If R-14 fires, Option~C shortens A-134 only and keeps A-141 at five days and A-142 at four days so HP-4 and the marine hold are not crashed.
-\item Occupancy never exceeds twelve on the mitigated histogram: R-13 is already treated in the \PEPbase\ base by moving A-125 and hiring four surge technicians.
 \end{itemize}
 
 \subsection{Earned value management}
@@ -149,17 +147,7 @@ Thresholds that trigger action, used only in this section, are:
 \item \textbf{Red} --- index $< \PEPredLt$, \emph{or} $T$-0 slip $> \PEPtZeroSlip$~days: contingency freeze and Board intervention. $SV$ is not written in days.
 \end{itemize}
 
-The only dashboard numbers in this PEP are the two illustrative readings at M-4 (\PEPmFourLong~2026) in Table~\ref{tab:evm-m4} and Figure~\ref{fig:evm}. Planned value at that date is \PEPpvmFour, with HP-1 signed (A-123 100\%), HP-2 signed, and A-113 on elapsed-day percent-complete. On-plan books EV equal to PV (\PEPonPlanEV) and AC \PEPonPlanAC, so $CPI = \PEPonPlanEVnum/\PEPonPlanACnum = \PEPonPlanCPI$ and $SPI = \PEPonPlanEVnum/\PEPpvmFournum = \PEPonPlanSPI$---Green. Even so,
-\[
-EAC = \PEPonPlanACnum \times \PEPbasenum / \PEPonPlanEVnum = \$\PEPonPlanEacnum,
-\]
-which matches $AC + (BAC_{\text{work}}-EV)/(EV/AC)$. Authorisation
-\[
-BAC \times AC / EV = \PEPbacnum \times \PEPonPlanACnum / \PEPonPlanEVnum = \$\PEPonPlanIeacnum
-\]
-sits above the \PEPbac ceiling. Green at M-4 still carries a recovery obligation toward the finish-line rule.
-
-The late-stack case holds PV at \PEPpvmFour but drops EV to \PEPlateEV and AC to \PEPlateAC because HP-1 is unsigned. A-123 is milestone 0/100 on that hold, so the \$218{,}000 account earns \$0 of EV. Then $CPI = \PEPlateEVnum/\PEPlateACnum = \PEPlateCPI$ and $SPI = \PEPlateEVnum/\PEPpvmFournum = \PEPlateSPI$---\PEPlateBand. Ilsa issues the Exception Report within 48~hours and freezes contingency. If R-14 has fired, the seven-day recovery invokes Option~C and crashes A-134 only, not A-141 or A-142. Work $EAC$ is $\PEPlateACnum \times \PEPbasenum / \PEPlateEVnum = \$\PEPlateEacnum$. $BAC \times AC / EV = \PEPbacnum \times \PEPlateACnum / \PEPlateEVnum = \$\PEPlateIeacnum$. These two points are one worked example at M-4, not a claim that October has already been worked.
+The only dashboard numbers in this PEP are the two illustrative readings at M-4 (\PEPmFourLong~2026) in Table~\ref{tab:evm-m4} and Figure~\ref{fig:evm}. On-plan is Green ($CPI = \PEPonPlanCPI$, $SPI = \PEPonPlanSPI$), but the estimate at completion still sits above \PEPbac, so the finish-line rule is not yet met. The late-stack case is \PEPlateBand\ ($CPI = \PEPlateCPI$, $SPI = \PEPlateSPI$) because HP-1 is unsigned and the \$218{,}000 stacking account earns \$0. Ilsa issues the Exception Report within 48~hours and freezes contingency. If R-14 has fired, the recovery invokes Option~C and crashes A-134 only, not A-141 or A-142.
 
 \input{sections/generated/s7_evm_table}
 
